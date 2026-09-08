@@ -249,6 +249,36 @@ select.input option{background:#0d0f11;color:#fff}
 .step h4{margin-top:14px;padding-top:16px;border-top:1px solid var(--line)}
 .step p{color:var(--ink-2);font-size:15.5px;margin-top:10px;line-height:1.6}
 
+/* ── mapa de cobertura (cantones reales del INEC) ── */
+.map{margin:0}
+.map__svg{width:100%;height:auto;display:block;overflow:visible}
+/* Los cantones marcados salen de la misma lista de sectores que está al lado.
+   Para cambiarlos basta con quitar o añadir data-canton en la regla de abajo. */
+.cn{
+  fill:rgba(33,181,234,.17);
+  stroke:rgba(33,181,234,.6);
+  stroke-width:1.6;
+  stroke-linejoin:round;
+  transition:fill .3s ease,stroke .3s ease;
+}
+.cn[data-canton="Otavalo"]{fill:rgba(33,181,234,.4);stroke:var(--cy)}
+.map__svg .cn:hover{fill:rgba(33,181,234,.5);stroke:var(--cy)}
+.cn-label{
+  fill:rgba(255,255,255,.58);font-family:var(--mono);font-size:17px;
+  text-anchor:middle;dominant-baseline:middle;pointer-events:none;
+  paint-order:stroke;stroke:rgba(0,0,0,.75);stroke-width:4px;stroke-linejoin:round;
+}
+.cn-label[data-canton="Otavalo"]{fill:#fff;font-size:19px}
+.map__legend{display:flex;gap:22px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.map__key{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.map__key::before{content:"";width:11px;height:11px;border-radius:3px;
+  background:rgba(33,181,234,.17);border:1px solid rgba(33,181,234,.6)}
+.map__key--on{color:var(--ink-2)}
+.map__key--on::before{background:rgba(33,181,234,.4);border-color:var(--cy)}
+
 /* ── marcador de foto ── */
 .photo{position:relative;border-radius:24px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line)}
 .photo__inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
