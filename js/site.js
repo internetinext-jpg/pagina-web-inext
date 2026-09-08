@@ -1,22 +1,21 @@
 (() => {
   const WA = "593969093580";
-  const REFERRAL = "https://www.starlink.com/ec/residential?referral=RC-481067-34312-6";
 
   const USOS = {
-    hogar: "La casa, nomás",
-    teletrabajo: "Teletrabajo o clases",
-    negocio: "Un negocio",
-    finca: "Finca o hacienda",
+    hogar: "en mi casa",
+    teletrabajo: "teletrabajo o clases",
+    negocio: "en mi negocio",
+    local: "oficina o varios locales",
   };
 
   const FAQS = [
-    { q: "¿Funciona si no hay fibra ni antenas cerca?", a: "Sí. Starlink se conecta a satélites de órbita baja, no a la red de tu operadora. Lo único que necesita es vista despejada al cielo y luz eléctrica." },
-    { q: "¿Cuánto me demoro en tener internet?", a: "Casi siempre 48 horas desde que confirmas. Coordinamos la visita, montamos la antena, activamos el plan y hacemos la prueba de velocidad contigo mirando." },
-    { q: "¿Y cuando llueve fuerte?", a: "La antena es resistente al agua. En un aguacero muy fuerte la señal puede bajar unos segundos y se recupera sola. En la sierra pasa poco." },
-    { q: "¿Tengo que firmar contrato de permanencia?", a: "No. El plan es mes a mes: lo puedes pausar, subir, bajar o cancelar desde tu cuenta, y nosotros te ayudamos a hacerlo si no te sientes cómodo con la app." },
-    { q: "¿El equipo va aparte del plan mensual?", a: "Sí. El kit es un pago único desde $200 e incluye antena, router, soporte y cables. El plan mensual lo pagas directo a Starlink con tarjeta." },
-    { q: "¿Puedo llevarme la antena a otro lado?", a: "El Kit Mini es portátil y lo mueves sin problema. Si te mudas de forma definitiva, actualizas la dirección del servicio y listo." },
-    { q: "¿Sirve para videollamadas y para jugar en línea?", a: "Sí. La latencia típica va de 20 a 60 ms, parecida a una buena fibra, así que aguanta reuniones, clases y juegos sin que te saque." },
+    { q: "¿Qué gano con fibra óptica frente a lo que tengo ahora?", a: "La fibra lleva la señal en luz por un cable dedicado hasta tu casa. No se degrada con la distancia como el cobre ni se reparte entre los vecinos como el internet por radio, y la latencia es más baja y más estable: eso es justo lo que se siente en videollamadas, clases y juegos en línea." },
+    { q: "¿Tengo que firmar contrato de permanencia?", a: "No. El servicio es mes a mes. Si te mudas o ya no lo necesitas, nos avisas y listo, sin penalidades ni letra chica." },
+    { q: "¿Cuánto se demora la instalación?", a: "Apenas confirmamos que la red llega a tu dirección coordinamos la visita contigo y te damos la fecha exacta en ese momento. No te dejamos esperando una llamada que nunca llega." },
+    { q: "¿Sirve para teletrabajo, clases en línea y juegos?", a: "Sí, es justamente para lo que mejor rinde la fibra. La latencia baja y estable es lo que evita que se te congele la videollamada o que el juego te saque en el peor momento." },
+    { q: "¿Lo puedo tener en mi negocio?", a: "Sí. Instalamos en casas, locales y oficinas. Cuéntanos cuántos equipos se conectan y qué necesitas que funcione siempre (punto de venta, cámaras, facturación) y te decimos qué plan te sirve." },
+    { q: "¿Qué pasa si se va la luz?", a: "El router necesita energía, así que sin luz en tu casa no hay WiFi aunque la red esté bien. Si necesitas seguir conectado durante los cortes, un UPS pequeño para el router resuelve el problema y te ayudamos a elegirlo." },
+    { q: "¿Y si todavía no llegan a mi sector?", a: "Déjanos tus datos igual. La red crece barrio por barrio y priorizamos las zonas donde ya hay gente esperando, así que registrarte sí ayuda a que lleguemos antes. Te avisamos apenas tengamos red ahí." },
   ];
 
   const ACTIVIDADES = [
@@ -32,7 +31,7 @@
   }
 
   // Generic WhatsApp links (header, hero, CTA, footer)
-  const genericWa = waLink("Hola INEXT, quiero información sobre internet satelital Starlink.");
+  const genericWa = waLink("Hola INEXT, quiero información sobre sus planes de internet.");
   document.querySelectorAll(".js-wa-generic").forEach((el) => { el.href = genericWa; });
 
   /* ---------------- Coverage wizard ---------------- */
@@ -55,9 +54,7 @@
       nombre: document.getElementById("inx-nom"),
       telefono: document.getElementById("inx-tel"),
       destino: document.getElementById("cw-destino"),
-      recPlan: document.getElementById("cw-rec-plan"),
-      recPrecio: document.getElementById("cw-rec-precio"),
-      recPorque: document.getElementById("cw-rec-porque"),
+      summary: document.getElementById("cw-summary"),
       waLink: document.getElementById("cw-wa-link"),
     };
 
@@ -82,15 +79,17 @@
       return "";
     }
 
-    function recommend() {
-      const { uso, tamano } = state;
-      if (uso === "hogar" && tamano === "1-3") {
-        return { plan: "Residencial Lite", precio: "$40 al mes", porque: "Con pocas personas y uso normal de video y redes te alcanza de sobra, y es la opción más barata." };
-      }
-      if (uso === "negocio" || uso === "finca" || tamano === "7+") {
-        return { plan: "Residencial con Kit Estándar", precio: "$45 al mes", porque: "Vas a tener varios equipos conectados todo el día, y el Kit Estándar aguanta mejor ese ritmo que el Mini." };
-      }
-      return { plan: "Residencial", precio: "$45 al mes", porque: "No baja la velocidad en hora pico, así que las videollamadas y las clases no se te cortan cuando todo el barrio se conecta." };
+    // No afirmamos cobertura ni recomendamos un plan concreto: con fibra la
+    // cobertura se confirma dirección por dirección, así que el formulario
+    // recoge los datos y la confirmación llega por WhatsApp.
+    function summaryRows() {
+      const s = state;
+      return [
+        ["Dirección", [s.sector.trim(), s.provincia].filter(Boolean).join(", ")],
+        ["Lo necesita", USOS[s.uso] || "—"],
+        ["Se conectan", s.tamano + " personas"],
+        ["WhatsApp", s.telefono],
+      ];
     }
 
     function render() {
@@ -115,16 +114,21 @@
 
       if (s.step >= 4) {
         const destino = s.sector.trim() || s.provincia || "tu zona";
-        const rec = recommend();
-        const usoLabel = (USOS[s.uso] || "").toLowerCase();
-        const msg = "Hola INEXT, soy " + s.nombre.trim() + ". Vivo en " + destino + ", " + s.provincia +
-          ". Lo necesito para: " + usoLabel + ". Nos conectamos " + s.tamano + " personas. Mi WhatsApp es " +
-          s.telefono + ". Me interesa el plan " + rec.plan + ".";
-        el.destino.textContent = destino;
-        el.recPlan.textContent = rec.plan;
-        el.recPrecio.textContent = rec.precio;
-        el.recPorque.textContent = rec.porque;
+        const nombre = s.nombre.trim().split(" ")[0] || "gracias";
+        const msg = "Hola INEXT, soy " + s.nombre.trim() + ". Quiero internet de fibra en " +
+          destino + (s.provincia ? ", " + s.provincia : "") + ". Lo necesito " + (USOS[s.uso] || "") +
+          " y nos conectamos " + s.tamano + " personas. Mi WhatsApp es " + s.telefono +
+          ". ¿La red ya llega a mi dirección?";
+        el.destino.textContent = nombre;
         el.waLink.href = waLink(msg);
+
+        const rows = summaryRows();
+        el.summary.innerHTML = rows.map(() =>
+          '<div class="summary__row"><span class="summary__k"></span><span class="summary__v"></span></div>').join("");
+        el.summary.querySelectorAll(".summary__row").forEach((row, i) => {
+          row.querySelector(".summary__k").textContent = rows[i][0];
+          row.querySelector(".summary__v").textContent = rows[i][1];
+        });
       }
     }
 
@@ -218,8 +222,8 @@
       const m = state.mbps;
       if (libre < 0) return "Con esta velocidad no alcanza: alguien se va a quedar pegado. Sube el plan o quita actividades.";
       if (libre < m * 0.2) return "Justo, justo. Funciona hoy, pero el día que alguien más se conecte vas a sentirlo.";
-      if (m <= 120) return "Le sobra espacio a lo que tienes puesto. Este es el rango del plan Lite, que en hora pico puede bajar un poco.";
-      return "Aquí ya nadie nota que hay otros conectados, y todavía te queda margen para lo que venga. Ese es el plan Residencial.";
+      if (m <= 120) return "Le sobra espacio a lo que tienes puesto. Es un rango cómodo para una casa que no exige todo al mismo tiempo.";
+      return "Aquí ya nadie nota que hay otros conectados, y todavía te queda margen para lo que venga.";
     }
 
     function render() {

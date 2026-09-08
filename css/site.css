@@ -157,9 +157,10 @@ select.input option{background:#0d0f11;color:#fff}
 .pickers--3 .pick{text-align:center}
 .row-btns{display:flex;gap:10px}
 .check__result-box{margin-top:22px;padding:22px;border-radius:18px;background:rgba(33,181,234,.08);border:1px solid rgba(33,181,234,.28)}
-.check__plan{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.check__plan-name{font-family:var(--head);font-weight:600;font-size:25px;letter-spacing:-.02em}
-.check__plan-price{font-family:var(--mono);font-size:16px;color:var(--cy)}
+.summary__row{display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-family:var(--mono);font-size:13px}
+.summary__row + .summary__row{border-top:1px solid rgba(255,255,255,.08)}
+.summary__k{color:var(--ink-3);white-space:nowrap}
+.summary__v{color:var(--ink);text-align:right}
 .linkbtn{background:none;border:0;cursor:pointer;font-family:var(--mono);font-size:13.5px;color:var(--ink-3);padding:8px}
 .linkbtn:hover{color:var(--ink)}
 

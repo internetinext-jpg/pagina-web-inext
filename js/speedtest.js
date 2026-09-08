@@ -725,10 +725,10 @@
   function readingText() {
     const d = state.dl, lat = state.latDl || state.ping;
     let base;
-    if (d < 10) base = "Con menos de 10 Mbps una sola videollamada ya deja sin internet al resto de la casa. Es el rango típico del internet móvil en zona rural, y es justo donde Starlink cambia la vida.";
+    if (d < 10) base = "Con menos de 10 Mbps una sola videollamada ya deja sin internet al resto de la casa. Si esta es tu conexión de todos los días, el problema no es tu router: es el enlace que tienes contratado.";
     else if (d < 40) base = "Alcanza para una casa tranquila, pero en la noche, cuando todos se conectan, vas a notar cortes en las videollamadas y pausas en el video.";
     else if (d < 100) base = "Buena conexión para trabajar y ver series. Una casa de cuatro personas funciona bien salvo en las horas de más demanda.";
-    else if (d < 300) base = "Conexión sobrada: pantallas en 4K, videollamadas y juego en línea al mismo tiempo sin que nadie note al otro. Es el rango del plan Residencial.";
+    else if (d < 300) base = "Conexión sobrada: pantallas en 4K, videollamadas y juego en línea al mismo tiempo sin que nadie note al otro.";
     else base = "Conexión de gama alta: " + fmt(d) + " Mbps aguantan varias pantallas en 4K, descargas grandes y toda la casa conectada sin que nadie se quede pegado.";
     if (lat && state.ping && lat > state.ping * 3 && lat > 120) {
       base += " Eso sí, la latencia sube a " + lat + " ms cuando la línea se llena: es la señal típica de un router que se satura y se siente en videollamadas y juegos.";
@@ -856,7 +856,7 @@
   updateWaResult();
 
   const generic = "https://wa.me/" + WA + "?text=" +
-    encodeURIComponent("Hola INEXT, quiero información sobre internet satelital Starlink.");
+    encodeURIComponent("Hola INEXT, quiero información sobre sus planes de internet.");
   document.querySelectorAll(".js-wa").forEach((a) => { a.href = generic; });
 
   el.start.addEventListener("click", run);
