@@ -219,8 +219,9 @@
       <h3 class="h3">¿Y eso qué significa?</h3>
       <p class="meaning" id="reading">Toca INICIAR. En unos veinte segundos vas a saber exactamente qué velocidad, qué latencia y qué estabilidad está entregando tu conexión ahora mismo.</p>
       <div class="panel__cta">
-        <a class="btn btn--cy btn--block" href="index.html#form">Revisar cobertura para mi casa</a>
+        <button class="btn btn--cy btn--block" id="pv-print" type="button" hidden>Guardar o imprimir este resultado</button>
         <a class="btn btn--ghost btn--block js-wa-result" href="#" target="_blank" rel="noopener">Enviar este resultado por WhatsApp</a>
+        <a class="btn btn--ghost btn--block" href="index.html#form">Revisar cobertura para mi casa</a>
       </div>
     </div>
   </section>
@@ -231,15 +232,58 @@
   </section>
 
   <p class="note" id="note">La prueba usa los servidores públicos de Cloudflare y abre varias conexiones en paralelo para poder medir enlaces de gigabit. Consume varios cientos de MB de datos. El resultado depende de tu WiFi, del equipo y de la hora: repítela dos o tres veces para tener un promedio confiable.</p>
+  <p class="note">Al terminar puedes guardar o imprimir un comprobante con la fecha y hora de la consulta, como establece la normativa de ARCOTEL para los prestadores del Servicio de Acceso a Internet. Consulta también nuestra <a href="informacion-regulatoria.html">información regulatoria y derechos del usuario</a>.</p>
 </main>
 
 <footer class="foot">
   <div class="foot__inner">
     <span>© 2026 INEXT Ultra Conexión · Otavalo, Imbabura</span>
-    <a href="index.html">Volver al inicio</a>
+    <span style="display:flex;gap:20px;flex-wrap:wrap">
+      <a href="informacion-regulatoria.html">Información regulatoria</a>
+      <a href="index.html">Volver al inicio</a>
+    </span>
   </div>
 </footer>
 
-<script src="js/speedtest.js?v=2"></script>
+<!-- Comprobante imprimible. ARCOTEL exige que el velocímetro permita al cliente
+     registrar e imprimir el resultado, con la fecha y hora de la consulta. -->
+<section class="sheet" id="print-sheet" aria-hidden="true">
+  <header class="sheet__head">
+    <div>
+      <p class="sheet__brand">INEXT · Ultra Conexión</p>
+      <h1 class="sheet__title">Comprobante de prueba de velocidad</h1>
+    </div>
+    <img src="assets/inext-mark-cyan.png" alt="" width="44" height="44">
+  </header>
+
+  <dl class="sheet__grid">
+    <div><dt>Fecha y hora de la consulta</dt><dd id="sh-fecha">—</dd></div>
+    <div><dt>Servidor de medición</dt><dd id="sh-servidor">—</dd></div>
+    <div><dt>IP pública</dt><dd id="sh-ip">—</dd></div>
+    <div><dt>Proveedor detectado</dt><dd id="sh-isp">—</dd></div>
+    <div><dt>Ubicación aproximada</dt><dd id="sh-loc">—</dd></div>
+    <div><dt>Duración de la prueba</dt><dd id="sh-duracion">—</dd></div>
+  </dl>
+
+  <table class="sheet__table">
+    <thead><tr><th>Parámetro</th><th>Resultado</th></tr></thead>
+    <tbody>
+      <tr><th>Velocidad de descarga</th><td id="sh-dl">—</td></tr>
+      <tr><th>Velocidad de subida</th><td id="sh-ul">—</td></tr>
+      <tr><th>Latencia en reposo (ping)</th><td id="sh-ping">—</td></tr>
+      <tr><th>Jitter</th><td id="sh-jitter">—</td></tr>
+      <tr><th>Latencia con la línea cargada (descarga)</th><td id="sh-latdl">—</td></tr>
+      <tr><th>Latencia con la línea cargada (subida)</th><td id="sh-latul">—</td></tr>
+      <tr><th>Pérdida de paquetes bajo carga</th><td id="sh-loss">—</td></tr>
+      <tr><th>Estabilidad bajo carga</th><td id="sh-grade">—</td></tr>
+    </tbody>
+  </table>
+
+  <p class="sheet__note" id="sh-metodo">—</p>
+  <p class="sheet__note">Esta medición corresponde al dispositivo, la red local y el momento indicados arriba. El resultado puede variar según el equipo, la conexión WiFi y la hora de la consulta.</p>
+  <p class="sheet__foot">INEXT Ultra Conexión · Abdón Calderón 7-10 y Av. 31 de Octubre, Otavalo, Imbabura · WhatsApp 096 909 3580</p>
+</section>
+
+<script src="js/speedtest.js?v=3"></script>
 </body>
 </html>

@@ -49,6 +49,16 @@
     cIsp: $("c-isp"), cIp: $("c-ip"), cLoc: $("c-loc"), cServer: $("c-server"),
     quality: $("quality"), qgrid: $("qgrid"), detail: $("detail"), reading: $("reading"),
     history: $("history"), historyList: $("history-list"), note: $("note"),
+    printBtn: $("pv-print"),
+  };
+
+  // Comprobante imprimible: ARCOTEL exige que el cliente pueda registrar e
+  // imprimir el resultado, con la fecha y hora de la consulta.
+  const sh = {
+    fecha: $("sh-fecha"), servidor: $("sh-servidor"), ip: $("sh-ip"), isp: $("sh-isp"),
+    loc: $("sh-loc"), duracion: $("sh-duracion"), dl: $("sh-dl"), ul: $("sh-ul"),
+    ping: $("sh-ping"), jitter: $("sh-jitter"), latdl: $("sh-latdl"), latul: $("sh-latul"),
+    loss: $("sh-loss"), grade: $("sh-grade"), metodo: $("sh-metodo"),
   };
 
   const state = {
@@ -772,6 +782,41 @@
     renderHistory();
   }
 
+  function fillSheet() {
+    const ahora = new Date();
+    const fecha = ahora.toLocaleDateString("es-EC", {
+      day: "2-digit", month: "long", year: "numeric",
+    }) + " · " + ahora.toLocaleTimeString("es-EC", {
+      hour: "2-digit", minute: "2-digit", second: "2-digit",
+    });
+    let zona = "";
+    try { zona = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+    sh.fecha.textContent = fecha + (zona ? " (" + zona + ")" : "");
+    sh.servidor.textContent = "Cloudflare" +
+      (state.conn.colo ? " · " + (COLOS[state.conn.colo] || state.conn.colo) : "");
+    sh.ip.textContent = state.conn.ip || "no disponible";
+    sh.isp.textContent = (state.conn.isp || "no disponible") +
+      (state.conn.asn ? " · " + state.conn.asn : "");
+    sh.loc.textContent = [state.conn.city, state.conn.region, state.conn.country]
+      .filter(Boolean).join(", ") || "no disponible";
+    sh.duracion.textContent = state.duracion ? state.duracion.toFixed(1) + " s" : "—";
+    sh.dl.textContent = state.dl ? fmt(state.dl) + " Mbps" : "—";
+    sh.ul.textContent = state.ul ? fmt(state.ul) + " Mbps" : "—";
+    sh.ping.textContent = state.ping ? state.ping + " ms" : "—";
+    sh.jitter.textContent = state.jitter ? state.jitter + " ms" : "—";
+    sh.latdl.textContent = state.latDl ? state.latDl + " ms" : "—";
+    sh.latul.textContent = state.latUl ? state.latUl + " ms" : "—";
+    sh.loss.textContent = state.loss === null
+      ? "no disponible"
+      : (state.loss < 0.01 ? "0" : state.loss.toFixed(2)) + " %";
+    sh.grade.textContent = state.grade || "—";
+    sh.metodo.textContent = "Método: " + CFG.downStreams + " conexiones simultáneas contra los " +
+      "servidores públicos de Cloudflare; la cifra reportada es el percentil 90 de la serie " +
+      "suavizada, descartando el arranque de la conexión. Se transfirieron " +
+      fmtBytes(state.dlBytes + state.ulBytes) + " durante la prueba.";
+    el.printBtn.hidden = false;
+  }
+
   function updateWaResult() {
     const loc = [state.conn.city, state.conn.country].filter(Boolean).join(", ");
     const msg = "Hola INEXT, hice la prueba de velocidad en su página.\n" +
@@ -845,6 +890,7 @@
     }
     pushHistory();
     updateWaResult();
+    fillSheet();
     log("prueba finalizada en " + state.duracion.toFixed(1) + " s");
   }
 
@@ -861,6 +907,7 @@
 
   el.start.addEventListener("click", run);
   el.again.addEventListener("click", run);
+  el.printBtn.addEventListener("click", () => window.print());
   el.tabChart.addEventListener("click", () => {
     el.tabChart.classList.add("is-on"); el.tabLog.classList.remove("is-on");
     el.viewChart.hidden = false; el.viewLog.hidden = true;
