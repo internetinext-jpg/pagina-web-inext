@@ -1,12 +1,12 @@
 :root{
-  --bg:#080b0e;
-  --panel:#101720;
-  --panel-2:#161f28;
-  --line:#1e2a33;
-  --line-2:#2c3b45;
-  --ink:#eef4f7;
-  --ink-2:#9fb0ba;
-  --ink-3:#687883;
+  --bg:#000;
+  --panel:#070809;
+  --panel-2:#0d0f11;
+  --line:rgba(255,255,255,.11);
+  --line-2:rgba(255,255,255,.2);
+  --ink:#fff;
+  --ink-2:rgba(255,255,255,.64);
+  --ink-3:rgba(255,255,255,.40);
   --cy:#21b5ea;
   --cy-lite:#7fd4f4;
   --sage:#c2ddb4;
@@ -32,7 +32,7 @@ body{
     radial-gradient(760px 480px at 92% 4%, rgba(194,221,180,.07), transparent 68%);
   background-repeat:no-repeat;
 }
-h1,h2,h3,h4{font-family:var(--head);font-weight:700;letter-spacing:-.025em;line-height:1.05;margin:0}
+h1,h2,h3,h4{font-family:var(--head);font-weight:500;letter-spacing:-.02em;line-height:1.06;margin:0}
 a{color:var(--cy-lite);text-decoration:none;transition:color .16s ease}
 a:hover{color:#a9e3f8}
 img{display:block;max-width:100%}
@@ -57,14 +57,14 @@ img{display:block;max-width:100%}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
-  font-family:var(--body);font-weight:700;font-size:15px;
-  padding:11px 20px;border-radius:9px;border:1.5px solid transparent;cursor:pointer;
-  transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease;
+  font-family:var(--body);font-weight:600;font-size:15px;line-height:1;
+  padding:14px 24px;border-radius:999px;border:1px solid transparent;cursor:pointer;
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s ease;
 }
-.btn--cy{background:var(--cy);color:#04161d;border-color:var(--cy)}
-.btn--cy:hover{background:#48c6f1;border-color:#48c6f1;color:#04161d;transform:translateY(-1px)}
+.btn--cy{background:#fff;color:#000;border-color:#fff}
+.btn--cy:hover{background:rgba(255,255,255,.86);border-color:rgba(255,255,255,.86);color:#000;transform:translateY(-2px)}
 .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
-.btn--ghost:hover{border-color:var(--ink-2);color:var(--ink)}
+.btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.06)}
 .btn--block{width:100%}
 
 /* ─────────── layout ─────────── */

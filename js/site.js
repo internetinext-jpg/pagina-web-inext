@@ -105,15 +105,12 @@
       el.progress.style.width = (Math.min(s.step, 3) / 3 * 100) + "%";
 
       document.querySelectorAll("#cw-usos [data-uso]").forEach((btn) => {
-        const on = btn.dataset.uso === s.uso;
-        btn.style.background = on ? "#0f2f3d" : "#232c32";
-        btn.style.borderColor = on ? "#21b5ea" : "#3a464d";
+        btn.classList.toggle("is-on", btn.dataset.uso === s.uso);
       });
       document.querySelectorAll("#cw-tamanos [data-tamano]").forEach((btn) => {
         const on = btn.dataset.tamano === s.tamano;
         btn.setAttribute("aria-pressed", String(on));
-        btn.style.background = on ? "#0f2f3d" : "#232c32";
-        btn.style.borderColor = on ? "#21b5ea" : "#3a464d";
+        btn.classList.toggle("is-on", on);
       });
 
       if (s.step >= 4) {
@@ -193,13 +190,14 @@
       row.className = "activity-row";
       row.innerHTML =
         '<span class="activity-dot" style="background:' + a.color + '"></span>' +
-        '<div><div class="activity-label">' + a.label + '</div><div class="activity-detail" data-detail></div></div>' +
+        '<div><div class="activity-label"></div><div class="activity-detail" data-detail></div></div>' +
         '<span class="activity-subtotal" data-subtotal></span>' +
         '<div class="activity-controls">' +
         '<button type="button" class="icon-btn" data-dec aria-label="Quitar uno">−</button>' +
         '<span class="activity-count" data-count></span>' +
         '<button type="button" class="icon-btn" data-inc aria-label="Agregar uno">+</button>' +
         "</div>";
+      row.querySelector(".activity-label").textContent = a.label;
       row.querySelector("[data-detail]").textContent = a.need + " Mbps cada una";
       row.querySelector("[data-dec]").addEventListener("click", () => bump(a.id, -1));
       row.querySelector("[data-inc]").addEventListener("click", () => bump(a.id, 1));
@@ -269,9 +267,7 @@
 
       el.range.value = String(s.mbps);
       el.presets.querySelectorAll("[data-preset]").forEach((btn) => {
-        const on = Number(btn.dataset.preset) === s.mbps;
-        btn.style.background = on ? "#0f2f3d" : "transparent";
-        btn.style.borderColor = on ? "#21b5ea" : "#3a464d";
+        btn.classList.toggle("is-on", Number(btn.dataset.preset) === s.mbps);
       });
     }
 
@@ -293,13 +289,10 @@
 
     function render() {
       list.querySelectorAll(".faq-item").forEach((item, i) => {
-        const answer = item.querySelector(".faq-answer");
-        const sign = item.querySelector(".faq-sign");
-        const btn = item.querySelector(".faq-question");
         const open = i === openIndex;
-        answer.hidden = !open;
-        sign.textContent = open ? "–" : "+";
-        btn.setAttribute("aria-expanded", String(open));
+        item.classList.toggle("is-open", open);
+        item.querySelector(".faq-answer").hidden = !open;
+        item.querySelector(".faq-question").setAttribute("aria-expanded", String(open));
       });
     }
 
@@ -307,9 +300,10 @@
       const item = document.createElement("div");
       item.className = "faq-item";
       item.innerHTML =
-        '<button type="button" class="faq-question hover-faq" aria-expanded="false">' +
-        "<span>" + f.q + "</span><span class=\"faq-sign\">+</span></button>" +
+        '<button type="button" class="faq-question" aria-expanded="false">' +
+        '<span data-q></span><span class="faq-sign" aria-hidden="true"></span></button>' +
         '<p class="faq-answer" hidden></p>';
+      item.querySelector("[data-q]").textContent = f.q;
       item.querySelector(".faq-answer").textContent = f.a;
       item.querySelector(".faq-question").addEventListener("click", () => {
         openIndex = openIndex === i ? -1 : i;
