@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://speed.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/speedtest.css">
+<link rel="stylesheet" href="css/speedtest.css?v=2">
 </head>
 <body>
 
@@ -145,6 +145,16 @@
           <span class="lat__v"><span id="lat-ul">—</span><small>ms</small></span>
           <span class="lat__s">con la línea cargada</span>
         </div>
+        <div class="lat__card">
+          <span class="lat__k">Pérdida bajo carga</span>
+          <span class="lat__v"><span id="loss">—</span><small>%</small></span>
+          <span class="lat__s">TCP, en la descarga máxima</span>
+        </div>
+        <div class="lat__card lat__card--grade" id="grade-card">
+          <span class="lat__k">Estabilidad bajo carga</span>
+          <span class="lat__v"><span id="grade">—</span></span>
+          <span class="lat__s" id="grade-note">bufferbloat</span>
+        </div>
       </div>
 
       <div class="chart">
@@ -230,6 +240,6 @@
   </div>
 </footer>
 
-<script src="js/speedtest.js"></script>
+<script src="js/speedtest.js?v=2"></script>
 </body>
 </html>

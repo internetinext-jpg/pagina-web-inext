@@ -41,6 +41,7 @@
     dlSparkLine: $("dl-spark-line"), dlSparkArea: $("dl-spark-area"),
     ulSparkLine: $("ul-spark-line"), ulSparkArea: $("ul-spark-area"),
     ping: $("ping"), jitter: $("jitter"), latDl: $("lat-dl"), latUl: $("lat-ul"),
+    loss: $("loss"), grade: $("grade"), gradeCard: $("grade-card"), gradeNote: $("grade-note"),
     chartDlLine: $("chart-dl-line"), chartDlArea: $("chart-dl-area"),
     chartUlLine: $("chart-ul-line"), chartUlArea: $("chart-ul-area"),
     chartMax: $("chart-max"), tabChart: $("tab-chart"), tabLog: $("tab-log"),
@@ -55,7 +56,9 @@
     dl: 0, ul: 0, dlPeak: 0, ulPeak: 0,
     dlBytes: 0, ulBytes: 0,
     ping: 0, jitter: 0, latDl: 0, latUl: 0,
+    loss: null, tcpRtt: 0, grade: "",
     dlSamples: [], ulSamples: [],
+    tcp: new Map(),
     started: 0, duracion: 0,
     conn: { isp: "", ip: "", city: "", region: "", country: "", colo: "", asn: "" },
     historial: [],
@@ -117,6 +120,60 @@
     const sm = smoothSeries(usable, k);
     if (!sm.length) return { best: 0, peak: 0 };
     return { best: percentile(sm, CFG.percentile), peak: Math.max.apply(null, sm) };
+  }
+
+  /* Estadísticas TCP del propio servidor (cabecera Server-Timing "cfL4").
+     Vienen del kernel de Cloudflare: paquetes enviados, perdidos y RTT real.
+     Es la única forma de ver pérdida de paquetes de verdad desde el navegador. */
+  function parseCfL4(headerValue) {
+    const m = /cfL4;desc="([^"]+)"/.exec(headerValue || "");
+    if (!m) return null;
+    const q = new URLSearchParams(m[1].replace(/^\?/, ""));
+    const num = (k) => (q.get(k) == null ? null : Number(q.get(k)));
+    const cid = q.get("cid");
+    if (!cid) return null;
+    return { cid, minRtt: num("min_rtt"), sent: num("sent"), lost: num("lost"), retrans: num("retrans") };
+  }
+
+  function recordTcp(res) {
+    try {
+      const s = parseCfL4(res.headers.get("server-timing"));
+      if (!s || !s.sent) return;
+      // Los contadores son acumulativos por conexión: guarda la lectura más alta.
+      const prev = state.tcp.get(s.cid);
+      if (!prev || s.sent > prev.sent) state.tcp.set(s.cid, s);
+    } catch (e) { /* la cabecera puede no estar expuesta */ }
+  }
+
+  function tcpSummary() {
+    let sent = 0, lost = 0, retrans = 0;
+    const rtts = [];
+    state.tcp.forEach((s) => {
+      sent += s.sent || 0;
+      lost += s.lost || 0;
+      retrans += s.retrans || 0;
+      // Una conexión recién abierta reporta un min_rtt sin asentar: la mediana
+      // entre conexiones evita que ese valor atípico mande.
+      if (s.minRtt && s.minRtt > 1000) rtts.push(s.minRtt);
+    });
+    if (!sent) return null;
+    const perdidos = Math.max(lost, retrans);
+    return {
+      loss: (perdidos / sent) * 100,
+      rtt: rtts.length ? Math.round(median(rtts) / 1000) : 0,
+      sent: sent,
+    };
+  }
+
+  // Bufferbloat: cuánto sube la latencia cuando la línea se llena. Es lo que
+  // hace que una videollamada se corte aunque el "número grande" sea enorme.
+  function gradeFor(deltaMs) {
+    if (deltaMs < 5) return { g: "A+", t: "la latencia casi no se mueve" };
+    if (deltaMs < 30) return { g: "A", t: "aguanta bien la carga" };
+    if (deltaMs < 60) return { g: "B", t: "sube un poco al cargarse" };
+    if (deltaMs < 150) return { g: "C", t: "se nota en videollamadas" };
+    if (deltaMs < 400) return { g: "D", t: "el router se satura" };
+    return { g: "F", t: "bufferbloat severo" };
   }
 
   function speedToFrac(v) {
@@ -290,8 +347,10 @@
   /* ── latencia ── */
   async function pingOnce(signal) {
     const t0 = performance.now();
-    await fetch(DOWN + "?bytes=1&r=" + rand(), { cache: "no-store", signal });
-    return performance.now() - t0;
+    const res = await fetch(DOWN + "?bytes=1&r=" + rand(), { cache: "no-store", signal });
+    const rtt = performance.now() - t0;
+    recordTcp(res);
+    return rtt;
   }
 
   async function measureIdleLatency() {
@@ -321,6 +380,10 @@
     const samples = kind === "dl" ? state.dlSamples : state.ulSamples;
     const lat = [];
     let latTimer = 0;
+    // Marca de bytes/tiempo al terminar el arranque: permite calcular el caudal
+    // aunque el navegador estrangule los temporizadores (pestaña en segundo plano).
+    const phaseStartT = performance.now();
+    let warmBytes = null, warmT = 0;
 
     const timer = setInterval(() => {
       const now = performance.now();
@@ -330,6 +393,10 @@
       bucket.lastBytes = bucket.bytes;
       bucket.lastT = now;
       const mbps = (delta * 8) / dt / 1e6;
+      if (warmBytes === null && now - phaseStartT >= CFG.warmupMs) {
+        warmBytes = bucket.bytes;
+        warmT = now;
+      }
       samples.push({ t: now, mbps });
       setGauge(mbps);
       const res = computeSpeed(samples);
@@ -365,6 +432,15 @@
     return {
       onBytes: (n) => { bucket.bytes += n; },
       get bytes() { return bucket.bytes; },
+      // Caudal sostenido medido por bytes acumulados, sin depender del muestreo.
+      stableRate() {
+        if (warmBytes === null) {
+          const secs = (performance.now() - phaseStartT) / 1000;
+          return secs > 0.5 ? (bucket.bytes * 8) / secs / 1e6 : 0;
+        }
+        const secs = (performance.now() - warmT) / 1000;
+        return secs > 0.5 ? ((bucket.bytes - warmBytes) * 8) / secs / 1e6 : 0;
+      },
       stop() {
         clearInterval(timer);
         clearInterval(latTimer);
@@ -380,6 +456,7 @@
       try {
         res = await fetch(DOWN + "?bytes=" + CFG.downChunk + "&r=" + rand(), { cache: "no-store", signal });
       } catch (e) { return; }
+      recordTcp(res);
       if (!res.body || !res.body.getReader) throw new Error("sin streaming");
       const reader = res.body.getReader();
       try {
@@ -415,14 +492,26 @@
     el.latDl.textContent = state.latDl || "—";
 
     const res = computeSpeed(state.dlSamples);
-    state.dl = res.best;
-    state.dlPeak = res.peak;
+    const stable = sampler.stableRate();
+    // Con pocas muestras (pestaña en segundo plano) el percentil no es fiable:
+    // se usa el promedio sostenido, que solo depende de bytes y reloj.
+    state.dl = state.dlSamples.length >= 20 ? res.best : (stable || res.best);
+    state.dlPeak = Math.max(res.peak, state.dl);
     state.dlBytes = sampler.bytes;
     el.dlValue.textContent = fmt(state.dl);
     el.dlPeak.textContent = fmt(state.dlPeak);
     el.dlData.textContent = fmtBytes(state.dlBytes);
     log("descarga " + fmt(state.dl) + " Mbps · pico " + fmt(state.dlPeak) +
         " · " + fmtBytes(state.dlBytes) + " · latencia cargada " + state.latDl + " ms");
+
+    const tcp = tcpSummary();
+    if (tcp) {
+      state.loss = tcp.loss;
+      state.tcpRtt = tcp.rtt;
+      el.loss.textContent = tcp.loss < 0.01 ? "0" : tcp.loss.toFixed(2);
+      log("TCP · " + tcp.sent + " paquetes · pérdida " + tcp.loss.toFixed(2) +
+          "% · RTT de red " + tcp.rtt + " ms");
+    }
   }
 
   /* ── subida ── */
@@ -549,18 +638,27 @@
   }
 
   /* ── lectura de resultados ── */
+  const ICONS = {
+    video: '<rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l6-3.5v10l-6-3.5z"/>',
+    tv: '<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+    game: '<rect x="2" y="6" width="20" height="12" rx="5"/><path d="M6.5 12h3.5M8.25 10.25v3.5"/><circle cx="16" cy="11" r="1.1"/><circle cx="18.4" cy="13.4" r="1.1"/>',
+    work: '<rect x="2" y="7" width="20" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+    home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9.4 15.6a3.6 3.6 0 0 1 5.2 0"/>',
+    upload: '<path d="M12 16V4M8 8l4-4 4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>',
+  };
+
   const USOS = [
-    { name: "Videollamadas", need: (s) => Math.min(s.dl / 4, s.ul / 3), lat: 150,
+    { name: "Videollamadas", icon: "video", need: (s) => Math.min(s.dl / 4, s.ul / 3), lat: 150,
       note: (s) => s.ul >= 3 ? "subida suficiente" : "subida justa" },
-    { name: "Streaming 4K", need: (s) => s.dl / 25, lat: 400,
+    { name: "Streaming 4K", icon: "tv", need: (s) => s.dl / 25, lat: 400,
       note: () => "25 Mbps por pantalla" },
-    { name: "Juegos en línea", need: (s) => s.dl / 15, lat: 60,
+    { name: "Juegos en línea", icon: "game", need: (s) => s.dl / 15, lat: 60,
       note: (s) => "ping " + s.ping + " ms" },
-    { name: "Teletrabajo", need: (s) => Math.min(s.dl / 50, s.ul / 10), lat: 120,
+    { name: "Teletrabajo", icon: "work", need: (s) => Math.min(s.dl / 50, s.ul / 10), lat: 120,
       note: () => "varias personas a la vez" },
-    { name: "Toda la casa", need: (s) => s.dl / 100, lat: 200,
+    { name: "Toda la casa", icon: "home", need: (s) => s.dl / 100, lat: 200,
       note: () => "6+ dispositivos" },
-    { name: "Subir archivos", need: (s) => s.ul / 25, lat: 500,
+    { name: "Subir archivos", icon: "upload", need: (s) => s.ul / 25, lat: 500,
       note: (s) => fmt(s.ul) + " Mbps de subida" },
   ];
 
@@ -583,7 +681,10 @@
       const dots = Array.from({ length: 5 }, (_, i) =>
         '<span class="dot' + (i < level ? " is-on" : "") + '"></span>').join("");
       card.innerHTML =
-        '<div class="qcard__top"><span class="qcard__name"></span></div>' +
+        '<div class="qcard__top">' +
+        '<svg class="qcard__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[uso.icon] + "</svg>" +
+        '<span class="qcard__name"></span></div>' +
         '<div class="qcard__dots">' + dots + "</div>" +
         '<p class="qcard__note"></p>';
       card.querySelector(".qcard__name").textContent = uso.name;
@@ -604,7 +705,11 @@
       ["jitter", state.jitter ? state.jitter + " ms" : "—"],
       ["latencia con descarga", state.latDl ? state.latDl + " ms" : "—"],
       ["latencia con subida", state.latUl ? state.latUl + " ms" : "—"],
+      ["estabilidad bajo carga", state.grade || "—"],
+      ["pérdida bajo carga", state.loss === null ? "no disponible" : (state.loss < 0.01 ? "0" : state.loss.toFixed(2)) + " % de paquetes"],
+      ["RTT de red (TCP)", state.tcpRtt ? state.tcpRtt + " ms" : "—"],
       ["proveedor", (state.conn.isp || "—") + (state.conn.asn ? " · " + state.conn.asn : "")],
+      ["ubicación", [state.conn.city, state.conn.country].filter(Boolean).join(", ") || "—"],
       ["datos transferidos", fmtBytes(state.dlBytes + state.ulBytes)],
       ["muestras", String(state.dlSamples.length + state.ulSamples.length)],
       ["duración", state.duracion ? state.duracion.toFixed(1) + " s" : "—"],
@@ -631,23 +736,40 @@
     return base;
   }
 
-  function pushHistory() {
-    state.historial.unshift({
-      hora: new Date().toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" }),
-      dl: fmt(state.dl), ul: fmt(state.ul), ping: state.ping,
-    });
-    state.historial = state.historial.slice(0, 6);
+  const HKEY = "inext-speedtest-historial";
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HKEY);
+      if (raw) state.historial = JSON.parse(raw) || [];
+    } catch (e) { state.historial = []; }
+    if (state.historial.length) renderHistory();
+  }
+
+  function renderHistory() {
     el.history.hidden = false;
     el.historyList.innerHTML = state.historial.map(() =>
       '<div class="history__row"><span class="history__time"></span><span class="history__dl"></span>' +
       '<span class="history__ul"></span><span class="history__ping"></span></div>').join("");
     el.historyList.querySelectorAll(".history__row").forEach((row, i) => {
       const h = state.historial[i];
-      row.querySelector(".history__time").textContent = h.hora;
+      row.querySelector(".history__time").textContent = (h.fecha ? h.fecha + " · " : "") + h.hora;
       row.querySelector(".history__dl").textContent = "↓ " + h.dl;
       row.querySelector(".history__ul").textContent = "↑ " + h.ul;
       row.querySelector(".history__ping").textContent = h.ping + " ms";
     });
+  }
+
+  function pushHistory() {
+    const ahora = new Date();
+    state.historial.unshift({
+      fecha: ahora.toLocaleDateString("es-EC", { day: "2-digit", month: "short" }),
+      hora: ahora.toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" }),
+      dl: fmt(state.dl), ul: fmt(state.ul), ping: state.ping,
+    });
+    state.historial = state.historial.slice(0, 8);
+    try { localStorage.setItem(HKEY, JSON.stringify(state.historial)); } catch (e) { /* modo privado */ }
+    renderHistory();
   }
 
   function updateWaResult() {
@@ -656,6 +778,8 @@
       "Bajada: " + fmt(state.dl) + " Mbps\n" +
       "Subida: " + fmt(state.ul) + " Mbps\n" +
       "Ping: " + state.ping + " ms (jitter " + state.jitter + " ms)\n" +
+      (state.loss !== null ? "Pérdida bajo carga: " + (state.loss < 0.01 ? "0" : state.loss.toFixed(2)) + " %\n" : "") +
+      (state.grade ? "Estabilidad bajo carga: " + state.grade + "\n" : "") +
       (state.conn.isp ? "Proveedor actual: " + state.conn.isp + "\n" : "") +
       (loc ? "Ubicación: " + loc + "\n" : "") +
       "Quiero información sobre sus planes.";
@@ -673,9 +797,12 @@
     state.dl = 0; state.ul = 0; state.dlPeak = 0; state.ulPeak = 0;
     state.dlBytes = 0; state.ulBytes = 0; state.latDl = 0; state.latUl = 0;
     state.dlSamples = []; state.ulSamples = [];
+    state.tcp = new Map(); state.loss = null; state.tcpRtt = 0; state.grade = "";
     state.started = Date.now();
     state.real = true;
-    ["dlValue", "ulValue", "dlPeak", "ulPeak", "latDl", "latUl"].forEach((k) => { el[k].textContent = "—"; });
+    el.gradeCard.removeAttribute("data-grade");
+    el.gradeNote.textContent = "bufferbloat";
+    ["dlValue", "ulValue", "dlPeak", "ulPeak", "latDl", "latUl", "loss", "grade"].forEach((k) => { el[k].textContent = "—"; });
     el.dlData.textContent = "—"; el.ulData.textContent = "—";
     el.log.innerHTML = "";
     log("iniciando prueba");
@@ -690,6 +817,16 @@
     }
 
     state.duracion = (Date.now() - state.started) / 1000;
+
+    const cargada = Math.max(state.latDl, state.latUl);
+    if (state.ping && cargada) {
+      const g = gradeFor(cargada - state.ping);
+      state.grade = g.g;
+      el.grade.textContent = g.g;
+      el.gradeCard.dataset.grade = g.g;
+      el.gradeNote.textContent = g.t;
+    }
+
     setPhase("done", "prueba completada");
     setProgress(1);
     setGauge(state.dl, true);
@@ -715,6 +852,7 @@
   drawTicks();
   setGauge(0, true);
   loadConnInfo();
+  loadHistory();
   updateWaResult();
 
   const generic = "https://wa.me/" + WA + "?text=" +

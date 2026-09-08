@@ -189,13 +189,17 @@ img{display:block;max-width:100%}
 .rcard__foot{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:4px}
 .rcard__foot b{color:var(--ink-2);font-weight:600}
 
-.lat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lat{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px}
 .lat__card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:3px}
 .lat__k{font-size:12.5px;color:var(--ink-3);letter-spacing:.01em}
 .lat__v{font-family:var(--head);font-weight:700;font-size:27px;letter-spacing:-.03em;line-height:1.15;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:5px}
 .lat__v small{font-family:var(--mono);font-size:11.5px;font-weight:400;color:var(--ink-3)}
 .lat__s{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
 .lat__s b{color:var(--ink-2)}
+.lat__card--grade[data-grade="A"] .lat__v,.lat__card--grade[data-grade="A+"] .lat__v{color:var(--sage)}
+.lat__card--grade[data-grade="B"] .lat__v{color:var(--cy-lite)}
+.lat__card--grade[data-grade="C"] .lat__v{color:#ffd27f}
+.lat__card--grade[data-grade="D"] .lat__v,.lat__card--grade[data-grade="F"] .lat__v{color:var(--warn)}
 
 /* ─────────── chart ─────────── */
 .chart{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px 12px}
