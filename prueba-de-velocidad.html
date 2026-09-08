@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba de velocidad — INEXT</title>
+<meta name="description" content="Mide la velocidad real de tu conexión: descarga, subida, latencia y jitter, usando los servidores públicos de Cloudflare.">
+<link rel="icon" href="assets/inext-mark-cyan.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/speedtest.css">
+</head>
+<body>
+<div>
+
+<header style="animation:inx-down .7s cubic-bezier(.16,1,.3,1) both;position:sticky;top:0;z-index:50;background:rgba(14,19,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)">
+  <div style="max-width:1060px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:22px">
+    <a href="index.html#top" style="display:flex;align-items:center;gap:9px;flex:none;color:var(--ink)">
+      <img src="assets/inext-mark-cyan.png" alt="INEXT" style="width:30px;height:30px;display:block">
+      <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:20px;letter-spacing:.06em">INEXT</span>
+    </a>
+    <nav data-nav style="display:flex;gap:22px;margin-left:auto;font-size:15px;font-weight:500">
+      <a href="index.html#planes" class="hover-ink" style="color:var(--ink-2)">Planes</a>
+      <a href="index.html#cobertura" class="hover-ink" style="color:var(--ink-2)">Cobertura</a>
+      <span style="color:var(--cy);font-weight:700">Prueba de velocidad</span>
+    </nav>
+    <a href="#" class="js-wa-generic hover-cy-plain" target="_blank" rel="noopener" style="flex:none;background:var(--cy);color:#06181f;font-weight:700;font-size:15px;padding:10px 18px;border-radius:8px">Hablemos</a>
+  </div>
+</header>
+
+<main style="max-width:1060px;margin:0 auto;padding:46px 22px 0">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <div>
+      <h1 style="animation:inx-line .84s cubic-bezier(.16,1,.3,1) .08s both;font-size:clamp(30px,4vw,44px)">Prueba de velocidad</h1>
+      <p style="animation:inx-up .72s cubic-bezier(.16,1,.3,1) .26s both;font-size:16.5px;color:var(--ink-2);margin:10px 0 0;max-width:52ch;line-height:1.55">Mide lo que realmente está llegando a este dispositivo ahora mismo. Para un resultado justo, conéctate por cable o párate cerca del router y cierra las descargas.</p>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink-3);text-align:right">
+      <div>estado · <span id="pv-estado-texto" style="color:#7c8991">en espera</span></div>
+      <div id="pv-tiempo-texto" style="margin-top:3px">servidor Cloudflare</div>
+    </div>
+  </div>
+
+  <div data-pad style="animation:inx-pop .9s cubic-bezier(.16,1,.3,1) .4s both;position:relative;margin-top:28px;background:var(--color-surface);border:1px solid var(--line);border-radius:18px;padding:40px;overflow:hidden">
+    <div style="position:absolute;left:-90px;top:-120px;width:420px;height:420px;border-radius:50%;background:#21b5ea;filter:blur(140px);opacity:.16;pointer-events:none"></div>
+    <div style="position:absolute;right:-70px;bottom:-140px;width:360px;height:360px;border-radius:50%;background:#c2ddb4;filter:blur(150px);opacity:.10;pointer-events:none"></div>
+    <div data-2col style="position:relative;display:grid;grid-template-columns:300px minmax(0,1fr);gap:48px;align-items:center">
+
+      <div style="animation:inx-ring 1s cubic-bezier(.16,1,.3,1) .6s both;position:relative;width:280px;height:280px;margin:0 auto">
+        <svg viewBox="0 0 280 280" style="width:100%;height:100%;display:block">
+          <defs>
+            <linearGradient id="inxring" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#1387b3"></stop>
+              <stop offset=".5" stop-color="#21b5ea"></stop>
+              <stop offset="1" stop-color="#c2ddb4"></stop>
+            </linearGradient>
+          </defs>
+          <circle cx="140" cy="140" r="118" fill="none" stroke="#283238" stroke-width="12"></circle>
+          <circle id="pv-ring-arc" cx="140" cy="140" r="118" fill="none" stroke="url(#inxring)" stroke-width="12" stroke-linecap="round" transform="rotate(-90 140 140)" stroke-dasharray="741.4" style="transition:stroke-dashoffset .25s linear;stroke-dashoffset:741.4"></circle>
+          <circle cx="140" cy="140" r="100" fill="#0e1317"></circle>
+        </svg>
+        <div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center">
+          <div id="pv-idle">
+            <button id="pv-start-btn" class="hover-cy-text" style="width:200px;height:200px;border-radius:50%;border:0;background:transparent;color:var(--ink);font-family:Archivo,sans-serif;font-weight:700;font-size:26px;letter-spacing:.06em;cursor:pointer">INICIAR</button>
+          </div>
+          <div id="pv-running" hidden>
+            <div id="pv-fase-texto" style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7c8991;animation:inx-breathe 1.6s ease-in-out infinite"></div>
+            <div id="pv-vivo-valor" style="font-family:Archivo,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.04em;line-height:1;margin-top:8px">0.0</div>
+            <div style="font-size:13px;color:var(--ink-3);font-weight:600">Mbps</div>
+          </div>
+          <div id="pv-done" hidden>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage)">Listo</div>
+            <div id="pv-done-valor" style="font-family:Archivo,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.04em;line-height:1;margin-top:8px">—</div>
+            <button id="pv-repetir-btn" class="hover-border-cy" style="margin-top:12px;background:transparent;border:1.5px solid var(--line-2);color:var(--ink);font-family:Karla,sans-serif;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer">Repetir</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <div style="animation:inx-up .6s cubic-bezier(.16,1,.3,1) 0.72s both;background:var(--surf-2);border-radius:12px;padding:16px 18px">
+            <div style="font-size:12px;font-weight:700;color:var(--cy);letter-spacing:.03em">BAJADA</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;margin-top:4px"><span id="pv-dl">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-3);font-weight:400">Mbps</span></div>
+          </div>
+          <div style="animation:inx-up .6s cubic-bezier(.16,1,.3,1) 0.80s both;background:var(--surf-2);border-radius:12px;padding:16px 18px">
+            <div style="font-size:12px;font-weight:700;color:var(--sage);letter-spacing:.03em">SUBIDA</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;margin-top:4px"><span id="pv-ul">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-3);font-weight:400">Mbps</span></div>
+          </div>
+          <div style="animation:inx-up .6s cubic-bezier(.16,1,.3,1) 0.88s both;background:var(--surf-2);border-radius:12px;padding:16px 18px">
+            <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.03em">LATENCIA</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;margin-top:4px"><span id="pv-ping">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-3);font-weight:400">ms</span></div>
+          </div>
+          <div style="animation:inx-up .6s cubic-bezier(.16,1,.3,1) 0.96s both;background:var(--surf-2);border-radius:12px;padding:16px 18px">
+            <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.03em">JITTER</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;margin-top:4px"><span id="pv-jitter">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-3);font-weight:400">ms</span></div>
+          </div>
+        </div>
+
+        <div style="animation:inx-up .68s cubic-bezier(.16,1,.3,1) 1.04s both;margin-top:14px;background:var(--surf-2);border-radius:12px;padding:14px 18px 12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+            <div style="display:flex;gap:16px;font-size:11.5px;font-weight:700;letter-spacing:.04em">
+              <span style="color:var(--cy)">— BAJADA</span>
+              <span style="color:var(--sage)">— SUBIDA</span>
+            </div>
+            <div style="display:flex;gap:3px;background:#0e1317;border-radius:8px;padding:3px">
+              <button id="pv-tab-grafico" type="button" style="border:0;cursor:pointer;border-radius:6px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;background:#21b5ea;color:#06181f">gráfico</button>
+              <button id="pv-tab-registro" type="button" style="border:0;cursor:pointer;border-radius:6px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;background:transparent;color:#7c8991">registro</button>
+            </div>
+          </div>
+
+          <div id="pv-view-grafico">
+            <svg viewBox="0 0 600 150" preserveAspectRatio="none" style="width:100%;height:132px;display:block;margin-top:10px">
+              <defs>
+                <linearGradient id="inxdl" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#21b5ea" stop-opacity=".42"></stop>
+                  <stop offset="1" stop-color="#21b5ea" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="inxul" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#c2ddb4" stop-opacity=".34"></stop>
+                  <stop offset="1" stop-color="#c2ddb4" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <line x1="0" y1="148" x2="600" y2="148" stroke="#283238" stroke-width="1"></line>
+              <line x1="0" y1="102" x2="600" y2="102" stroke="#283238" stroke-width="1"></line>
+              <line x1="0" y1="56" x2="600" y2="56" stroke="#283238" stroke-width="1"></line>
+              <line x1="0" y1="10" x2="600" y2="10" stroke="#283238" stroke-width="1"></line>
+              <path id="pv-dl-area" fill="url(#inxdl)" stroke="none" d=""></path>
+              <path id="pv-ul-area" fill="url(#inxul)" stroke="none" d=""></path>
+              <path id="pv-dl-linea" fill="none" stroke="#21b5ea" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" d=""></path>
+              <path id="pv-ul-linea" fill="none" stroke="#c2ddb4" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" d=""></path>
+            </svg>
+          </div>
+
+          <div id="pv-view-registro" hidden>
+            <div id="pv-registro-list" style="margin-top:10px;height:132px;overflow-y:auto;background:#0b0f12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.75;color:#8fa7b2">
+              <div>esperando inicio de la prueba…</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="animation:inx-up .68s cubic-bezier(.16,1,.3,1) 1.16s both;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px">
+          <div style="background:var(--surf-2);border-radius:12px;padding:14px 10px;text-align:center">
+            <div style="font-size:11.5px;font-weight:700;color:#21b5ea;letter-spacing:.04em">BAJADA</div>
+            <div style="position:relative;max-width:170px;margin:4px auto 0">
+              <svg viewBox="0 0 200 128" style="width:100%;height:auto;display:block">
+                <path d="M50 110 A60 60 0 1 1 150 110" fill="none" stroke="#283238" stroke-width="9" stroke-linecap="round"></path>
+                <path id="pv-gauge-dl-arc" d="M50 110 A60 60 0 1 1 150 110" fill="none" stroke="#21b5ea" stroke-width="9" stroke-linecap="round" stroke-dasharray="282.7" style="transition:stroke-dashoffset .3s ease;stroke-dashoffset:282.7"></path>
+                <g id="pv-gauge-dl-needle" transform="rotate(135 100 100)">
+                  <line x1="100" y1="100" x2="148" y2="100" stroke="#eef2f4" stroke-width="2.5" stroke-linecap="round"></line>
+                </g>
+                <circle cx="100" cy="100" r="5" fill="#161d22" stroke="#eef2f4" stroke-width="2"></circle>
+              </svg>
+              <div id="pv-gauge-dl-value" style="position:absolute;left:0;right:0;top:62%;transform:translateY(-50%);font-family:Archivo,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;pointer-events:none">—</div>
+            </div>
+          </div>
+          <div style="background:var(--surf-2);border-radius:12px;padding:14px 10px;text-align:center">
+            <div style="font-size:11.5px;font-weight:700;color:#c2ddb4;letter-spacing:.04em">SUBIDA</div>
+            <div style="position:relative;max-width:170px;margin:4px auto 0">
+              <svg viewBox="0 0 200 128" style="width:100%;height:auto;display:block">
+                <path d="M50 110 A60 60 0 1 1 150 110" fill="none" stroke="#283238" stroke-width="9" stroke-linecap="round"></path>
+                <path id="pv-gauge-ul-arc" d="M50 110 A60 60 0 1 1 150 110" fill="none" stroke="#c2ddb4" stroke-width="9" stroke-linecap="round" stroke-dasharray="282.7" style="transition:stroke-dashoffset .3s ease;stroke-dashoffset:282.7"></path>
+                <g id="pv-gauge-ul-needle" transform="rotate(135 100 100)">
+                  <line x1="100" y1="100" x2="148" y2="100" stroke="#eef2f4" stroke-width="2.5" stroke-linecap="round"></line>
+                </g>
+                <circle cx="100" cy="100" r="5" fill="#161d22" stroke="#eef2f4" stroke-width="2"></circle>
+              </svg>
+              <div id="pv-gauge-ul-value" style="position:absolute;left:0;right:0;top:62%;transform:translateY(-50%);font-family:Archivo,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;pointer-events:none">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px;margin-top:20px">
+    <div style="background:var(--color-surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px">
+      <h3 style="font-size:17px">Detalle de la medición</h3>
+      <div style="margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">servidor</span><span style="color:var(--ink);text-align:right">Cloudflare (global)</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">método</span><span id="pv-det-metodo" style="color:var(--ink);text-align:right">descarga y carga reales</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">bajada</span><span id="pv-det-dl" style="color:var(--ink);text-align:right">—</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">subida</span><span id="pv-det-ul" style="color:var(--ink);text-align:right">—</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">latencia mínima</span><span id="pv-det-ping" style="color:var(--ink);text-align:right">—</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">jitter</span><span id="pv-det-jitter" style="color:var(--ink);text-align:right">—</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">muestras</span><span id="pv-det-muestras" style="color:var(--ink);text-align:right">0</span></div>
+        <div style="display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="color:var(--ink-3)">duración</span><span id="pv-det-duracion" style="color:var(--ink);text-align:right">—</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;display:flex;flex-direction:column">
+      <h3 style="font-size:17px">¿Y eso qué significa?</h3>
+      <p id="pv-lectura" style="font-size:15.5px;color:var(--ink-2);margin:12px 0 0;line-height:1.6">Toca INICIAR y en unos quince segundos sabrás qué velocidad está llegando a este equipo. La prueba mide tu conexión actual, sea la que sea.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:auto;padding-top:22px">
+        <a href="index.html#form" class="hover-cy-plain" style="text-align:center;background:var(--cy);color:#06181f;font-weight:700;font-size:15.5px;padding:13px;border-radius:8px">Revisar cobertura para mi casa</a>
+        <a href="#" class="js-wa-generic hover-border" target="_blank" rel="noopener" style="text-align:center;background:transparent;color:var(--ink);font-weight:700;font-size:15.5px;padding:12px;border-radius:8px;border:1.5px solid var(--line-2)">Enviar este resultado por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="pv-historial-wrap" hidden style="background:var(--color-surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-top:20px">
+    <h3 style="font-size:17px">Pruebas anteriores</h3>
+    <div id="pv-historial-list" style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:13px"></div>
+  </div>
+
+  <p id="pv-nota" style="font-size:13px;color:var(--ink-3);margin:22px 0 0;max-width:78ch;line-height:1.6">La medición usa los servidores públicos de Cloudflare y depende de tu red WiFi, del equipo y de la hora. Repítela dos o tres veces para tener un promedio confiable.</p>
+</main>
+
+<footer style="margin-top:56px;border-top:1px solid var(--line)">
+  <div style="max-width:1060px;margin:0 auto;padding:32px 22px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink-3)">
+    <span>© 2026 INEXT Ultra Conexión · Otavalo, Imbabura</span>
+    <a href="index.html" class="hover-ink" style="color:var(--ink-2)">Volver al inicio</a>
+  </div>
+</footer>
+
+</div>
+<script src="js/speedtest.js"></script>
+</body>
+</html>

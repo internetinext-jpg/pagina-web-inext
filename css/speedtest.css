@@ -1,0 +1,43 @@
+:root{
+  --color-bg:#0e1317; --color-surface:#161d22; --surf-2:#1e262c; --color-text:#eef2f4;
+  --ink:#eef2f4; --ink-2:#a8b5bb; --ink-3:#7c8991;
+  --line:#283238; --line-2:#38444b;
+  --cy:#21b5ea; --cy-2:#7fd4f4; --sage:#c2ddb4;
+  --color-accent:#21b5ea;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--color-bg);color:var(--ink);font-family:"Karla",system-ui,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.06;margin:0}
+a{color:var(--cy-2);text-decoration:none}
+a:hover{color:#a9e3f8}
+::selection{background:#154e66}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+img{max-width:100%}
+
+@keyframes inx-breathe{0%,100%{opacity:.35}50%{opacity:.9}}
+@keyframes inx-line{from{opacity:0;transform:translateY(.5em);clip-path:inset(0 0 58% 0)}to{opacity:1;transform:none;clip-path:inset(-8% -2% -8% -2%)}}
+@keyframes inx-up{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes inx-down{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes inx-pop{from{opacity:0;transform:scale(.955) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes inx-ring{from{opacity:0;transform:scale(.94) rotate(-14deg)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+@media (max-width:880px){
+  [data-2col]{grid-template-columns:minmax(0,1fr)!important;gap:30px!important}
+  [data-nav]{display:none!important}
+  [data-pad]{padding:24px!important}
+}
+
+.hover-ink,
+.hover-cy-plain,
+.hover-cy-text,
+.hover-border,
+.hover-border-cy{
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease;
+}
+.hover-ink:hover{color:var(--ink)}
+.hover-cy-plain:hover{background:#4cc6f0}
+.hover-cy-text:hover{color:var(--cy)}
+.hover-border:hover{border-color:var(--ink-2)}
+.hover-border-cy:hover{border-color:var(--cy);color:var(--cy)}

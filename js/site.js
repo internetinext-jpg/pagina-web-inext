@@ -167,8 +167,7 @@
 
   /* ---------------- Speed test / load calculator ---------------- */
   (() => {
-    const state = { mbps: 100, anim: null, carga: { k4: 1, juego: 1, hd: 2, clase: 1, video: 1 } };
-    let timer = null;
+    const state = { mbps: 100, carga: { k4: 1, juego: 1, hd: 2, clase: 1, video: 1 } };
 
     const el = {
       gaugeArc: document.getElementById("gauge-arc"),
@@ -180,7 +179,6 @@
       perdida: document.getElementById("stat-perdida"),
       range: document.getElementById("mbps-range"),
       presets: document.getElementById("mbps-presets"),
-      simular: document.getElementById("btn-simular"),
       veredicto: document.getElementById("veredicto"),
       estadoTexto: document.getElementById("estado-texto"),
       segmentsBar: document.getElementById("segments-bar"),
@@ -228,7 +226,7 @@
 
     function render() {
       const s = state;
-      const shown = s.anim === null || s.anim === undefined ? s.mbps : s.anim;
+      const shown = s.mbps;
       const total = totalCarga();
       const libre = s.mbps - total;
       const base = Math.max(s.mbps, total, 1);
@@ -282,24 +280,7 @@
       render();
     });
     el.presets.querySelectorAll("[data-preset]").forEach((btn) => {
-      if (btn.id === "btn-simular") return;
       btn.addEventListener("click", () => { state.mbps = Number(btn.dataset.preset); render(); });
-    });
-    el.simular.addEventListener("click", () => {
-      if (timer) clearInterval(timer);
-      const target = state.mbps;
-      const t0 = Date.now();
-      state.anim = 0;
-      render();
-      timer = setInterval(() => {
-        const p = Math.min(1, (Date.now() - t0) / 1900);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const jitter = p < 1 ? (Math.random() * 8 - 4) * (1 - p) : 0;
-        const v = Math.max(0, Math.round(target * eased + jitter));
-        if (p >= 1) { clearInterval(timer); timer = null; state.anim = null; }
-        else state.anim = v;
-        render();
-      }, 45);
     });
 
     render();
