@@ -27,9 +27,10 @@
       <a href="#faq">Preguntas</a>
     </nav>
     <div class="nav__actions">
-      <!-- Portal de clientes: la ruta la confirma la sesión del panel de operación.
-           Propuesta acordada: /mi-cuenta sobre isp-sigma-bay.vercel.app -->
-      <a class="btn btn--ghost btn--sm" href="https://isp-sigma-bay.vercel.app/mi-cuenta" data-portal>Acceso clientes</a>
+      <!-- El portal se entra con un enlace personal por contrato (/mi-cuenta/<token>),
+           no con usuario y clave: no hay pantalla de login a la que apuntar. Hasta que
+           exista, el botón pide ese enlace por WhatsApp. -->
+      <a class="btn btn--ghost btn--sm js-wa-portal" href="#" target="_blank" rel="noopener">Acceso clientes</a>
       <a class="btn btn--white btn--sm js-wa-generic" href="#" target="_blank" rel="noopener">Hablemos</a>
     </div>
   </div>
@@ -485,7 +486,7 @@
       <div>
         <p class="foot__k">Clientes</p>
         <div class="foot__list">
-          <a href="https://isp-sigma-bay.vercel.app/mi-cuenta" data-portal>Acceso clientes</a>
+          <a class="js-wa-portal" href="#" target="_blank" rel="noopener">Acceso clientes</a>
           <a href="prueba-de-velocidad.html">Medir mi velocidad</a>
           <a class="js-wa-generic" href="#" target="_blank" rel="noopener">Reportar una avería</a>
         </div>

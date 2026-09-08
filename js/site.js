@@ -34,6 +34,11 @@
   const genericWa = waLink("Hola INEXT, quiero información sobre sus planes de internet.");
   document.querySelectorAll(".js-wa-generic").forEach((el) => { el.href = genericWa; });
 
+  // Al portal se entra con un enlace personal por contrato, no con usuario y clave,
+  // así que "Acceso clientes" pide ese enlace en lugar de abrir un login inexistente.
+  const portalWa = waLink("Hola INEXT, soy cliente y quiero el enlace para ver mi cuenta.");
+  document.querySelectorAll(".js-wa-portal").forEach((el) => { el.href = portalWa; });
+
   /* ---------------- Coverage wizard ---------------- */
   (() => {
     const state = { step: 1, provincia: "", sector: "", uso: "", tamano: "", nombre: "", telefono: "" };
