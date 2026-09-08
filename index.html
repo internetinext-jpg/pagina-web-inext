@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INEXT — Internet Starlink en Otavalo e Imbabura</title>
+<meta name="description" content="Instalación y soporte de internet satelital Starlink en Otavalo, Imbabura y todo el Ecuador. Sin contrato de permanencia, equipo con stock local y técnicos de la zona.">
+<link rel="icon" href="assets/inext-mark-cyan.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<div>
+
+<header class="site-header" style="animation:inx-down .7s cubic-bezier(.16,1,.3,1) both;position:sticky;top:0;z-index:50;background:rgba(18,24,28,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)">
+  <div style="max-width:1160px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:22px">
+    <a href="#top" style="display:flex;align-items:center;gap:9px;flex:none;color:var(--ink)">
+      <img src="assets/inext-mark-cyan.png" alt="INEXT" style="width:30px;height:30px;display:block">
+      <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:20px;letter-spacing:.06em">INEXT</span>
+    </a>
+    <nav data-nav style="display:flex;gap:22px;margin-left:auto;font-size:15px;font-weight:500">
+      <a href="#planes" class="hover-ink" style="color:var(--ink-2)">Planes</a>
+      <a href="#cobertura" class="hover-ink" style="color:var(--ink-2)">Cobertura</a>
+      <a href="#instalacion" class="hover-ink" style="color:var(--ink-2)">Instalación</a>
+      <a href="#velocidad" class="hover-ink" style="color:var(--ink-2)">Prueba de velocidad</a>
+      <a href="#faq" class="hover-ink" style="color:var(--ink-2)">Preguntas</a>
+    </nav>
+    <a href="#" class="js-wa-generic hover-cy-lift" target="_blank" rel="noopener" style="flex:none;background:var(--cy);color:#06181f;font-weight:700;font-size:15px;padding:10px 18px;border-radius:8px">Hablemos</a>
+  </div>
+</header>
+
+<section id="top" style="max-width:1160px;margin:0 auto;padding:60px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:52px;align-items:start">
+    <div style="padding-top:14px">
+      <h1 style="font-size:clamp(40px,5.4vw,64px)"><span style="display:block;animation:inx-line .84s cubic-bezier(.16,1,.3,1) .06s both">Internet donde vives.</span><span style="display:block;animation:inx-line .84s cubic-bezier(.16,1,.3,1) .17s both">Aunque vivas lejos.</span></h1>
+      <p style="animation:inx-up .72s cubic-bezier(.16,1,.3,1) .3s both;font-size:20px;color:var(--ink-2);max-width:34ch;margin:20px 0 0;line-height:1.5;text-wrap:pretty">Sí, incluso en la loma. Instalamos Starlink en Otavalo, Imbabura y todo el Ecuador, y te lo dejamos andando el mismo día.</p>
+      <ul style="list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:11px;font-size:16.5px;color:var(--ink-2)">
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.44s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Sin contrato de permanencia</span></li>
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.52s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Equipo con stock aquí, sin esperar importación</span></li>
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.6s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Soporte con técnicos de Otavalo, no con un call center</span></li>
+      </ul>
+      <div style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) .7s both;display:flex;flex-wrap:wrap;gap:10px;margin-top:30px">
+        <a href="#" class="js-wa-generic hover-wa-outline" target="_blank" rel="noopener" style="background:transparent;color:var(--ink);font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px;border:1.5px solid var(--line-2)">Prefiero escribir por WhatsApp</a>
+      </div>
+    </div>
+
+    <div id="form" style="scroll-margin-top:90px">
+      <div style="animation:inx-pop .9s cubic-bezier(.16,1,.3,1) .5s both;background:var(--color-surface);border:1px solid var(--line);border-radius:14px;padding:28px">
+
+        <div id="cw-header">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <h3 style="font-size:22px">Revisa tu cobertura</h3>
+            <span id="cw-step-label" style="font-size:13.5px;color:var(--ink-3);font-weight:600">1/3</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:7px 0 0">Toma menos de un minuto y no te compromete a nada.</p>
+          <div style="height:3px;background:var(--line-2);border-radius:3px;margin:20px 0 22px;overflow:hidden">
+            <div id="cw-progress" style="height:100%;background:var(--cy);border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1);width:33.333333333333336%"></div>
+          </div>
+        </div>
+
+        <div id="cw-step1">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-prov" style="font-size:14px;font-weight:700">Provincia</label>
+              <select id="inx-prov" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+                <option value="">Elige tu provincia</option>
+                <option value="Azuay">Azuay</option>
+                <option value="Bolívar">Bolívar</option>
+                <option value="Cañar">Cañar</option>
+                <option value="Carchi">Carchi</option>
+                <option value="Chimborazo">Chimborazo</option>
+                <option value="Cotopaxi">Cotopaxi</option>
+                <option value="El Oro">El Oro</option>
+                <option value="Esmeraldas">Esmeraldas</option>
+                <option value="Galápagos">Galápagos</option>
+                <option value="Guayas">Guayas</option>
+                <option value="Imbabura">Imbabura</option>
+                <option value="Loja">Loja</option>
+                <option value="Los Ríos">Los Ríos</option>
+                <option value="Manabí">Manabí</option>
+                <option value="Morona Santiago">Morona Santiago</option>
+                <option value="Napo">Napo</option>
+                <option value="Orellana">Orellana</option>
+                <option value="Pastaza">Pastaza</option>
+                <option value="Pichincha">Pichincha</option>
+                <option value="Santa Elena">Santa Elena</option>
+                <option value="Santo Domingo">Santo Domingo</option>
+                <option value="Sucumbíos">Sucumbíos</option>
+                <option value="Tungurahua">Tungurahua</option>
+                <option value="Zamora Chinchipe">Zamora Chinchipe</option>
+              </select>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-loc" style="font-size:14px;font-weight:700">Cantón, parroquia o sector</label>
+              <input id="inx-loc" type="text" placeholder="Por ejemplo: Peguche, Otavalo" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <p id="cw-err1" hidden style="font-size:14px;color:#ffa79b;margin:0;font-weight:500"></p>
+            <button id="cw-next1" class="hover-cy-lift" style="background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer;width:100%">Continuar</button>
+          </div>
+        </div>
+
+        <div id="cw-step2" hidden>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <p style="font-size:14px;font-weight:700;margin:0 0 10px">¿Para qué lo vas a usar?</p>
+              <div id="cw-usos" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+                <button type="button" data-uso="hogar" style="text-align:left;padding:13px 14px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">La casa, nomás</button>
+                <button type="button" data-uso="teletrabajo" style="text-align:left;padding:13px 14px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">Teletrabajo o clases</button>
+                <button type="button" data-uso="negocio" style="text-align:left;padding:13px 14px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">Un negocio</button>
+                <button type="button" data-uso="finca" style="text-align:left;padding:13px 14px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">Finca o hacienda</button>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:14px;font-weight:700;margin:0 0 10px">¿Cuántas personas se conectan?</p>
+              <div id="cw-tamanos" style="display:flex;gap:8px">
+                <button type="button" data-tamano="1-3" style="flex:1;padding:12px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">1 a 3</button>
+                <button type="button" data-tamano="4-6" style="flex:1;padding:12px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">4 a 6</button>
+                <button type="button" data-tamano="7+" style="flex:1;padding:12px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">7 o más</button>
+              </div>
+            </div>
+            <p id="cw-err2" hidden style="font-size:14px;color:#ffa79b;margin:0;font-weight:500"></p>
+            <div style="display:flex;gap:9px">
+              <button id="cw-back2" class="hover-border" style="background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px 20px;border-radius:8px;border:1.5px solid var(--line-2);cursor:pointer">Atrás</button>
+              <button id="cw-next2" class="hover-cy-lift" style="flex:1;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer">Continuar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="cw-step3" hidden>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-nom" style="font-size:14px;font-weight:700">¿Cómo te llamas?</label>
+              <input id="inx-nom" type="text" placeholder="Nombre y apellido" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-tel" style="font-size:14px;font-weight:700">Tu WhatsApp</label>
+              <input id="inx-tel" type="tel" inputmode="tel" placeholder="09XX XXX XXX" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <p id="cw-err3" hidden style="font-size:14px;color:#ffa79b;margin:0;font-weight:500"></p>
+            <div style="display:flex;gap:9px">
+              <button id="cw-back3" class="hover-border" style="background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px 20px;border-radius:8px;border:1.5px solid var(--line-2);cursor:pointer">Atrás</button>
+              <button id="cw-next3" class="hover-cy-lift" style="flex:1;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer">Ver mi resultado</button>
+            </div>
+            <p style="font-size:13px;color:var(--ink-3);margin:0;line-height:1.5">Usamos tus datos solo para contactarte por este servicio.</p>
+          </div>
+        </div>
+
+        <div id="cw-done" hidden>
+          <div>
+            <h3 style="font-size:22px">Sí llegamos a <span id="cw-destino"></span></h3>
+            <p style="font-size:15px;color:var(--ink-2);margin:8px 0 0;line-height:1.5">Hay cobertura activa en tu zona. Esto es lo que te recomendamos según lo que nos contaste.</p>
+            <div style="margin-top:20px;background:var(--cy-soft);border:1px solid var(--cy-dim);border-radius:10px;padding:20px">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                <span id="cw-rec-plan" style="font-family:Archivo,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em"></span>
+                <span id="cw-rec-precio" style="font-size:16px;font-weight:700;color:var(--cy)"></span>
+              </div>
+              <p id="cw-rec-porque" style="font-size:15px;color:#b9dced;margin:9px 0 0;line-height:1.5"></p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+              <a id="cw-wa-link" href="#" target="_blank" rel="noopener" class="hover-cy-lift" style="text-align:center;background:var(--cy);color:#06181f;font-weight:700;font-size:16px;padding:14px;border-radius:8px">Enviar mis datos por WhatsApp</a>
+              <a href="https://www.starlink.com/ec/residential?referral=RC-481067-34312-6" target="_blank" rel="noopener" class="hover-border" style="text-align:center;background:transparent;color:var(--ink);font-weight:700;font-size:16px;padding:13px;border-radius:8px;border:1.5px solid var(--line-2)">Contratar en línea</a>
+              <button id="cw-reset" class="hover-ink" style="background:none;border:0;color:var(--ink-3);font-family:Karla,sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;padding:6px">Consultar otra dirección</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:56px auto 0;padding:0 22px">
+  <div style="animation:inx-pop 1s cubic-bezier(.16,1,.3,1) .78s both;position:relative;height:clamp(240px,32vw,400px);border-radius:16px;overflow:hidden" class="photo-slot">
+    <div class="photo-slot__inner">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5.2-5.2a1 1 0 0 0-1.4 0L6 19"></path></svg>
+      <span>Foto ancha: antena Starlink instalada en una casa de la sierra</span>
+    </div>
+  </div>
+</section>
+
+<section data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.15s both;margin-top:56px;background:var(--sage);color:#1d3018">
+  <div style="max-width:1160px;margin:0 auto;padding:30px 22px;display:flex;flex-wrap:wrap;gap:14px 44px;align-items:baseline;font-family:Archivo,sans-serif;font-weight:600;font-size:clamp(18px,2.1vw,25px);letter-spacing:-.015em">
+    <span>Más rápido. Hasta 200 Mbps.</span>
+    <span style="opacity:.42">/</span>
+    <span>Más libre. Sin cláusulas.</span>
+    <span style="opacity:.42">/</span>
+    <span>Más cerca. Técnicos de Otavalo.</span>
+  </div>
+</section>
+
+<section id="velocidad" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-pad data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.24s both;position:relative;background:var(--color-surface);border:1px solid var(--line);border-radius:16px;padding:44px;overflow:hidden">
+    <svg viewBox="0 0 420 420" aria-hidden="true" style="position:absolute;right:-70px;bottom:-90px;width:460px;height:460px;pointer-events:none">
+      <g fill="none" stroke="#21b5ea" stroke-linecap="round">
+        <path d="M90 400 A 70 70 0 0 0 20 330" stroke-width="3" opacity=".55" stroke-dasharray="10 16" style="animation:inx-flow 2.4s linear infinite"></path>
+        <path d="M140 400 A 120 120 0 0 0 20 280" stroke-width="3" opacity=".45" stroke-dasharray="10 18" style="animation:inx-flow 3.1s linear infinite"></path>
+        <path d="M190 400 A 170 170 0 0 0 20 230" stroke-width="3" opacity=".36" stroke-dasharray="10 20" style="animation:inx-flow 3.8s linear infinite"></path>
+        <path d="M240 400 A 220 220 0 0 0 20 180" stroke-width="3" opacity=".28" stroke-dasharray="10 22" style="animation:inx-flow 4.5s linear infinite"></path>
+        <path d="M290 400 A 270 270 0 0 0 20 130" stroke-width="3" opacity=".2" stroke-dasharray="10 24" style="animation:inx-flow 5.2s linear infinite"></path>
+        <path d="M340 400 A 320 320 0 0 0 20 80" stroke-width="3" opacity=".13" stroke-dasharray="10 26" style="animation:inx-flow 6s linear infinite"></path>
+      </g>
+    </svg>
+
+    <div style="position:relative">
+      <h2 style="font-size:clamp(28px,3.4vw,40px);max-width:20ch">¿200 Mbps es mucho? Míralo en cosas de verdad.</h2>
+      <p style="font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:54ch;line-height:1.55">Mueve la barra y mira cuántas cosas aguanta tu casa al mismo tiempo, sin que nadie se quede pegado.</p>
+
+      <div data-2col style="display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:48px;margin-top:38px;align-items:start">
+        <div>
+          <div style="position:relative;max-width:340px;margin:0 auto">
+            <svg viewBox="0 0 300 268" style="width:100%;display:block;overflow:visible">
+              <defs>
+                <linearGradient id="inxgauge" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#1387b3"></stop>
+                  <stop offset=".45" stop-color="#21b5ea"></stop>
+                  <stop offset=".78" stop-color="#7fd4f4"></stop>
+                  <stop offset="1" stop-color="#c2ddb4"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M75.75 224.25 A105 105 0 1 1 224.25 224.25" fill="none" stroke="#2c363c" stroke-width="16" stroke-linecap="round"></path>
+              <path id="gauge-arc" d="M75.75 224.25 A105 105 0 1 1 224.25 224.25" fill="none" stroke="url(#inxgauge)" stroke-width="16" stroke-linecap="round" stroke-dasharray="494.8" style="transition:stroke-dashoffset .35s ease;stroke-dashoffset:0"></path>
+              <g stroke="#5c686f" stroke-width="2" stroke-linecap="round">
+                <line x1="66.5" y1="233.4" x2="59.4" y2="240.5"></line>
+                <line x1="33.5" y1="131.5" x2="23.6" y2="129.9"></line>
+                <line x1="96.4" y1="44.9" x2="91.8" y2="35.9"></line>
+                <line x1="203.6" y1="44.9" x2="208.2" y2="35.9"></line>
+                <line x1="266.5" y1="131.5" x2="276.4" y2="129.9"></line>
+                <line x1="233.4" y1="233.4" x2="240.5" y2="240.5"></line>
+              </g>
+              <g fill="#7c8991" font-family="Karla, sans-serif" font-size="12" font-weight="600" text-anchor="middle">
+                <text x="52" y="256">0</text>
+                <text x="14" y="126">50</text>
+                <text x="88" y="26">100</text>
+                <text x="212" y="26">150</text>
+                <text x="286" y="126">200</text>
+                <text x="248" y="256">250</text>
+              </g>
+              <g id="gauge-needle" transform="rotate(135 150 150)">
+                <line x1="150" y1="150" x2="236" y2="150" stroke="#eef2f4" stroke-width="3" stroke-linecap="round"></line>
+              </g>
+              <circle cx="150" cy="150" r="7" fill="#12181c" stroke="#eef2f4" stroke-width="2.5"></circle>
+            </svg>
+            <div style="position:absolute;left:0;right:0;top:65%;text-align:center;pointer-events:none">
+              <div id="mbps-shown" style="font-family:Archivo,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.04em;line-height:1">100</div>
+              <div style="font-size:13px;font-weight:600;color:var(--ink-3);margin-top:2px">Mbps de bajada</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:18px">
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--cy);letter-spacing:.02em">Bajada</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px"><span id="mbps-shown-2">100</span> <span style="font-size:12px;color:var(--ink-3);font-weight:600">Mbps</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:#c2ddb4;letter-spacing:.02em">Subida</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px"><span id="stat-subida">11</span> <span style="font-size:12px;color:var(--ink-3);font-weight:600">Mbps</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.02em">Ping</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px"><span id="stat-ping">27</span> <span style="font-size:12px;color:var(--ink-3);font-weight:600">ms</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.02em">Pérdida</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px"><span id="stat-perdida">0.2</span> <span style="font-size:12px;color:var(--ink-3);font-weight:600">%</span></div>
+            </div>
+          </div>
+
+          <input id="mbps-range" type="range" min="5" max="250" step="5" value="100" aria-label="Velocidad en Mbps" style="width:100%;margin:24px 0 0;height:6px;cursor:pointer">
+          <div id="mbps-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <button type="button" data-preset="5" style="padding:8px 14px;border-radius:999px;border:1.5px solid #3a464d;background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .16s,background .16s">Móvil en el campo · 5</button>
+            <button type="button" data-preset="100" style="padding:8px 14px;border-radius:999px;border:1.5px solid #21b5ea;background:#0f2f3d;color:var(--ink);font-family:Karla,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .16s,background .16s">Residencial Lite · 100</button>
+            <button type="button" data-preset="200" style="padding:8px 14px;border-radius:999px;border:1.5px solid #3a464d;background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .16s,background .16s">Residencial · 200</button>
+            <button id="btn-simular" type="button" class="hover-cy-lift" style="padding:8px 14px;border-radius:999px;border:0;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-size:14px;font-weight:700;cursor:pointer">Simular prueba</button>
+          </div>
+          <p id="veredicto" style="font-size:15.5px;color:var(--ink-2);margin:22px 0 0;max-width:40ch;line-height:1.55"></p>
+          <a href="#velocidad" style="display:inline-block;margin-top:14px;font-size:15px;font-weight:700">Mide tu velocidad real ahora →</a>
+        </div>
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+            <p style="font-size:14px;font-weight:700;margin:0;color:var(--ink-2)">Una noche cualquiera en tu casa</p>
+            <p id="estado-texto" style="font-size:14px;font-weight:700;margin:0"></p>
+          </div>
+
+          <div style="position:relative;margin:14px 0 34px">
+            <div id="segments-bar" style="display:flex;height:46px;border-radius:8px;overflow:hidden;background:var(--surf-2)"></div>
+            <div id="speed-marker" style="position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--ink);transition:left .3s ease;left:38.05741568185994%"></div>
+            <div id="speed-marker-label" style="position:absolute;top:100%;margin-top:9px;transform:translateX(-50%);white-space:nowrap;font-size:12.5px;font-weight:700;color:var(--ink);transition:left .3s ease;left:38.05741568185994%">tu velocidad</div>
+          </div>
+
+          <div id="activities-list" style="display:flex;flex-direction:column"></div>
+          <p style="font-size:13px;color:var(--ink-3);margin:14px 0 0;line-height:1.5">Consumo aproximado por actividad. Sirve para comparar planes, no como garantía de velocidad.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="planes" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.33s both;font-size:clamp(30px,3.8vw,44px);max-width:20ch">Dos planes, un equipo, y ya.</h2>
+  <p data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.42s both;font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:56ch;line-height:1.55">El plan mensual lo pagas directo a Starlink con impuestos incluidos. El equipo, la instalación y el soporte los ves con nosotros.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:36px">
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.51s both;background:var(--color-surface);border:1px solid var(--line);border-radius:14px;padding:30px;display:flex;flex-direction:column">
+      <h3 style="font-size:23px">Residencial Lite</h3>
+      <p style="font-size:15px;color:var(--ink-2);margin:8px 0 0;line-height:1.5">Casa pequeña, 1 a 3 personas, video y redes sin drama.</p>
+      <div style="display:flex;align-items:baseline;gap:7px;margin:22px 0 0">
+        <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:52px;letter-spacing:-.03em;line-height:1">$40</span>
+        <span style="font-size:15px;color:var(--ink-3);font-weight:600">al mes</span>
+      </div>
+      <div style="height:1px;background:var(--line);margin:24px 0"></div>
+      <ul style="list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:11px;font-size:15.5px;color:var(--ink-2)">
+        <li>Datos ilimitados, sin corte por consumo</li>
+        <li>Velocidad menor en las horas de más demanda</li>
+        <li>Disponible solo en algunas zonas</li>
+      </ul>
+      <a href="#form" class="hover-border-surf" style="margin-top:auto;text-align:center;background:transparent;color:var(--ink);font-weight:700;font-size:15.5px;padding:13px 20px;border-radius:8px;border:1.5px solid var(--line-2)">Ver si aplica en mi zona</a>
+    </div>
+
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.60s both;background:var(--paper);color:#111c22;border-radius:14px;padding:30px;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h3 style="font-size:23px;color:#111c22">Residencial</h3>
+        <span style="background:#111c22;color:#eef2f4;font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:6px">El que más contratan</span>
+      </div>
+      <p style="font-size:15px;color:#4c5a62;margin:8px 0 0;line-height:1.5">Teletrabajo, clases en línea y streaming para toda la casa.</p>
+      <div style="display:flex;align-items:baseline;gap:7px;margin:22px 0 0">
+        <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:52px;letter-spacing:-.03em;line-height:1;color:#111c22">$45</span>
+        <span style="font-size:15px;color:#77848b;font-weight:600">al mes</span>
+      </div>
+      <div style="height:1px;background:rgba(17,28,34,.14);margin:24px 0"></div>
+      <ul style="list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:11px;font-size:15.5px;color:#4c5a62">
+        <li>Datos ilimitados sin reducción en hora pico</li>
+        <li>Hasta 128 dispositivos conectados a la vez</li>
+        <li>Latencia de 20 a 60 ms para videollamadas</li>
+      </ul>
+      <a href="#form" class="hover-dark-lift" style="margin-top:auto;text-align:center;background:#111c22;color:#fff;font-weight:700;font-size:15.5px;padding:13px 20px;border-radius:8px">Quiero este plan</a>
+    </div>
+  </div>
+
+  <div data-2col data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.69s both;margin-top:18px;background:var(--color-surface);border:1px solid var(--line);border-left:none;border-right:none;border-radius:14px;padding:26px 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center">
+    <div>
+      <h3 style="font-size:20px">El equipo se paga una sola vez, desde $200</h3>
+      <p style="font-size:15.5px;color:var(--ink-2);margin:7px 0 0;max-width:62ch;line-height:1.5">Kit Mini para fincas y espacios chicos, Kit Estándar para casas con más consumo. Incluye antena, router, soporte y cables, con stock aquí en Ecuador. La instalación y la activación van por nuestra cuenta.</p>
+    </div>
+    <a href="#" class="js-wa-generic hover-cy-lift" target="_blank" rel="noopener" style="flex:none;background:var(--cy);color:#06181f;font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px;white-space:nowrap">Cotizar el equipo</a>
+  </div>
+  <p style="font-size:13.5px;color:var(--ink-3);margin:14px 0 0">Precios en dólares con impuestos incluidos. Starlink puede cambiarlos sin aviso previo.</p>
+</section>
+
+<section id="cobertura" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:52px;align-items:center">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.78s both;font-size:clamp(30px,3.8vw,44px);max-width:16ch">¿Llegamos hasta tu casa?</h2>
+      <p style="font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:52ch;line-height:1.55">Starlink no depende de postes ni de fibra, así que casi siempre la respuesta es sí. Estas son algunas zonas donde ya tenemos antenas funcionando.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:24px">
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Otavalo</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Peguche</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Ilumán</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">San Pablo del Lago</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Cotacachi</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Atuntaqui</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Ibarra</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">González Suárez</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Pimampiro</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">Urcuquí</span>
+        <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">y el resto del país</span>
+      </div>
+      <a href="#form" class="hover-cy-lift" style="display:inline-block;margin-top:28px;background:var(--cy);color:#06181f;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px">Consultar mi dirección</a>
+    </div>
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.87s both;position:relative;height:340px;border-radius:14px;overflow:hidden" class="photo-slot">
+      <div class="photo-slot__inner">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5.2-5.2a1 1 0 0 0-1.4 0L6 19"></path></svg>
+        <span>Foto: técnico de INEXT instalando una antena</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="instalacion" style="scroll-margin-top:76px;margin-top:78px;background:var(--paper);color:#111c22">
+  <div style="max-width:1160px;margin:0 auto;padding:76px 22px">
+    <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.96s both;font-size:clamp(30px,3.8vw,44px);max-width:22ch;color:#111c22">Tú no tienes que entender nada de satélites.</h2>
+    <p style="font-size:17px;color:#4c5a62;margin:14px 0 0;max-width:56ch;line-height:1.55">Nosotros nos encargamos de todo lo técnico. Tú solo abres la puerta y después enciendes el WiFi.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:34px;margin-top:46px">
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.05s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Confirmamos tu zona</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Con tu provincia y sector revisamos disponibilidad y te decimos qué plan te conviene de verdad.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.14s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Traemos el equipo</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Tenemos kits en stock en Ecuador, así que no esperas importación ni pagas aranceles sorpresa.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.23s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Instalamos y probamos</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Buscamos el punto con mejor vista al cielo, montamos la antena y medimos la velocidad contigo presente.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.32s both;border-top:2px solid #1387b3;padding-top:16px">
+        <h4 style="font-size:18px">Nos quedamos contigo</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Cambio de plan, mudanza, dudas de la factura: nos escribes al WhatsApp y lo resolvemos nosotros.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:52px;align-items:center">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.41s both;font-size:clamp(26px,3.2vw,38px);max-width:18ch">Somos de aquí, y eso se nota cuando algo falla.</h2>
+      <p style="font-size:16.5px;color:var(--ink-2);margin:16px 0 0;max-width:54ch;line-height:1.6">INEXT tiene oficina en Otavalo, en Abdón Calderón 7-10 y Av. 31 de Octubre. Cuando necesitas ayuda no hablas con un centro de llamadas en otro país: hablas con la misma gente que te instaló la antena.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px">
+        <a href="#" class="js-wa-generic hover-cy-lift" target="_blank" rel="noopener" style="background:var(--cy);color:#06181f;font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px">096 909 3580</a>
+        <a href="https://instagram.com/inext.internet" target="_blank" rel="noopener" class="hover-border" style="background:transparent;color:var(--ink);font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px;border:1.5px solid var(--line-2)">@inext.internet</a>
+      </div>
+    </div>
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.50s both;position:relative;height:300px;border-radius:12px;overflow:hidden" class="photo-slot">
+      <div class="photo-slot__inner">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5.2-5.2a1 1 0 0 0-1.4 0L6 19"></path></svg>
+        <span>Foto: el equipo de INEXT o la oficina en Otavalo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:52px;align-items:start">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.59s both;font-size:clamp(30px,3.8vw,44px)">Preguntas frecuentes.</h2>
+      <p style="font-size:16.5px;color:var(--ink-2);margin:14px 0 0;line-height:1.55">¿Falta la tuya? Escríbenos y te contestamos en minutos, sin formularios eternos.</p>
+    </div>
+    <div id="faq-list" data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.68s both;border-top:1px solid var(--line)"></div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col data-pad data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.77s both;background:var(--cy);border-radius:16px;padding:56px 44px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center">
+    <div>
+      <h2 style="font-size:clamp(28px,3.6vw,42px);color:#06181f;max-width:20ch">Cuéntanos dónde vives y te decimos si llegamos.</h2>
+      <p style="font-size:17px;color:#0a2b38;margin:14px 0 0;max-width:48ch;line-height:1.55">Un minuto de tu tiempo. Sin llamadas insistentes ni letra chica.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="#form" class="hover-ctadark" style="text-align:center;background:#06181f;color:#fff;font-weight:700;font-size:16px;padding:15px 26px;border-radius:8px;white-space:nowrap">Revisar cobertura</a>
+      <a href="#" class="js-wa-generic hover-cyanborder" target="_blank" rel="noopener" style="text-align:center;background:transparent;color:#06181f;font-weight:700;font-size:16px;padding:14px 26px;border-radius:8px;border:1.5px solid rgba(6,24,31,.4);white-space:nowrap">Hablar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:78px;border-top:1px solid var(--line)">
+  <div style="max-width:1160px;margin:0 auto;padding:48px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:44px">
+    <div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <img src="assets/inext-mark-cyan.png" alt="INEXT" style="width:28px;height:28px;display:block">
+        <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;letter-spacing:.06em">INEXT</span>
+        <span style="font-size:9px;line-height:1.1;letter-spacing:.16em;color:var(--ink-3);font-weight:700;text-transform:uppercase">Ultra<br>Conexión</span>
+      </div>
+      <p style="font-size:14.5px;margin:16px 0 0;max-width:36ch;line-height:1.6;color:var(--ink-2)">Instalación y soporte de internet satelital en Otavalo e Imbabura. El servicio lo provee Starlink, de SpaceX.</p>
+    </div>
+    <div>
+      <p style="font-size:14px;font-weight:700;margin:0 0 12px">Contacto</p>
+      <div style="display:flex;flex-direction:column;gap:9px;font-size:15px">
+        <a href="#" class="js-wa-generic hover-ink" target="_blank" rel="noopener" style="color:var(--ink-2)">WhatsApp 096 909 3580</a>
+        <a href="https://instagram.com/inext.internet" target="_blank" rel="noopener" class="hover-ink" style="color:var(--ink-2)">@inext.internet</a>
+        <span style="color:var(--ink-3)">Abdón Calderón 7-10 y Av. 31 de Octubre, Otavalo</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:14px;font-weight:700;margin:0 0 12px">Secciones</p>
+      <div style="display:flex;flex-direction:column;gap:9px;font-size:15px">
+        <a href="#planes" class="hover-ink" style="color:var(--ink-2)">Planes</a>
+        <a href="#cobertura" class="hover-ink" style="color:var(--ink-2)">Cobertura</a>
+        <a href="#instalacion" class="hover-ink" style="color:var(--ink-2)">Instalación</a>
+        <a href="#faq" class="hover-ink" style="color:var(--ink-2)">Preguntas</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1160px;margin:0 auto;padding:0 22px 36px;font-size:13px;color:var(--ink-3)">© 2026 INEXT Ultra Conexión. Starlink es una marca de SpaceX. INEXT es un distribuidor independiente.</div>
+</footer>
+
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

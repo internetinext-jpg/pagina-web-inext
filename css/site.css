@@ -1,0 +1,81 @@
+:root{
+  --color-bg:#12181c; --color-surface:#1b2328; --surf-2:#232c32; --color-text:#eef2f4;
+  --ink:#eef2f4; --ink-2:#a8b5bb; --ink-3:#7c8991;
+  --line:#2c363c; --line-2:#3a464d;
+  --cy:#21b5ea; --cy-dim:#154e66; --cy-soft:#0f2f3d; --cy-text:#7fd4f4;
+  --sage:#c2ddb4; --paper:#eef2f4;
+  --color-accent:#21b5ea;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--color-bg);color:var(--ink);font-family:"Karla",system-ui,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin:0}
+a{color:var(--cy-text);text-decoration:none}
+a:hover{color:#a9e3f8}
+::selection{background:#154e66}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+img{max-width:100%}
+
+@keyframes inx-flow{to{stroke-dashoffset:-320}}
+@keyframes inx-line{from{opacity:0;transform:translateY(.5em);clip-path:inset(0 0 58% 0)}to{opacity:1;transform:none;clip-path:inset(-8% -2% -8% -2%)}}
+@keyframes inx-up{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes inx-down{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes inx-pop{from{opacity:0;transform:scale(.955) translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}[data-reveal]{opacity:1!important}}
+
+input[type=range]{accent-color:#21b5ea}
+
+@media (max-width:860px){
+  [data-2col]{grid-template-columns:minmax(0,1fr)!important;gap:34px!important}
+  [data-nav]{display:none!important}
+  [data-pad]{padding:26px!important}
+}
+
+/* Hover recipes — the base look for each element lives in its inline style;
+   these only add the delta that :hover needs (inline styles can't express hover). */
+.hover-ink,
+.hover-cy-lift,
+.hover-wa-outline,
+.hover-border,
+.hover-border-surf,
+.hover-dark-lift,
+.hover-ctadark,
+.hover-cyanborder,
+.hover-faq,
+button[data-uso],
+button[data-tamano],
+button[data-preset],
+.icon-btn{
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease;
+}
+.hover-ink:hover{color:var(--ink)}
+.hover-cy-lift:hover{background:#4cc6f0;transform:translateY(-2px)}
+.hover-wa-outline:hover{border-color:var(--ink-2);background:#1b2328}
+.hover-border:hover{border-color:var(--ink-2)}
+.hover-border-surf:hover{border-color:var(--ink-2);background:var(--surf-2)}
+.hover-dark-lift:hover{background:#28363d;transform:translateY(-2px)}
+.hover-ctadark:hover{background:#123039}
+.hover-cyanborder:hover{border-color:#06181f}
+.hover-faq:hover{color:var(--cy)}
+.icon-btn:hover{border-color:var(--ink-2);background:var(--surf-2)}
+
+/* Photo placeholders — stand-ins until real photos replace them. */
+.photo-slot{background:var(--surf-2);border:1px solid var(--line)}
+.photo-slot__inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;color:var(--ink-3);font-size:14px;font-weight:600;line-height:1.4}
+.photo-slot__inner svg{opacity:.55}
+
+/* FAQ accordion */
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-question{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 2px;background:none;border:0;cursor:pointer;color:var(--ink);font-family:Archivo,sans-serif;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.faq-sign{flex:none;font-size:22px;font-weight:400;color:var(--ink-3);line-height:1}
+.faq-answer{font-size:16px;color:var(--ink-2);margin:0;padding:0 46px 22px 2px;line-height:1.6;max-width:72ch;text-wrap:pretty}
+
+/* Load-calculator rows */
+.activity-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.activity-dot{width:10px;height:10px;border-radius:3px}
+.activity-label{font-size:15.5px;font-weight:600}
+.activity-detail{font-size:12.5px;color:var(--ink-3)}
+.activity-subtotal{font-size:13.5px;color:var(--ink-3);font-weight:600;white-space:nowrap}
+.activity-controls{display:flex;align-items:center;gap:4px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line-2);background:transparent;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;font-family:Karla,sans-serif}
+.activity-count{min-width:22px;text-align:center;font-family:Archivo,sans-serif;font-weight:700;font-size:17px}

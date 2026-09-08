@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-8ec02322-83db-46b9-a1bc-ccea4bbafbc7/styles.css">
+<script src="_ds/nocturne-8ec02322-83db-46b9-a1bc-ccea4bbafbc7/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&display=swap">
+<style>
+:root{
+  --color-bg:#12181c; --color-surface:#1b2328; --surf-2:#232c32; --color-text:#eef2f4;
+  --ink:#eef2f4; --ink-2:#a8b5bb; --ink-3:#7c8991;
+  --line:#2c363c; --line-2:#3a464d;
+  --cy:#21b5ea; --cy-dim:#154e66; --cy-soft:#0f2f3d; --cy-text:#7fd4f4;
+  --sage:#c2ddb4; --paper:#eef2f4;
+  --color-accent:#21b5ea;
+  --color-neutral-100:#f7f9fa; --color-neutral-200:#e9eef0; --color-neutral-300:#c9d3d8;
+  --color-neutral-400:#a8b5bb; --color-neutral-500:#7c8991; --color-neutral-600:#5c686f;
+  --color-neutral-700:#3a464d; --color-neutral-800:#2c363c; --color-neutral-900:#1b2328;
+  --color-divider:#2c363c;
+  --font-heading:"Archivo",system-ui,sans-serif; --font-heading-weight:700;
+  --font-body:"Karla",system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--color-bg);color:var(--ink);font-family:"Karla",system-ui,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin:0}
+a{color:var(--cy-text);text-decoration:none}
+a:hover{color:#a9e3f8}
+::selection{background:#154e66}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+image-slot{--slot-bg:#232c32}
+@keyframes inx-flow{to{stroke-dashoffset:-320}}
+@keyframes inx-line{from{opacity:0;transform:translateY(.5em);clip-path:inset(0 0 58% 0)}to{opacity:1;transform:none;clip-path:inset(-8% -2% -8% -2%)}}
+@keyframes inx-up{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes inx-down{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes inx-pop{from{opacity:0;transform:scale(.955) translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}[data-reveal]{opacity:1!important}}
+input[type=range]{accent-color:#21b5ea}
+@media (max-width:860px){
+  [data-2col]{grid-template-columns:minmax(0,1fr)!important;gap:34px!important}
+  [data-nav]{display:none!important}
+  [data-pad]{padding:26px!important}
+}
+</style>
+</helmet>
+
+<div>
+
+<header style="animation:inx-down .7s cubic-bezier(.16,1,.3,1) both;position:sticky;top:0;z-index:50;background:rgba(18,24,28,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)">
+  <div style="max-width:1160px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:22px">
+    <a href="#top" style="display:flex;align-items:center;gap:9px;flex:none;color:var(--ink)">
+      <img src="assets/inext-mark-cyan.png" alt="INEXT" style="width:30px;height:30px;display:block">
+      <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:20px;letter-spacing:.06em">INEXT</span>
+    </a>
+    <nav data-nav style="display:flex;gap:22px;margin-left:auto;font-size:15px;font-weight:500">
+      <a href="#planes" style="color:var(--ink-2)" style-hover="color:var(--ink)">Planes</a>
+      <a href="#cobertura" style="color:var(--ink-2)" style-hover="color:var(--ink)">Cobertura</a>
+      <a href="#instalacion" style="color:var(--ink-2)" style-hover="color:var(--ink)">Instalación</a>
+      <a href="INEXT%20Prueba%20de%20Velocidad.dc.html" style="color:var(--ink-2)" style-hover="color:var(--ink)">Prueba de velocidad</a>
+      <a href="#faq" style="color:var(--ink-2)" style-hover="color:var(--ink)">Preguntas</a>
+    </nav>
+    <a href="{{ waPlain }}" target="_blank" rel="noopener" style="flex:none;background:var(--cy);color:#06181f;font-weight:700;font-size:15px;padding:10px 18px;border-radius:8px" style-hover="background:#4cc6f0;transform:translateY(-2px)">Hablemos</a>
+  </div>
+</header>
+
+<section id="top" style="max-width:1160px;margin:0 auto;padding:60px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:52px;align-items:start">
+    <div style="padding-top:14px">
+      <h1 style="font-size:clamp(40px,5.4vw,64px)"><span style="display:block;animation:inx-line .84s cubic-bezier(.16,1,.3,1) .06s both">Internet donde vives.</span><span style="display:block;animation:inx-line .84s cubic-bezier(.16,1,.3,1) .17s both">Aunque vivas lejos.</span></h1>
+      <p style="animation:inx-up .72s cubic-bezier(.16,1,.3,1) .3s both;font-size:20px;color:var(--ink-2);max-width:34ch;margin:20px 0 0;line-height:1.5;text-wrap:pretty">Sí, incluso en la loma. Instalamos Starlink en Otavalo, Imbabura y todo el Ecuador, y te lo dejamos andando el mismo día.</p>
+      <ul style="list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:11px;font-size:16.5px;color:var(--ink-2)">
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.44s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Sin contrato de permanencia</span></li>
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.52s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Equipo con stock aquí, sin esperar importación</span></li>
+        <li style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) 0.6s both;display:flex;gap:11px"><span style="color:var(--cy);font-weight:700">✓</span><span>Soporte con técnicos de Otavalo, no con un call center</span></li>
+      </ul>
+      <div style="animation:inx-up .62s cubic-bezier(.16,1,.3,1) .7s both;display:flex;flex-wrap:wrap;gap:10px;margin-top:30px">
+        <a href="{{ waPlain }}" target="_blank" rel="noopener" style="background:transparent;color:var(--ink);font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px;border:1.5px solid var(--line-2)" style-hover="border-color:var(--ink-2);background:#1b2328">Prefiero escribir por WhatsApp</a>
+      </div>
+    </div>
+
+    <div id="form" style="scroll-margin-top:90px">
+      <div style="animation:inx-pop .9s cubic-bezier(.16,1,.3,1) .5s both;background:var(--color-surface);border:1px solid var(--line);border-radius:14px;padding:28px">
+        <sc-if value="{{ notDone }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <h3 style="font-size:22px">Revisa tu cobertura</h3>
+            <span style="font-size:13.5px;color:var(--ink-3);font-weight:600">{{ stepLabel }}/3</span>
+          </div>
+          <p style="font-size:14.5px;color:var(--ink-2);margin:7px 0 0">Toma menos de un minuto y no te compromete a nada.</p>
+          <div style="height:3px;background:var(--line-2);border-radius:3px;margin:20px 0 22px;overflow:hidden">
+            <div style="height:100%;background:var(--cy);border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1);width:{{ progressPct }}"></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-prov" style="font-size:14px;font-weight:700">Provincia</label>
+              <select id="inx-prov" value="{{ provincia }}" onChange="{{ onProvincia }}" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+                <option value="">Elige tu provincia</option>
+                <sc-for list="{{ provincias }}" as="p" hint-placeholder-count="4">
+                  <option value="{{ p }}">{{ p }}</option>
+                </sc-for>
+              </select>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-loc" style="font-size:14px;font-weight:700">Cantón, parroquia o sector</label>
+              <input id="inx-loc" type="text" placeholder="Por ejemplo: Peguche, Otavalo" value="{{ sector }}" onChange="{{ onSector }}" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <sc-if value="{{ err1 }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:14px;color:#ffa79b;margin:0;font-weight:500">{{ err1 }}</p>
+            </sc-if>
+            <button onClick="{{ next }}" style="background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer;width:100%" style-hover="background:#4cc6f0;transform:translateY(-2px)">Continuar</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div>
+              <p style="font-size:14px;font-weight:700;margin:0 0 10px">¿Para qué lo vas a usar?</p>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+                <sc-for list="{{ usos }}" as="u" hint-placeholder-count="4">
+                  <button onClick="{{ u.pick }}" style="text-align:left;padding:13px 14px;border-radius:8px;border:1.5px solid {{ u.border }};background:{{ u.bg }};color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">{{ u.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:14px;font-weight:700;margin:0 0 10px">¿Cuántas personas se conectan?</p>
+              <div style="display:flex;gap:8px">
+                <sc-for list="{{ tamanos }}" as="t" hint-placeholder-count="3">
+                  <button onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="flex:1;padding:12px;border-radius:8px;border:1.5px solid {{ t.border }};background:{{ t.bg }};color:var(--ink);cursor:pointer;font-family:Karla,sans-serif;font-size:15px;font-weight:600;transition:border-color .16s,background .16s">{{ t.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ err2 }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:14px;color:#ffa79b;margin:0;font-weight:500">{{ err2 }}</p>
+            </sc-if>
+            <div style="display:flex;gap:9px">
+              <button onClick="{{ back }}" style="background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px 20px;border-radius:8px;border:1.5px solid var(--line-2);cursor:pointer" style-hover="border-color:var(--ink-2)">Atrás</button>
+              <button onClick="{{ next }}" style="flex:1;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer" style-hover="background:#4cc6f0;transform:translateY(-2px)">Continuar</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-nom" style="font-size:14px;font-weight:700">¿Cómo te llamas?</label>
+              <input id="inx-nom" type="text" placeholder="Nombre y apellido" value="{{ nombre }}" onChange="{{ onNombre }}" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <label for="inx-tel" style="font-size:14px;font-weight:700">Tu WhatsApp</label>
+              <input id="inx-tel" type="tel" inputmode="tel" placeholder="09XX XXX XXX" value="{{ telefono }}" onChange="{{ onTelefono }}" style="font-family:Karla,sans-serif;font-size:16px;padding:12px 13px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surf-2);color:var(--ink);width:100%">
+            </div>
+            <sc-if value="{{ err3 }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:14px;color:#ffa79b;margin:0;font-weight:500">{{ err3 }}</p>
+            </sc-if>
+            <div style="display:flex;gap:9px">
+              <button onClick="{{ back }}" style="background:transparent;color:var(--ink);font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px 20px;border-radius:8px;border:1.5px solid var(--line-2);cursor:pointer" style-hover="border-color:var(--ink-2)">Atrás</button>
+              <button onClick="{{ next }}" style="flex:1;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-weight:700;font-size:16px;padding:14px;border-radius:8px;border:0;cursor:pointer" style-hover="background:#4cc6f0;transform:translateY(-2px)">Ver mi resultado</button>
+            </div>
+            <p style="font-size:13px;color:var(--ink-3);margin:0;line-height:1.5">Usamos tus datos solo para contactarte por este servicio.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <h3 style="font-size:22px">Sí llegamos a {{ destino }}</h3>
+            <p style="font-size:15px;color:var(--ink-2);margin:8px 0 0;line-height:1.5">Hay cobertura activa en tu zona. Esto es lo que te recomendamos según lo que nos contaste.</p>
+            <div style="margin-top:20px;background:var(--cy-soft);border:1px solid var(--cy-dim);border-radius:10px;padding:20px">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">{{ recPlan }}</span>
+                <span style="font-size:16px;font-weight:700;color:var(--cy)">{{ recPrecio }}</span>
+              </div>
+              <p style="font-size:15px;color:#b9dced;margin:9px 0 0;line-height:1.5">{{ recPorque }}</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+              <a href="{{ waLink }}" target="_blank" rel="noopener" style="text-align:center;background:var(--cy);color:#06181f;font-weight:700;font-size:16px;padding:14px;border-radius:8px" style-hover="background:#4cc6f0;transform:translateY(-2px)">Enviar mis datos por WhatsApp</a>
+              <a href="{{ referralLink }}" target="_blank" rel="noopener" style="text-align:center;background:transparent;color:var(--ink);font-weight:700;font-size:16px;padding:13px;border-radius:8px;border:1.5px solid var(--line-2)" style-hover="border-color:var(--ink-2)">Contratar en línea</a>
+              <button onClick="{{ reset }}" style="background:none;border:0;color:var(--ink-3);font-family:Karla,sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;padding:6px" style-hover="color:var(--ink)">Consultar otra dirección</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:56px auto 0;padding:0 22px">
+  <div style="animation:inx-pop 1s cubic-bezier(.16,1,.3,1) .78s both;position:relative;height:clamp(240px,32vw,400px);border-radius:16px;overflow:hidden">
+    <image-slot id="inx3-hero" shape="rounded" radius="16" placeholder="Foto ancha: antena Starlink instalada en una casa de la sierra"></image-slot>
+  </div>
+</section>
+
+<section data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.15s both;margin-top:56px;background:var(--sage);color:#1d3018">
+  <div style="max-width:1160px;margin:0 auto;padding:30px 22px;display:flex;flex-wrap:wrap;gap:14px 44px;align-items:baseline;font-family:Archivo,sans-serif;font-weight:600;font-size:clamp(18px,2.1vw,25px);letter-spacing:-.015em">
+    <span>Más rápido. Hasta 200 Mbps.</span>
+    <span style="opacity:.42">/</span>
+    <span>Más libre. Sin cláusulas.</span>
+    <span style="opacity:.42">/</span>
+    <span>Más cerca. Técnicos de Otavalo.</span>
+  </div>
+</section>
+
+<section id="velocidad" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-pad data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.24s both;position:relative;background:var(--color-surface);border:1px solid var(--line);border-radius:16px;padding:44px;overflow:hidden">
+    <svg viewBox="0 0 420 420" aria-hidden="true" style="position:absolute;right:-70px;bottom:-90px;width:460px;height:460px;pointer-events:none">
+      <g fill="none" stroke="#21b5ea" stroke-linecap="round">
+        <path d="M90 400 A 70 70 0 0 0 20 330" stroke-width="3" opacity=".55" stroke-dasharray="10 16" style="animation:inx-flow 2.4s linear infinite"></path>
+        <path d="M140 400 A 120 120 0 0 0 20 280" stroke-width="3" opacity=".45" stroke-dasharray="10 18" style="animation:inx-flow 3.1s linear infinite"></path>
+        <path d="M190 400 A 170 170 0 0 0 20 230" stroke-width="3" opacity=".36" stroke-dasharray="10 20" style="animation:inx-flow 3.8s linear infinite"></path>
+        <path d="M240 400 A 220 220 0 0 0 20 180" stroke-width="3" opacity=".28" stroke-dasharray="10 22" style="animation:inx-flow 4.5s linear infinite"></path>
+        <path d="M290 400 A 270 270 0 0 0 20 130" stroke-width="3" opacity=".2" stroke-dasharray="10 24" style="animation:inx-flow 5.2s linear infinite"></path>
+        <path d="M340 400 A 320 320 0 0 0 20 80" stroke-width="3" opacity=".13" stroke-dasharray="10 26" style="animation:inx-flow 6s linear infinite"></path>
+      </g>
+    </svg>
+
+    <div style="position:relative">
+      <h2 style="font-size:clamp(28px,3.4vw,40px);max-width:20ch">¿200 Mbps es mucho? Míralo en cosas de verdad.</h2>
+      <p style="font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:54ch;line-height:1.55">Mueve la barra y mira cuántas cosas aguanta tu casa al mismo tiempo, sin que nadie se quede pegado.</p>
+
+      <div data-2col style="display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:48px;margin-top:38px;align-items:start">
+        <div>
+          <div style="position:relative;max-width:340px;margin:0 auto">
+            <svg viewBox="0 0 300 268" style="width:100%;display:block;overflow:visible">
+              <defs>
+                <linearGradient id="inxgauge" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#1387b3"></stop>
+                  <stop offset=".45" stop-color="#21b5ea"></stop>
+                  <stop offset=".78" stop-color="#7fd4f4"></stop>
+                  <stop offset="1" stop-color="#c2ddb4"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M75.75 224.25 A105 105 0 1 1 224.25 224.25" fill="none" stroke="#2c363c" stroke-width="16" stroke-linecap="round"></path>
+              <path d="M75.75 224.25 A105 105 0 1 1 224.25 224.25" fill="none" stroke="url(#inxgauge)" stroke-width="16" stroke-linecap="round" stroke-dasharray="494.8" style="transition:stroke-dashoffset .35s ease;stroke-dashoffset:{{ arcOffset }}"></path>
+              <g stroke="#5c686f" stroke-width="2" stroke-linecap="round">
+                <line x1="66.5" y1="233.4" x2="59.4" y2="240.5"></line>
+                <line x1="33.5" y1="131.5" x2="23.6" y2="129.9"></line>
+                <line x1="96.4" y1="44.9" x2="91.8" y2="35.9"></line>
+                <line x1="203.6" y1="44.9" x2="208.2" y2="35.9"></line>
+                <line x1="266.5" y1="131.5" x2="276.4" y2="129.9"></line>
+                <line x1="233.4" y1="233.4" x2="240.5" y2="240.5"></line>
+              </g>
+              <g fill="#7c8991" font-family="Karla, sans-serif" font-size="12" font-weight="600" text-anchor="middle">
+                <text x="52" y="256">0</text>
+                <text x="14" y="126">50</text>
+                <text x="88" y="26">100</text>
+                <text x="212" y="26">150</text>
+                <text x="286" y="126">200</text>
+                <text x="248" y="256">250</text>
+              </g>
+              <g transform="{{ needleRot }}">
+                <line x1="150" y1="150" x2="236" y2="150" stroke="#eef2f4" stroke-width="3" stroke-linecap="round"></line>
+              </g>
+              <circle cx="150" cy="150" r="7" fill="#12181c" stroke="#eef2f4" stroke-width="2.5"></circle>
+            </svg>
+            <div style="position:absolute;left:0;right:0;top:65%;text-align:center;pointer-events:none">
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.04em;line-height:1">{{ shownMbps }}</div>
+              <div style="font-size:13px;font-weight:600;color:var(--ink-3);margin-top:2px">Mbps de bajada</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:18px">
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--cy);letter-spacing:.02em">Bajada</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px">{{ shownMbps }} <span style="font-size:12px;color:var(--ink-3);font-weight:600">Mbps</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:#c2ddb4;letter-spacing:.02em">Subida</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px">{{ subida }} <span style="font-size:12px;color:var(--ink-3);font-weight:600">Mbps</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.02em">Ping</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px">{{ ping }} <span style="font-size:12px;color:var(--ink-3);font-weight:600">ms</span></div>
+            </div>
+            <div style="background:var(--surf-2);border-radius:10px;padding:13px 15px">
+              <div style="font-size:12px;font-weight:700;color:var(--ink-3);letter-spacing:.02em">Pérdida</div>
+              <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:22px;margin-top:3px">{{ perdida }} <span style="font-size:12px;color:var(--ink-3);font-weight:600">%</span></div>
+            </div>
+          </div>
+
+          <input type="range" min="5" max="250" step="5" value="{{ mbps }}" onChange="{{ onMbps }}" aria-label="Velocidad en Mbps" style="width:100%;margin:24px 0 0;height:6px;cursor:pointer">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <sc-for list="{{ presets }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.pick }}" style="padding:8px 14px;border-radius:999px;border:1.5px solid {{ p.border }};background:{{ p.bg }};color:var(--ink);font-family:Karla,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .16s,background .16s">{{ p.label }}</button>
+            </sc-for>
+            <button onClick="{{ simular }}" style="padding:8px 14px;border-radius:999px;border:0;background:var(--cy);color:#06181f;font-family:Karla,sans-serif;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#4cc6f0;transform:translateY(-2px)">Simular prueba</button>
+          </div>
+          <p style="font-size:15.5px;color:var(--ink-2);margin:22px 0 0;max-width:40ch;line-height:1.55">{{ veredicto }}</p>
+          <a href="INEXT%20Prueba%20de%20Velocidad.dc.html" style="display:inline-block;margin-top:14px;font-size:15px;font-weight:700">Mide tu velocidad real ahora →</a>
+        </div>
+
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+            <p style="font-size:14px;font-weight:700;margin:0;color:var(--ink-2)">Una noche cualquiera en tu casa</p>
+            <p style="font-size:14px;font-weight:700;margin:0;color:{{ estadoColor }}">{{ estadoTexto }}</p>
+          </div>
+
+          <div style="position:relative;margin:14px 0 34px">
+            <div style="display:flex;height:46px;border-radius:8px;overflow:hidden;background:var(--surf-2)">
+              <sc-for list="{{ segmentos }}" as="g" hint-placeholder-count="5">
+                <div style="height:100%;background:{{ g.color }};transition:width .3s ease;width:{{ g.w }}"></div>
+              </sc-for>
+            </div>
+            <div style="position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--ink);transition:left .3s ease;left:{{ speedPct }}"></div>
+            <div style="position:absolute;top:100%;margin-top:9px;transform:translateX(-50%);white-space:nowrap;font-size:12.5px;font-weight:700;color:var(--ink);transition:left .3s ease;left:{{ speedPct }}">tu velocidad</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ filas }}" as="f" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:10px minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)">
+                <span style="width:10px;height:10px;border-radius:3px;background:{{ f.color }}"></span>
+                <div>
+                  <div style="font-size:15.5px;font-weight:600">{{ f.label }}</div>
+                  <div style="font-size:12.5px;color:var(--ink-3)">{{ f.detalle }}</div>
+                </div>
+                <span style="font-size:13.5px;color:var(--ink-3);font-weight:600;white-space:nowrap">{{ f.subtotal }}</span>
+                <div style="display:flex;align-items:center;gap:4px">
+                  <button onClick="{{ f.dec }}" aria-label="Quitar uno" style="width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line-2);background:transparent;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;font-family:Karla,sans-serif" style-hover="border-color:var(--ink-2);background:var(--surf-2)">−</button>
+                  <span style="min-width:22px;text-align:center;font-family:Archivo,sans-serif;font-weight:700;font-size:17px">{{ f.count }}</span>
+                  <button onClick="{{ f.inc }}" aria-label="Agregar uno" style="width:30px;height:30px;border-radius:7px;border:1.5px solid var(--line-2);background:transparent;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;font-family:Karla,sans-serif" style-hover="border-color:var(--ink-2);background:var(--surf-2)">+</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <p style="font-size:13px;color:var(--ink-3);margin:14px 0 0;line-height:1.5">Consumo aproximado por actividad. Sirve para comparar planes, no como garantía de velocidad.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="planes" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.33s both;font-size:clamp(30px,3.8vw,44px);max-width:20ch">Dos planes, un equipo, y ya.</h2>
+  <p data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.42s both;font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:56ch;line-height:1.55">El plan mensual lo pagas directo a Starlink con impuestos incluidos. El equipo, la instalación y el soporte los ves con nosotros.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:36px">
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.51s both;background:var(--color-surface);border:1px solid var(--line);border-radius:14px;padding:30px;display:flex;flex-direction:column">
+      <h3 style="font-size:23px">Residencial Lite</h3>
+      <p style="font-size:15px;color:var(--ink-2);margin:8px 0 0;line-height:1.5">Casa pequeña, 1 a 3 personas, video y redes sin drama.</p>
+      <div style="display:flex;align-items:baseline;gap:7px;margin:22px 0 0">
+        <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:52px;letter-spacing:-.03em;line-height:1">$40</span>
+        <span style="font-size:15px;color:var(--ink-3);font-weight:600">al mes</span>
+      </div>
+      <div style="height:1px;background:var(--line);margin:24px 0"></div>
+      <ul style="list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:11px;font-size:15.5px;color:var(--ink-2)">
+        <li>Datos ilimitados, sin corte por consumo</li>
+        <li>Velocidad menor en las horas de más demanda</li>
+        <li>Disponible solo en algunas zonas</li>
+      </ul>
+      <a href="#form" style="margin-top:auto;text-align:center;background:transparent;color:var(--ink);font-weight:700;font-size:15.5px;padding:13px 20px;border-radius:8px;border:1.5px solid var(--line-2)" style-hover="border-color:var(--ink-2);background:var(--surf-2)">Ver si aplica en mi zona</a>
+    </div>
+
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.60s both;background:var(--paper);color:#111c22;border-radius:14px;padding:30px;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h3 style="font-size:23px;color:#111c22">Residencial</h3>
+        <span style="background:#111c22;color:#eef2f4;font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:6px">El que más contratan</span>
+      </div>
+      <p style="font-size:15px;color:#4c5a62;margin:8px 0 0;line-height:1.5">Teletrabajo, clases en línea y streaming para toda la casa.</p>
+      <div style="display:flex;align-items:baseline;gap:7px;margin:22px 0 0">
+        <span style="font-family:Archivo,sans-serif;font-weight:700;font-size:52px;letter-spacing:-.03em;line-height:1;color:#111c22">$45</span>
+        <span style="font-size:15px;color:#77848b;font-weight:600">al mes</span>
+      </div>
+      <div style="height:1px;background:rgba(17,28,34,.14);margin:24px 0"></div>
+      <ul style="list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:11px;font-size:15.5px;color:#4c5a62">
+        <li>Datos ilimitados sin reducción en hora pico</li>
+        <li>Hasta 128 dispositivos conectados a la vez</li>
+        <li>Latencia de 20 a 60 ms para videollamadas</li>
+      </ul>
+      <a href="#form" style="margin-top:auto;text-align:center;background:#111c22;color:#fff;font-weight:700;font-size:15.5px;padding:13px 20px;border-radius:8px" style-hover="background:#28363d;transform:translateY(-2px)">Quiero este plan</a>
+    </div>
+  </div>
+
+  <div data-2col data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.69s both;margin-top:18px;background:var(--color-surface);border:1px solid var(--line);border-left:none;border-right:none;border-radius:14px;padding:26px 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center">
+    <div>
+      <h3 style="font-size:20px">El equipo se paga una sola vez, desde $200</h3>
+      <p style="font-size:15.5px;color:var(--ink-2);margin:7px 0 0;max-width:62ch;line-height:1.5">Kit Mini para fincas y espacios chicos, Kit Estándar para casas con más consumo. Incluye antena, router, soporte y cables, con stock aquí en Ecuador. La instalación y la activación van por nuestra cuenta.</p>
+    </div>
+    <a href="{{ waPlain }}" target="_blank" rel="noopener" style="flex:none;background:var(--cy);color:#06181f;font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px;white-space:nowrap" style-hover="background:#4cc6f0;transform:translateY(-2px)">Cotizar el equipo</a>
+  </div>
+  <p style="font-size:13.5px;color:var(--ink-3);margin:14px 0 0">Precios en dólares con impuestos incluidos. Starlink puede cambiarlos sin aviso previo.</p>
+</section>
+
+<section id="cobertura" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:52px;align-items:center">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.78s both;font-size:clamp(30px,3.8vw,44px);max-width:16ch">¿Llegamos hasta tu casa?</h2>
+      <p style="font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:52ch;line-height:1.55">Starlink no depende de postes ni de fibra, así que casi siempre la respuesta es sí. Estas son algunas zonas donde ya tenemos antenas funcionando.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:24px">
+        <sc-for list="{{ zonas }}" as="z" hint-placeholder-count="8">
+          <span style="background:var(--surf-2);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500;color:var(--ink-2)">{{ z }}</span>
+        </sc-for>
+      </div>
+      <a href="#form" style="display:inline-block;margin-top:28px;background:var(--cy);color:#06181f;font-weight:700;font-size:16px;padding:14px 24px;border-radius:8px" style-hover="background:#4cc6f0;transform:translateY(-2px)">Consultar mi dirección</a>
+    </div>
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.87s both;position:relative;height:340px;border-radius:14px;overflow:hidden">
+      <image-slot id="inx3-tecnico" shape="rounded" radius="14" placeholder="Foto: técnico de INEXT instalando una antena"></image-slot>
+    </div>
+  </div>
+</section>
+
+<section id="instalacion" style="scroll-margin-top:76px;margin-top:78px;background:var(--paper);color:#111c22">
+  <div style="max-width:1160px;margin:0 auto;padding:76px 22px">
+    <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 0.96s both;font-size:clamp(30px,3.8vw,44px);max-width:22ch;color:#111c22">Tú no tienes que entender nada de satélites.</h2>
+    <p style="font-size:17px;color:#4c5a62;margin:14px 0 0;max-width:56ch;line-height:1.55">Nosotros nos encargamos de todo lo técnico. Tú solo abres la puerta y después enciendes el WiFi.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:34px;margin-top:46px">
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.05s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Confirmamos tu zona</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Con tu provincia y sector revisamos disponibilidad y te decimos qué plan te conviene de verdad.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.14s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Traemos el equipo</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Tenemos kits en stock en Ecuador, así que no esperas importación ni pagas aranceles sorpresa.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.23s both;border-top:2px solid #111c22;padding-top:16px">
+        <h4 style="font-size:18px">Instalamos y probamos</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Buscamos el punto con mejor vista al cielo, montamos la antena y medimos la velocidad contigo presente.</p>
+      </div>
+      <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.32s both;border-top:2px solid #1387b3;padding-top:16px">
+        <h4 style="font-size:18px">Nos quedamos contigo</h4>
+        <p style="font-size:15.5px;color:#4c5a62;margin:8px 0 0;line-height:1.55">Cambio de plan, mudanza, dudas de la factura: nos escribes al WhatsApp y lo resolvemos nosotros.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:52px;align-items:center">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.41s both;font-size:clamp(26px,3.2vw,38px);max-width:18ch">Somos de aquí, y eso se nota cuando algo falla.</h2>
+      <p style="font-size:16.5px;color:var(--ink-2);margin:16px 0 0;max-width:54ch;line-height:1.6">INEXT tiene oficina en Otavalo, en Abdón Calderón 7-10 y Av. 31 de Octubre. Cuando necesitas ayuda no hablas con un centro de llamadas en otro país: hablas con la misma gente que te instaló la antena.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px">
+        <a href="{{ waPlain }}" target="_blank" rel="noopener" style="background:var(--cy);color:#06181f;font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px" style-hover="background:#4cc6f0;transform:translateY(-2px)">096 909 3580</a>
+        <a href="https://instagram.com/inext.internet" target="_blank" rel="noopener" style="background:transparent;color:var(--ink);font-weight:700;font-size:15.5px;padding:13px 22px;border-radius:8px;border:1.5px solid var(--line-2)" style-hover="border-color:var(--ink-2)">@inext.internet</a>
+      </div>
+    </div>
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.50s both;position:relative;height:300px;border-radius:12px;overflow:hidden">
+      <image-slot id="inx3-equipo" shape="rounded" radius="12" placeholder="Foto: el equipo de INEXT o la oficina en Otavalo"></image-slot>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="scroll-margin-top:76px;max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col style="display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:52px;align-items:start">
+    <div>
+      <h2 data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.59s both;font-size:clamp(30px,3.8vw,44px)">Preguntas frecuentes.</h2>
+      <p style="font-size:16.5px;color:var(--ink-2);margin:14px 0 0;line-height:1.55">¿Falta la tuya? Escríbenos y te contestamos en minutos, sin formularios eternos.</p>
+    </div>
+    <div data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.68s both;border-top:1px solid var(--line)">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+        <div style="border-bottom:1px solid var(--line)">
+          <button onClick="{{ f.toggle }}" aria-expanded="{{ f.open }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:20px 2px;background:none;border:0;cursor:pointer;color:var(--ink);font-family:Archivo,sans-serif;font-size:18px;font-weight:600;letter-spacing:-.01em" style-hover="color:var(--cy)">
+            <span>{{ f.q }}</span>
+            <span style="flex:none;font-size:22px;font-weight:400;color:var(--ink-3);line-height:1">{{ f.sign }}</span>
+          </button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+            <p style="font-size:16px;color:var(--ink-2);margin:0;padding:0 46px 22px 2px;line-height:1.6;max-width:72ch;text-wrap:pretty">{{ f.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="max-width:1160px;margin:0 auto;padding:78px 22px 0">
+  <div data-2col data-pad data-reveal style="animation:inx-up .7s cubic-bezier(.16,1,.3,1) 1.77s both;background:var(--cy);border-radius:16px;padding:56px 44px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:center">
+    <div>
+      <h2 style="font-size:clamp(28px,3.6vw,42px);color:#06181f;max-width:20ch">Cuéntanos dónde vives y te decimos si llegamos.</h2>
+      <p style="font-size:17px;color:#0a2b38;margin:14px 0 0;max-width:48ch;line-height:1.55">Un minuto de tu tiempo. Sin llamadas insistentes ni letra chica.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <a href="#form" style="text-align:center;background:#06181f;color:#fff;font-weight:700;font-size:16px;padding:15px 26px;border-radius:8px;white-space:nowrap" style-hover="background:#123039">Revisar cobertura</a>
+      <a href="{{ waPlain }}" target="_blank" rel="noopener" style="text-align:center;background:transparent;color:#06181f;font-weight:700;font-size:16px;padding:14px 26px;border-radius:8px;border:1.5px solid rgba(6,24,31,.4);white-space:nowrap" style-hover="border-color:#06181f">Hablar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:78px;border-top:1px solid var(--line)">
+  <div style="max-width:1160px;margin:0 auto;padding:48px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:44px">
+    <div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <img src="assets/inext-mark-cyan.png" alt="INEXT" style="width:28px;height:28px;display:block">
+        <span style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;letter-spacing:.06em">INEXT</span>
+        <span style="font-size:9px;line-height:1.1;letter-spacing:.16em;color:var(--ink-3);font-weight:700;text-transform:uppercase">Ultra<br>Conexión</span>
+      </div>
+      <p style="font-size:14.5px;margin:16px 0 0;max-width:36ch;line-height:1.6;color:var(--ink-2)">Instalación y soporte de internet satelital en Otavalo e Imbabura. El servicio lo provee Starlink, de SpaceX.</p>
+    </div>
+    <div>
+      <p style="font-size:14px;font-weight:700;margin:0 0 12px">Contacto</p>
+      <div style="display:flex;flex-direction:column;gap:9px;font-size:15px">
+        <a href="{{ waPlain }}" target="_blank" rel="noopener" style="color:var(--ink-2)" style-hover="color:var(--ink)">WhatsApp 096 909 3580</a>
+        <a href="https://instagram.com/inext.internet" target="_blank" rel="noopener" style="color:var(--ink-2)" style-hover="color:var(--ink)">@inext.internet</a>
+        <span style="color:var(--ink-3)">Abdón Calderón 7-10 y Av. 31 de Octubre, Otavalo</span>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:14px;font-weight:700;margin:0 0 12px">Secciones</p>
+      <div style="display:flex;flex-direction:column;gap:9px;font-size:15px">
+        <a href="#planes" style="color:var(--ink-2)" style-hover="color:var(--ink)">Planes</a>
+        <a href="#cobertura" style="color:var(--ink-2)" style-hover="color:var(--ink)">Cobertura</a>
+        <a href="#instalacion" style="color:var(--ink-2)" style-hover="color:var(--ink)">Instalación</a>
+        <a href="#faq" style="color:var(--ink-2)" style-hover="color:var(--ink)">Preguntas</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1160px;margin:0 auto;padding:0 22px 36px;font-size:13px;color:var(--ink-3)">© 2026 INEXT Ultra Conexión. Starlink es una marca de SpaceX. INEXT es un distribuidor independiente.</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240}}">
+const PROVINCIAS = ["Azuay","Bolívar","Cañar","Carchi","Chimborazo","Cotopaxi","El Oro","Esmeraldas","Galápagos","Guayas","Imbabura","Loja","Los Ríos","Manabí","Morona Santiago","Napo","Orellana","Pastaza","Pichincha","Santa Elena","Santo Domingo","Sucumbíos","Tungurahua","Zamora Chinchipe"];
+const ZONAS = ["Otavalo","Peguche","Ilumán","San Pablo del Lago","Cotacachi","Atuntaqui","Ibarra","González Suárez","Pimampiro","Urcuquí","y el resto del país"];
+const USOS = [
+  { id:"hogar", label:"La casa, nomás" },
+  { id:"teletrabajo", label:"Teletrabajo o clases" },
+  { id:"negocio", label:"Un negocio" },
+  { id:"finca", label:"Finca o hacienda" }
+];
+const TAMANOS = [
+  { id:"1-3", label:"1 a 3" },
+  { id:"4-6", label:"4 a 6" },
+  { id:"7+", label:"7 o más" }
+];
+const FAQS = [
+  { q:"¿Funciona si no hay fibra ni antenas cerca?", a:"Sí. Starlink se conecta a satélites de órbita baja, no a la red de tu operadora. Lo único que necesita es vista despejada al cielo y luz eléctrica." },
+  { q:"¿Cuánto me demoro en tener internet?", a:"Casi siempre 48 horas desde que confirmas. Coordinamos la visita, montamos la antena, activamos el plan y hacemos la prueba de velocidad contigo mirando." },
+  { q:"¿Y cuando llueve fuerte?", a:"La antena es resistente al agua. En un aguacero muy fuerte la señal puede bajar unos segundos y se recupera sola. En la sierra pasa poco." },
+  { q:"¿Tengo que firmar contrato de permanencia?", a:"No. El plan es mes a mes: lo puedes pausar, subir, bajar o cancelar desde tu cuenta, y nosotros te ayudamos a hacerlo si no te sientes cómodo con la app." },
+  { q:"¿El equipo va aparte del plan mensual?", a:"Sí. El kit es un pago único desde $200 e incluye antena, router, soporte y cables. El plan mensual lo pagas directo a Starlink con tarjeta." },
+  { q:"¿Puedo llevarme la antena a otro lado?", a:"El Kit Mini es portátil y lo mueves sin problema. Si te mudas de forma definitiva, actualizas la dirección del servicio y listo." },
+  { q:"¿Sirve para videollamadas y para jugar en línea?", a:"Sí. La latencia típica va de 20 a 60 ms, parecida a una buena fibra, así que aguanta reuniones, clases y juegos sin que te saque." }
+];
+const ACTIVIDADES = [
+  { id:"k4",    label:"Pantallas en 4K",            need:25,  color:"#21b5ea" },
+  { id:"juego", label:"Jugando en línea",           need:15,  color:"#4cc6f0" },
+  { id:"hd",    label:"Netflix o YouTube en HD",    need:6,   color:"#7fd4f4" },
+  { id:"clase", label:"Clases en línea con cámara", need:3.5, color:"#c2ddb4" },
+  { id:"video", label:"Videollamadas de trabajo",   need:2.5, color:"#dcecd3" }
+];
+const PRESETS = [
+  { label:"Móvil en el campo · 5", v:5 },
+  { label:"Residencial Lite · 100", v:100 },
+  { label:"Residencial · 200", v:200 }
+];
+const REFERRAL = "https://www.starlink.com/ec/residential?referral=RC-481067-34312-6";
+const WA = "593969093580";
+
+class Component extends DCLogic {
+  state = { step:1, provincia:"", sector:"", uso:"", tamano:"", nombre:"", telefono:"", err:"", openFaq:0, mbps:100, carga:{ k4:1, juego:1, hd:2, clase:1, video:1 }, anim:null };
+
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+
+
+
+  simular = () => {
+    if (this.timer) clearInterval(this.timer);
+    const target = this.state.mbps;
+    const t0 = Date.now();
+    this.setState({ anim: 0 });
+    this.timer = setInterval(() => {
+      const p = Math.min(1, (Date.now() - t0) / 1900);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const jitter = p < 1 ? (Math.random() * 8 - 4) * (1 - p) : 0;
+      const v = Math.max(0, Math.round(target * eased + jitter));
+      if (p >= 1) { clearInterval(this.timer); this.timer = null; this.setState({ anim: null }); }
+      else this.setState({ anim: v });
+    }, 45);
+  };
+
+  bump(id, d) {
+    this.setState(s => ({ carga: { ...s.carga, [id]: Math.max(0, Math.min(9, (s.carga[id] || 0) + d)) } }));
+  }
+
+  totalCarga() {
+    return ACTIVIDADES.reduce((t, a) => t + (this.state.carga[a.id] || 0) * a.need, 0);
+  }
+
+  veredicto(total, libre) {
+    const m = this.state.mbps;
+    if (libre < 0) return "Con esta velocidad no alcanza: alguien se va a quedar pegado. Sube el plan o quita actividades.";
+    if (libre < m * 0.2) return "Justo, justo. Funciona hoy, pero el día que alguien más se conecte vas a sentirlo.";
+    if (m <= 120) return "Le sobra espacio a lo que tienes puesto. Este es el rango del plan Lite, que en hora pico puede bajar un poco.";
+    return "Aquí ya nadie nota que hay otros conectados, y todavía te queda margen para lo que venga. Ese es el plan Residencial.";
+  }
+
+  set(k, v) { this.setState({ [k]: v, err:"" }); }
+
+  validate() {
+    const s = this.state;
+    if (s.step === 1) {
+      if (!s.provincia) return "Elige tu provincia para seguir.";
+      if (s.sector.trim().length < 3) return "Escribe tu cantón, parroquia o sector.";
+    }
+    if (s.step === 2) {
+      if (!s.uso) return "Cuéntanos para qué lo vas a usar.";
+      if (!s.tamano) return "Falta cuántas personas se conectan.";
+    }
+    if (s.step === 3) {
+      if (s.nombre.trim().length < 3) return "Escribe tu nombre completo.";
+      if (s.telefono.replace(/\D/g, "").length < 9) return "Revisa tu número de WhatsApp.";
+    }
+    return "";
+  }
+
+  next = () => {
+    const err = this.validate();
+    if (err) return this.setState({ err });
+    this.setState(s => ({ step: s.step + 1, err: "" }));
+  };
+  back = () => this.setState(s => ({ step: Math.max(1, s.step - 1), err: "" }));
+  reset = () => this.setState({ step:1, provincia:"", sector:"", uso:"", tamano:"", nombre:"", telefono:"", err:"" });
+
+  recommend() {
+    const { uso, tamano } = this.state;
+    if (uso === "hogar" && tamano === "1-3") {
+      return { plan:"Residencial Lite", precio:"$40 al mes", porque:"Con pocas personas y uso normal de video y redes te alcanza de sobra, y es la opción más barata." };
+    }
+    if (uso === "negocio" || uso === "finca" || tamano === "7+") {
+      return { plan:"Residencial con Kit Estándar", precio:"$45 al mes", porque:"Vas a tener varios equipos conectados todo el día, y el Kit Estándar aguanta mejor ese ritmo que el Mini." };
+    }
+    return { plan:"Residencial", precio:"$45 al mes", porque:"No baja la velocidad en hora pico, así que las videollamadas y las clases no se te cortan cuando todo el barrio se conecta." };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const rec = this.recommend();
+    const shown = s.anim === null || s.anim === undefined ? s.mbps : s.anim;
+    const total = this.totalCarga();
+    const libre = s.mbps - total;
+    const base = Math.max(s.mbps, total, 1);
+    const destino = s.sector.trim() || s.provincia || "tu zona";
+    const usoLabel = (USOS.find(u => u.id === s.uso) || {}).label || "";
+    const msg = "Hola INEXT, soy " + s.nombre.trim() + ". Vivo en " + destino + ", " + s.provincia + ". Lo necesito para: " + usoLabel.toLowerCase() + ". Nos conectamos " + s.tamano + " personas. Mi WhatsApp es " + s.telefono + ". Me interesa el plan " + rec.plan + ".";
+
+    return {
+      provincias: PROVINCIAS,
+      zonas: ZONAS,
+      mbps: s.mbps,
+      shownMbps: shown,
+      arcOffset: String(494.8 * (1 - Math.min(1, shown / 250))),
+      needleRot: "rotate(" + (135 + 270 * Math.min(1, shown / 250)).toFixed(1) + " 150 150)",
+      subida: Math.max(2, Math.round(shown * 0.11)),
+      ping: shown <= 15 ? 120 : (shown <= 60 ? 55 : 27),
+      perdida: shown <= 15 ? "3.4" : (shown <= 60 ? "1.1" : "0.2"),
+      simular: this.simular,
+      onMbps: e => this.setState({ mbps: Number(e.target.value) }),
+      veredicto: this.veredicto(total, libre),
+      presets: PRESETS.map(p => ({
+        label: p.label,
+        bg: s.mbps === p.v ? "#0f2f3d" : "transparent",
+        border: s.mbps === p.v ? "#21b5ea" : "#3a464d",
+        pick: () => this.setState({ mbps: p.v })
+      })),
+      speedPct: (s.mbps / base * 100) + "%",
+      estadoTexto: libre < 0
+        ? "Te faltan " + Number((-libre).toFixed(1)) + " Mbps"
+        : "Te sobran " + Number(libre.toFixed(1)) + " Mbps",
+      estadoColor: libre < 0 ? "#ffa79b" : "#c2ddb4",
+      segmentos: ACTIVIDADES.filter(a => (s.carga[a.id] || 0) > 0).map(a => ({
+        color: a.color,
+        w: ((s.carga[a.id] * a.need) / base * 100) + "%"
+      })),
+      filas: ACTIVIDADES.map(a => {
+        const n = s.carga[a.id] || 0;
+        return {
+          label: a.label,
+          color: a.color,
+          count: String(n),
+          detalle: a.need + " Mbps cada una",
+          subtotal: Number((n * a.need).toFixed(1)) + " Mbps",
+          inc: () => this.bump(a.id, 1),
+          dec: () => this.bump(a.id, -1)
+        };
+      }),
+      stepLabel: String(Math.min(s.step, 3)),
+      progressPct: (Math.min(s.step, 3) / 3 * 100) + "%",
+      isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3,
+      isDone: s.step >= 4, notDone: s.step < 4,
+      err1: s.step === 1 ? s.err : "",
+      err2: s.step === 2 ? s.err : "",
+      err3: s.step === 3 ? s.err : "",
+      provincia: s.provincia, sector: s.sector, nombre: s.nombre, telefono: s.telefono,
+      onProvincia: e => this.set("provincia", e.target.value),
+      onSector: e => this.set("sector", e.target.value),
+      onNombre: e => this.set("nombre", e.target.value),
+      onTelefono: e => this.set("telefono", e.target.value),
+      next: this.next, back: this.back, reset: this.reset,
+      usos: USOS.map(u => ({
+        label: u.label,
+        bg: s.uso === u.id ? "#0f2f3d" : "#232c32",
+        border: s.uso === u.id ? "#21b5ea" : "#3a464d",
+        pick: () => this.set("uso", u.id)
+      })),
+      tamanos: TAMANOS.map(t => ({
+        label: t.label,
+        on: s.tamano === t.id,
+        bg: s.tamano === t.id ? "#0f2f3d" : "#232c32",
+        border: s.tamano === t.id ? "#21b5ea" : "#3a464d",
+        pick: () => this.set("tamano", t.id)
+      })),
+      faqs: FAQS.map((f, i) => ({
+        q: f.q, a: f.a,
+        open: s.openFaq === i,
+        sign: s.openFaq === i ? "–" : "+",
+        toggle: () => this.setState({ openFaq: s.openFaq === i ? -1 : i })
+      })),
+      destino, recPlan: rec.plan, recPrecio: rec.precio, recPorque: rec.porque,
+      referralLink: REFERRAL,
+      waLink: "https://wa.me/" + WA + "?text=" + encodeURIComponent(msg),
+      waPlain: "https://wa.me/" + WA + "?text=" + encodeURIComponent("Hola INEXT, quiero información sobre internet satelital Starlink.")
+    };
+  }
+}
+</script>
+</body>
+</html>
