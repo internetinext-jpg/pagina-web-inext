@@ -41,7 +41,10 @@
 
   /* ---------------- Coverage wizard ---------------- */
   (() => {
-    const state = { step: 1, provincia: "", sector: "", uso: "", tamano: "", nombre: "", telefono: "" };
+    const state = {
+      step: 1, uso: "", tamano: "", nombre: "", telefono: "",
+      lat: null, lng: null, direccion: "", referencia: "",
+    };
 
     const el = {
       header: document.getElementById("cw-header"),
@@ -54,8 +57,6 @@
       err1: document.getElementById("cw-err1"),
       err2: document.getElementById("cw-err2"),
       err3: document.getElementById("cw-err3"),
-      prov: document.getElementById("inx-prov"),
-      sector: document.getElementById("inx-loc"),
       nombre: document.getElementById("inx-nom"),
       telefono: document.getElementById("inx-tel"),
       destino: document.getElementById("cw-destino"),
@@ -70,8 +71,7 @@
 
     function validate() {
       if (state.step === 1) {
-        if (!state.provincia) return "Elige tu provincia para seguir.";
-        if (state.sector.trim().length < 3) return "Escribe tu cantón, parroquia o sector.";
+        if (state.lat === null) return "Marca en el mapa dónde quieres el servicio.";
       }
       if (state.step === 2) {
         if (!state.uso) return "Cuéntanos para qué lo vas a usar.";
@@ -89,12 +89,17 @@
     // recoge los datos y la confirmación llega por WhatsApp.
     function summaryRows() {
       const s = state;
-      return [
-        ["Dirección", [s.sector.trim(), s.provincia].filter(Boolean).join(", ")],
+      const filas = [
+        ["Ubicación", s.direccion || "Marcada en el mapa"],
+        ["Coordenadas", s.lat === null ? "—" : s.lat.toFixed(6) + ", " + s.lng.toFixed(6)],
+      ];
+      if (s.referencia.trim()) filas.push(["Referencia", s.referencia.trim()]);
+      filas.push(
         ["Lo necesita", USOS[s.uso] || "—"],
         ["Se conectan", s.tamano + " personas"],
-        ["WhatsApp", s.telefono],
-      ];
+        ["WhatsApp", s.telefono]
+      );
+      return filas;
     }
 
     function render() {
@@ -118,12 +123,16 @@
       });
 
       if (s.step >= 4) {
-        const destino = s.sector.trim() || s.provincia || "tu zona";
         const nombre = s.nombre.trim().split(" ")[0] || "gracias";
-        const msg = "Hola INEXT, soy " + s.nombre.trim() + ". Quiero internet de fibra en " +
-          destino + (s.provincia ? ", " + s.provincia : "") + ". Lo necesito " + (USOS[s.uso] || "") +
-          " y nos conectamos " + s.tamano + " personas. Mi WhatsApp es " + s.telefono +
-          ". ¿La red ya llega a mi dirección?";
+        // El enlace de mapa es lo que de verdad le sirve al técnico: la dirección
+        // escrita en la sierra rara vez alcanza para encontrar una casa.
+        const mapa = window.INEXT_MAPA ? window.INEXT_MAPA.enlaceMapa() : "";
+        const msg = "Hola INEXT, soy " + s.nombre.trim() + ". Quiero internet de fibra aquí:\n" +
+          (s.direccion ? s.direccion + "\n" : "") +
+          (mapa ? mapa + "\n" : "") +
+          (s.referencia.trim() ? "Referencia: " + s.referencia.trim() + "\n" : "") +
+          "Lo necesito " + (USOS[s.uso] || "") + " y nos conectamos " + s.tamano + " personas." +
+          "\n¿La red ya llega hasta ahí?";
         el.destino.textContent = nombre;
         el.waLink.href = waLink(msg);
 
@@ -137,8 +146,12 @@
       }
     }
 
-    el.prov.addEventListener("change", (e) => { state.provincia = e.target.value; });
-    el.sector.addEventListener("input", (e) => { state.sector = e.target.value; });
+    if (window.INEXT_MAPA) {
+      window.INEXT_MAPA.alElegir((p) => {
+        state.lat = p.lat; state.lng = p.lng;
+        state.direccion = p.direccion; state.referencia = p.referencia;
+      });
+    }
     el.nombre.addEventListener("input", (e) => { state.nombre = e.target.value; });
     el.telefono.addEventListener("input", (e) => { state.telefono = e.target.value; });
 
@@ -162,8 +175,10 @@
     document.getElementById("cw-back2").addEventListener("click", () => { state.step = 1; setError(el.err1, ""); render(); });
     document.getElementById("cw-back3").addEventListener("click", () => { state.step = 2; setError(el.err2, ""); render(); });
     document.getElementById("cw-reset").addEventListener("click", () => {
-      state.step = 1; state.provincia = ""; state.sector = ""; state.uso = ""; state.tamano = ""; state.nombre = ""; state.telefono = "";
-      el.prov.value = ""; el.sector.value = ""; el.nombre.value = ""; el.telefono.value = "";
+      state.step = 1; state.uso = ""; state.tamano = ""; state.nombre = ""; state.telefono = "";
+      state.lat = null; state.lng = null; state.direccion = ""; state.referencia = "";
+      el.nombre.value = ""; el.telefono.value = "";
+      if (window.INEXT_MAPA) window.INEXT_MAPA.limpiar();
       setError(el.err1, "");
       render();
     });

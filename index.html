@@ -9,7 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=4">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="css/site.css?v=5">
 </head>
 <body>
 
@@ -86,19 +88,36 @@
         <div id="cw-step1">
           <div class="stack">
             <div class="field">
-              <label for="inx-prov">Provincia</label>
-              <select class="input" id="inx-prov">
-                <option value="">Elige tu provincia</option>
-                <option value="Imbabura">Imbabura</option>
-                <option value="Pichincha">Pichincha</option>
-                <option value="Carchi">Carchi</option>
-                <option value="Otra">Otra provincia</option>
-              </select>
+              <label for="inx-buscar">¿Dónde quieres el servicio?</label>
+              <div class="searchrow">
+                <input class="input" id="inx-buscar" type="text" autocomplete="off"
+                       placeholder="Busca tu barrio o dirección">
+                <button class="btn btn--ghost btn--sm" id="inx-buscar-btn" type="button">Buscar</button>
+              </div>
+              <div class="searchresults" id="inx-resultados" hidden></div>
             </div>
+
+            <button class="btn btn--ghost btn--block" id="inx-geo" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"></circle><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"></path></svg>
+              Usar mi ubicación actual
+            </button>
+
+            <div class="mapbox">
+              <div id="inx-mapa" class="mapbox__canvas"></div>
+              <p class="mapbox__hint mono">Arrastra el mapa para ajustar el pin sobre tu casa o local</p>
+            </div>
+
+            <div class="picked" id="inx-picked" hidden>
+              <span class="picked__k mono">Ubicación elegida</span>
+              <span class="picked__v" id="inx-direccion">—</span>
+              <span class="picked__c mono" id="inx-coords">—</span>
+            </div>
+
             <div class="field">
-              <label for="inx-loc">Cantón, parroquia o barrio</label>
-              <input class="input" id="inx-loc" type="text" placeholder="Por ejemplo: Peguche, Otavalo">
+              <label for="inx-ref">Una referencia para encontrarte <span class="mono" style="text-transform:none;letter-spacing:0">(opcional)</span></label>
+              <input class="input" id="inx-ref" type="text" placeholder="Casa esquinera, portón verde, junto a la tienda…">
             </div>
+
             <p class="err" id="cw-err1" hidden></p>
             <button class="btn btn--cy btn--block" id="cw-next1" type="button">Continuar</button>
           </div>
@@ -511,6 +530,9 @@
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
 </a>
 
-<script src="js/site.js?v=4"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/mapa.js?v=1"></script>
+<script src="js/site.js?v=5"></script>
 </body>
 </html>
