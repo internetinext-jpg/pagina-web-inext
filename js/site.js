@@ -66,7 +66,13 @@
 
     function setError(panelErr, msg) {
       [el.err1, el.err2, el.err3].forEach((p) => { p.hidden = true; p.textContent = ""; });
-      if (msg) { panelErr.textContent = msg; panelErr.hidden = false; }
+      if (msg) {
+        panelErr.textContent = msg;
+        panelErr.hidden = false;
+        // El foco va al mensaje, no solo al texto en pantalla: quien usa lector
+        // de pantalla o teclado necesita llegar al error sin tener que buscarlo.
+        panelErr.focus();
+      }
     }
 
     function validate() {

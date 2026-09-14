@@ -694,7 +694,7 @@
         '<div class="qcard__top">' +
         '<svg class="qcard__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
         'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[uso.icon] + "</svg>" +
-        '<span class="qcard__name"></span></div>' +
+        '<h3 class="qcard__name"></h3></div>' +
         '<div class="qcard__dots">' + dots + "</div>" +
         '<p class="qcard__note"></p>';
       card.querySelector(".qcard__name").textContent = uso.name;

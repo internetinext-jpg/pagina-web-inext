@@ -1,0 +1,4 @@
+# Herramientas del asistente (skills instaladas localmente), no forman parte del sitio.
+.agents/
+.claude/
+skills-lock.json

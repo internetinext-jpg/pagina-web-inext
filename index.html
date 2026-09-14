@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>INEXT — Internet de fibra óptica en Otavalo e Imbabura</title>
 <meta name="description" content="Internet de fibra óptica para casas y negocios en Otavalo e Imbabura. Sin contrato de permanencia y con soporte de gente de aquí.">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="assets/inext-mark-cyan.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +15,8 @@
 <link rel="stylesheet" href="css/site.css?v=5">
 </head>
 <body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
 
 <header class="nav">
   <div class="nav__inner">
@@ -39,6 +42,7 @@
 </header>
 
 <main id="top">
+  <div id="contenido" tabindex="-1"></div>
 
   <section class="hero">
     <div class="hero__inner">
@@ -118,7 +122,7 @@
               <input class="input" id="inx-ref" type="text" placeholder="Casa esquinera, portón verde, junto a la tienda…">
             </div>
 
-            <p class="err" id="cw-err1" hidden></p>
+            <p class="err" id="cw-err1" role="alert" aria-live="polite" tabindex="-1" hidden></p>
             <button class="btn btn--cy btn--block" id="cw-next1" type="button">Continuar</button>
           </div>
         </div>
@@ -142,7 +146,7 @@
                 <button class="pick" type="button" data-tamano="7+">7 o más</button>
               </div>
             </div>
-            <p class="err" id="cw-err2" hidden></p>
+            <p class="err" id="cw-err2" role="alert" aria-live="polite" tabindex="-1" hidden></p>
             <div class="row-btns">
               <button class="btn btn--ghost" id="cw-back2" type="button">Atrás</button>
               <button class="btn btn--cy" id="cw-next2" type="button" style="flex:1">Continuar</button>
@@ -154,13 +158,13 @@
           <div class="stack">
             <div class="field">
               <label for="inx-nom">¿Cómo te llamas?</label>
-              <input class="input" id="inx-nom" type="text" placeholder="Nombre y apellido">
+              <input class="input" id="inx-nom" type="text" autocomplete="name" placeholder="Nombre y apellido">
             </div>
             <div class="field">
               <label for="inx-tel">Tu WhatsApp</label>
-              <input class="input" id="inx-tel" type="tel" inputmode="tel" placeholder="09XX XXX XXX">
+              <input class="input" id="inx-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09XX XXX XXX">
             </div>
-            <p class="err" id="cw-err3" hidden></p>
+            <p class="err" id="cw-err3" role="alert" aria-live="polite" tabindex="-1" hidden></p>
             <div class="row-btns">
               <button class="btn btn--ghost" id="cw-back3" type="button">Atrás</button>
               <button class="btn btn--cy" id="cw-next3" type="button" style="flex:1">Enviar</button>
@@ -210,7 +214,7 @@
       <div class="plans">
         <article class="glow glow--cy plan plan--cy">
           <div class="plan__top">
-            <span class="plan__name">Hogar</span>
+            <h3 class="plan__name">Hogar</h3>
           </div>
           <p class="plan__desc">Para la casa: streaming, clases en línea, teletrabajo y toda la familia conectada.</p>
           <p class="plan__price"><b>$—</b><span>/ mes</span></p>
@@ -225,7 +229,7 @@
 
         <article class="glow glow--sage plan plan--sage">
           <div class="plan__top">
-            <span class="plan__name">Negocio</span>
+            <h3 class="plan__name">Negocio</h3>
             <span class="plan__badge">Locales y oficinas</span>
           </div>
           <p class="plan__desc">Para tu local u oficina: punto de venta, cámaras, facturación y varios equipos a la vez.</p>

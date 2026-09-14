@@ -18,7 +18,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;color-scheme:dark}
 body{
   margin:0;
   background:var(--bg);
@@ -32,7 +32,7 @@ body{
     radial-gradient(760px 480px at 92% 4%, rgba(194,221,180,.07), transparent 68%);
   background-repeat:no-repeat;
 }
-h1,h2,h3,h4{font-family:var(--head);font-weight:500;letter-spacing:-.02em;line-height:1.06;margin:0}
+h1,h2,h3,h4{font-family:var(--head);font-weight:500;letter-spacing:-.02em;line-height:1.06;margin:0;text-wrap:balance}
 a{color:var(--cy-lite);text-decoration:none;transition:color .16s ease}
 a:hover{color:#a9e3f8}
 img{display:block;max-width:100%}

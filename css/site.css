@@ -19,19 +19,28 @@
 
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;color-scheme:dark}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:var(--body);font-size:17px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-h1,h2,h3,h4{font-family:var(--head);font-weight:500;letter-spacing:-.02em;line-height:1.06;margin:0}
+h1,h2,h3,h4{font-family:var(--head);font-weight:500;letter-spacing:-.02em;line-height:1.06;margin:0;text-wrap:balance}
 p{margin:0}
 a{color:inherit;text-decoration:none;transition:color .18s ease,opacity .18s ease}
 img{display:block;max-width:100%}
 ul{margin:0;padding:0;list-style:none}
 ::selection{background:rgba(33,181,234,.3)}
 :focus-visible{outline:2px solid var(--cy);outline-offset:3px}
+
+/* Enlace de salto: invisible hasta que alguien navega con teclado, para no
+   ensuciar el diseño visual a quien no lo necesita. */
+.skip-link{
+  position:absolute;left:16px;top:-60px;z-index:200;
+  background:var(--cy);color:#04161d;font-weight:700;font-size:14px;
+  padding:12px 18px;border-radius:10px;transition:top .18s ease;
+}
+.skip-link:focus{top:16px}
 
 /* ── voz monoespaciada: el recurso que le da carácter ── */
 .mono{font-family:var(--mono);font-weight:400}
@@ -229,7 +238,7 @@ select.input option{background:#0d0f11;color:#fff}
   padding:6px 11px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap;flex:none}
 .plan__price{display:flex;align-items:baseline;gap:8px;margin-top:26px;
   font-family:var(--head);font-weight:500;letter-spacing:-.035em;line-height:1}
-.plan__price b{font-size:clamp(44px,5vw,60px);font-weight:500}
+.plan__price b{font-size:clamp(44px,5vw,60px);font-weight:500;font-variant-numeric:tabular-nums}
 .plan--cy .plan__price b{color:var(--cy)}
 .plan--sage .plan__price b{color:var(--sage)}
 .plan__price span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
@@ -247,14 +256,14 @@ select.input option{background:#0d0f11;color:#fff}
 .gauge-box{position:relative;max-width:380px;margin:0 auto;width:100%}
 .gauge-box svg{width:100%;display:block;overflow:visible}
 .gauge-read{position:absolute;left:0;right:0;top:62%;text-align:center;pointer-events:none}
-.gauge-read__value{font-family:var(--head);font-weight:500;font-size:clamp(40px,5.4vw,56px);letter-spacing:-.045em;line-height:1}
+.gauge-read__value{font-family:var(--head);font-weight:500;font-size:clamp(40px,5.4vw,56px);letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
 .gauge-read__unit{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:6px}
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:22px}
 .stat{padding:15px 17px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line)}
 .stat__k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .stat--cy .stat__k{color:var(--cy)}
 .stat--sage .stat__k{color:var(--sage)}
-.stat__v{font-family:var(--head);font-weight:500;font-size:24px;margin-top:5px;letter-spacing:-.02em}
+.stat__v{font-family:var(--head);font-weight:500;font-size:24px;margin-top:5px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .stat__v small{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:400}
 .range{width:100%;margin:26px 0 0;height:4px;accent-color:#21b5ea;cursor:pointer}
 .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
