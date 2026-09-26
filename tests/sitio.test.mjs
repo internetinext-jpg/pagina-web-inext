@@ -155,6 +155,51 @@ test("en celular hay un menú para llegar a las secciones", () => {
   }
 });
 
+function politicaDeContenido() {
+  const cabeceras = JSON.parse(leer("vercel.json")).headers.find((h) => h.source === "/(.*)").headers;
+  const csp = cabeceras.find((h) => h.key === "Content-Security-Policy");
+  assert.ok(csp, "vercel.json no envía Content-Security-Policy");
+  return Object.fromEntries(csp.value.split(";").map((d) => d.trim().split(/\s+/)).filter((d) => d[0])
+    .map(([nombre, ...fuentes]) => [nombre, fuentes]));
+}
+
+test("la política de seguridad bloquea código ajeno y no rompe nada de lo que usa el sitio", () => {
+  // Sin esta política, cualquier script que lograra colarse en la página (una
+  // librería comprometida, una extensión, un error nuestro) correría sin límites.
+  const csp = politicaDeContenido();
+  assert.deepEqual(csp["script-src"].filter((f) => f.startsWith("'unsafe")), [], "script-src no puede permitir código en línea");
+  for (const d of ["object-src", "frame-ancestors"]) assert.deepEqual(csp[d], ["'none'"], `${d} debe ser 'none'`);
+  assert.ok(csp["base-uri"], "falta base-uri");
+  assert.ok(csp["form-action"], "falta form-action");
+
+  const origen = (u) => new URL(u).origin;
+  const permitido = (directiva, url) => {
+    const fuentes = csp[directiva] || csp["default-src"];
+    return fuentes.includes(origen(url));
+  };
+  // Lo que cada archivo trae de afuera, según cómo lo usa.
+  for (const p of PAGINAS) {
+    const h = leer(p);
+    for (const [, u] of h.matchAll(/<script[^>]+src="(https:[^"]+)"/g)) assert.ok(permitido("script-src", u), `${p}: script ${u} bloqueado`);
+    for (const [, u] of h.matchAll(/<link rel="stylesheet" href="(https:[^"]+)"/g)) assert.ok(permitido("style-src", u), `${p}: estilo ${u} bloqueado`);
+    for (const [, u] of h.matchAll(/<link rel="preconnect" href="(https:[^"]+)"/g)) {
+      assert.ok(Object.values(csp).some((f) => f.includes(origen(u))), `${p}: se preconecta a ${u} pero la política no lo permite en nada`);
+    }
+  }
+  for (const [js, usos] of Object.entries({
+    "js/mapa.js": [["script-src", /js: "(https:[^"]+)"/g], ["style-src", /css: "(https:[^"]+)"/g],
+      ["img-src", /tileLayer\("(https:\/\/[^/{"]+)/g], ["connect-src", /NOMINATIM = "(https:[^"]+)"/g]],
+    "js/speedtest.js": [["connect-src", /(?:DOWN|UP) = "(https:[^"]+)"/g], ["connect-src", /fetch\("(https:[^"]+)"/g]],
+  })) {
+    for (const [directiva, patron] of usos) {
+      const urls = [...leer(js).matchAll(patron)].map((m) => m[1]);
+      assert.ok(urls.length, `${js}: el patrón ${patron} ya no encuentra nada; actualiza esta prueba`);
+      for (const u of urls) assert.ok(permitido(directiva, u), `${js}: ${directiva} bloquearía ${u}`);
+    }
+  }
+  assert.ok(csp["font-src"].includes("https://fonts.gstatic.com"), "las fuentes de Google quedarían bloqueadas");
+});
+
 test("cada css y js local lleva como versión la huella de su contenido", () => {
   // Tres veces en este proyecto el navegador sirvió un CSS o JS viejo porque
   // se editó el archivo y no se subió el ?v=. La versión ahora es el hash del
