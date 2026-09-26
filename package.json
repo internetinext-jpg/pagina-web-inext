@@ -1,0 +1,13 @@
+{
+  "name": "pagina-web-inext",
+  "private": true,
+  "description": "Sitio público de INEXT. HTML estático, sin paso de compilación.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/sitio.test.mjs",
+    "versionar": "node scripts/versionar.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

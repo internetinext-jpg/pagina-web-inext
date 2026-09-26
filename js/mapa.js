@@ -13,9 +13,22 @@ window.INEXT_MAPA = (() => {
   const ZOOM_INICIAL = 14;
   const ZOOM_ELEGIDO = 17;
   const NOMINATIM = "https://nominatim.openstreetmap.org";
+  // Leaflet (~190 KB) se descarga solo cuando el formulario está por verse:
+  // la mayoría de visitas nunca llega hasta el mapa, y en conexiones rurales pesa.
+  const LEAFLET = {
+    css: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+    cssSri: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=",
+    js: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+    jsSri: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=",
+  };
 
   const $ = (id) => document.getElementById(id);
-  let map = null, marker = null, listeners = [];
+  let map = null, listeners = [];
+  let cargando = null;
+  // Mover el mapa por código (al elegir un resultado o al limpiar) dispara el mismo
+  // evento que cuando el cliente lo arrastra. Sin esta marca, limpiar el formulario
+  // dejaba "elegido" el centro de Otavalo sin que nadie lo marcara.
+  let movimientoPorCodigo = false;
   const elegido = { lat: null, lng: null, direccion: "", referencia: "" };
 
   function emitir() {
@@ -37,6 +50,7 @@ window.INEXT_MAPA = (() => {
   // El pin vive fijo en el centro: el usuario mueve el mapa, no el pin. En
   // celular arrastrar un marcador con el dedo tapa justamente lo que se mira.
   function centroCambiado() {
+    if (movimientoPorCodigo) return;
     const c = map.getCenter();
     elegido.lat = c.lat;
     elegido.lng = c.lng;
@@ -67,11 +81,20 @@ window.INEXT_MAPA = (() => {
       .catch(() => { /* sin dirección: quedan las coordenadas, que es lo que importa */ });
   }
 
+  function moverSinElegir(centro, zoom) {
+    if (!map) return;
+    movimientoPorCodigo = true;
+    map.setView(centro, zoom, { animate: false });   // sin animación: el evento sale ya
+    movimientoPorCodigo = false;
+  }
+
+  // Funciona aunque el mapa no haya cargado: el buscador y el GPS bastan
+  // para que el cliente termine el formulario.
   function irA(lat, lon, etiqueta) {
-    map.setView([lat, lon], ZOOM_ELEGIDO);
     elegido.lat = lat;
     elegido.lng = lon;
-    if (etiqueta) elegido.direccion = etiqueta;
+    elegido.direccion = etiqueta || "";
+    moverSinElegir([lat, lon], ZOOM_ELEGIDO);
     pintarElegido();
     emitir();
     if (!etiqueta) reverso(lat, lon);
@@ -142,19 +165,61 @@ window.INEXT_MAPA = (() => {
     );
   }
 
+  function cargarLeaflet() {
+    if (window.L) return Promise.resolve();
+    if (cargando) return cargando;
+    cargando = new Promise((listo, fallo) => {
+      const css = document.createElement("link");
+      css.rel = "stylesheet"; css.href = LEAFLET.css;
+      css.integrity = LEAFLET.cssSri; css.crossOrigin = "";
+      document.head.appendChild(css);
+      const js = document.createElement("script");
+      js.src = LEAFLET.js; js.integrity = LEAFLET.jsSri; js.crossOrigin = "";
+      js.onload = listo; js.onerror = fallo;
+      document.head.appendChild(js);
+    });
+    return cargando;
+  }
+
+  function montarMapa() {
+    const lienzo = $("inx-mapa");
+    cargarLeaflet().then(() => {
+      if (map) return;
+      // Sin inercia: el mapa se detiene justo donde el cliente suelta. Con inercia
+      // seguía deslizándose y el pin terminaba lejos de la casa que había apuntado.
+      map = L.map(lienzo, { zoomControl: true, scrollWheelZoom: false, inertia: false });
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+      }).addTo(map);
+      // Solo cuenta como elección un movimiento que hizo la persona: arrastrar,
+      // acercar o usar las flechas. El mapa también se mueve solo al ajustarse a
+      // su tamaño (al cargar, al girar el celular) y eso marcaba el centro de
+      // Otavalo como si el cliente lo hubiera elegido.
+      let intencion = false;
+      map.on("dragstart", () => { intencion = true; });
+      map.on("zoomstart", () => { if (!movimientoPorCodigo) intencion = true; });
+      lienzo.addEventListener("keydown", () => { intencion = true; });
+      map.on("moveend", () => {
+        if (!intencion) return;
+        intencion = false;
+        centroCambiado();
+      });
+      // Si el cliente ya eligió algo (buscador o GPS) antes de que cargara el mapa, se respeta.
+      moverSinElegir(elegido.lat === null ? OTAVALO : [elegido.lat, elegido.lng],
+        elegido.lat === null ? ZOOM_INICIAL : ZOOM_ELEGIDO);
+      // El mapa arranca dentro de un panel que puede estar oculto o recién montado.
+      setTimeout(() => map.invalidateSize(), 200);
+    }).catch(() => {
+      const aviso = document.querySelector(".mapbox__hint");
+      if (aviso) aviso.textContent = "No pudimos cargar el mapa. Usa el buscador o tu ubicación actual.";
+    });
+  }
+
   function iniciar() {
     const lienzo = $("inx-mapa");
-    if (!lienzo || typeof L === "undefined") return;
+    if (!lienzo) return;
 
-    map = L.map(lienzo, { zoomControl: true, scrollWheelZoom: false })
-      .setView(OTAVALO, ZOOM_INICIAL);
-
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-    }).addTo(map);
-
-    map.on("moveend", centroCambiado);
     $("inx-buscar-btn").addEventListener("click", buscar);
     $("inx-buscar").addEventListener("keydown", (e) => {
       if (e.key === "Enter") { e.preventDefault(); buscar(); }
@@ -165,8 +230,14 @@ window.INEXT_MAPA = (() => {
       emitir();
     });
 
-    // El mapa arranca dentro de un panel que puede estar oculto o recién montado.
-    setTimeout(() => map.invalidateSize(), 200);
+    if ("IntersectionObserver" in window) {
+      const vigia = new IntersectionObserver((entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) { vigia.disconnect(); montarMapa(); }
+      }, { rootMargin: "600px 0px" });
+      vigia.observe(lienzo);
+    } else {
+      montarMapa();
+    }
   }
 
   if (document.readyState === "loading") {
@@ -183,7 +254,7 @@ window.INEXT_MAPA = (() => {
       const ref = $("inx-ref"); if (ref) ref.value = "";
       const res = $("inx-resultados"); if (res) res.hidden = true;
       pintarElegido();
-      if (map) map.setView(OTAVALO, ZOOM_INICIAL);
+      moverSinElegir(OTAVALO, ZOOM_INICIAL);
       emitir();
     },
     enlaceMapa() {

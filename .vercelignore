@@ -1,0 +1,16 @@
+# Archivos del diseño original (Claude Design). Se quedan en el repositorio como
+# referencia, pero no se publican: INEXT Landing v3.dc.html describe un revendedor
+# de Starlink, que no es el negocio, y estaba accesible en producción.
+INEXT Landing v3.dc.html
+support.js
+image-slot.js
+_ds
+
+# Herramientas de desarrollo, no son parte del sitio
+tests
+scripts
+package.json
+.github
+.agents
+.claude
+skills-lock.json

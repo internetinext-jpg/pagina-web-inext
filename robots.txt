@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pagina-web-inext.vercel.app/sitemap.xml

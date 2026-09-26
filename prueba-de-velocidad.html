@@ -6,16 +6,30 @@
 <title>Prueba de velocidad — INEXT</title>
 <meta name="description" content="Mide la velocidad real de tu conexión hasta 2 Gbps: descarga, subida, ping, jitter, latencia bajo carga, proveedor y ubicación.">
 <meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://pagina-web-inext.vercel.app/prueba-de-velocidad.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INEXT Ultra Conexión">
+<meta property="og:locale" content="es_EC">
+<meta property="og:title" content="Prueba de velocidad real — INEXT">
+<meta property="og:description" content="Mide tu descarga, subida, ping, jitter y pérdida de paquetes hasta 2 Gbps. Gratis, y con comprobante imprimible con fecha y hora.">
+<meta property="og:url" content="https://pagina-web-inext.vercel.app/prueba-de-velocidad.html">
+<meta property="og:image" content="https://pagina-web-inext.vercel.app/assets/og-inext.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="INEXT: fibra óptica en Otavalo e Imbabura">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/inext-mark-cyan.png">
+<link rel="apple-touch-icon" href="assets/inext-mark-cyan.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://speed.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/speedtest.css?v=2">
+<link rel="stylesheet" href="css/speedtest.css?v=8898b31a">
+<link rel="stylesheet" href="css/menu.css?v=bacf6779">
 </head>
 <body>
 
-<header class="nav">
+<header class="nav nav--720">
   <div class="nav__inner">
     <a class="nav__brand" href="index.html#top">
       <img src="assets/inext-mark-cyan.png" alt="INEXT" width="30" height="30">
@@ -25,10 +39,24 @@
       <a href="index.html#planes">Planes</a>
       <a href="index.html#cobertura">Cobertura</a>
       <a href="index.html#instalacion">Instalación</a>
-      <span class="nav__current">Prueba de velocidad</span>
+      <span class="nav__current" aria-current="page">Prueba de velocidad</span>
     </nav>
     <a class="btn btn--cy js-wa" href="#" target="_blank" rel="noopener">Hablemos</a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+      <span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span>
+    </button>
   </div>
+  <nav class="menu-movil" id="menu-movil" aria-label="Menú" hidden>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#planes">Planes</a>
+    <a href="index.html#cobertura">Cobertura</a>
+    <a href="index.html#instalacion">Instalación</a>
+    <a href="prueba-de-velocidad.html" aria-current="page">Prueba de velocidad</a>
+    <a href="informacion-regulatoria.html">Información regulatoria</a>
+    <div class="menu-movil__cta">
+      <a class="menu-movil__primario" href="index.html#form">Revisa si llegamos a tu dirección</a>
+    </div>
+  </nav>
 </header>
 
 <main class="wrap">
@@ -212,12 +240,12 @@
 
   <section class="bottom">
     <div class="panel">
-      <h3 class="h3">Detalle técnico</h3>
+      <h2 class="h3">Detalle técnico</h2>
       <div class="detail" id="detail"></div>
     </div>
 
     <div class="panel panel--meaning">
-      <h3 class="h3">¿Y eso qué significa?</h3>
+      <h2 class="h3">¿Y eso qué significa?</h2>
       <p class="meaning" id="reading">Toca INICIAR. En unos veinte segundos vas a saber exactamente qué velocidad, qué latencia y qué estabilidad está entregando tu conexión ahora mismo.</p>
       <div class="panel__cta">
         <button class="btn btn--cy btn--block" id="pv-print" type="button" hidden>Guardar o imprimir este resultado</button>
@@ -228,7 +256,7 @@
   </section>
 
   <section class="panel history" id="history" hidden>
-    <h3 class="h3">Pruebas anteriores</h3>
+    <h2 class="h3">Pruebas anteriores</h2>
     <div class="history__list" id="history-list"></div>
   </section>
 
@@ -285,6 +313,7 @@
   <p class="sheet__foot">INEXT Ultra Conexión · Abdón Calderón 7-10 y Av. 31 de Octubre, Otavalo, Imbabura · WhatsApp 096 909 3580</p>
 </section>
 
-<script src="js/speedtest.js?v=3"></script>
+<script src="js/menu.js?v=b3002bd9"></script>
+<script src="js/speedtest.js?v=56d96eaa"></script>
 </body>
 </html>

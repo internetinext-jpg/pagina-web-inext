@@ -6,12 +6,26 @@
 <title>Información regulatoria y derechos del usuario — INEXT</title>
 <meta name="description" content="Información regulatoria de INEXT: título habilitante, tarifas registradas, contrato de adhesión, calidad del servicio, derechos del usuario, descuentos de ley y canales de reclamo ante ARCOTEL.">
 <meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://pagina-web-inext.vercel.app/informacion-regulatoria.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INEXT Ultra Conexión">
+<meta property="og:locale" content="es_EC">
+<meta property="og:title" content="Información regulatoria y derechos del usuario — INEXT">
+<meta property="og:description" content="Tarifas, contrato, calidad del servicio, tus derechos, descuentos de ley y cómo reclamar ante ARCOTEL.">
+<meta property="og:url" content="https://pagina-web-inext.vercel.app/informacion-regulatoria.html">
+<meta property="og:image" content="https://pagina-web-inext.vercel.app/assets/og-inext.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="INEXT: fibra óptica en Otavalo e Imbabura">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/inext-mark-cyan.png">
+<link rel="apple-touch-icon" href="assets/inext-mark-cyan.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Karla:wght@400;500;600;700&family=Chakra+Petch:wght@700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=4">
-<link rel="stylesheet" href="css/legal.css?v=1">
+<link rel="stylesheet" href="css/site.css?v=2e9ad249">
+<link rel="stylesheet" href="css/menu.css?v=bacf6779">
+<link rel="stylesheet" href="css/legal.css?v=f70803a9">
 </head>
 <body>
 
@@ -29,8 +43,21 @@
     </nav>
     <div class="nav__actions">
       <a class="btn btn--white btn--sm js-wa-generic" href="#" target="_blank" rel="noopener">Hablemos</a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+        <span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span>
+      </button>
     </div>
   </div>
+  <nav class="menu-movil" id="menu-movil" aria-label="Menú" hidden>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#planes">Planes</a>
+    <a href="index.html#cobertura">Cobertura</a>
+    <a href="prueba-de-velocidad.html">Prueba de velocidad</a>
+    <a href="informacion-regulatoria.html" aria-current="page">Información regulatoria</a>
+    <div class="menu-movil__cta">
+      <a class="menu-movil__primario" href="index.html#form">Revisa si llegamos a tu dirección</a>
+    </div>
+  </nav>
 </header>
 
 <main class="legal">
@@ -191,7 +218,17 @@
 
     <section class="legal__section" id="datos">
       <h2 class="h3">8. Protección de datos personales</h2>
-      <p>Cuando dejas tus datos en el formulario de cobertura de este sitio (nombre, número de WhatsApp y sector), los usamos <b>únicamente</b> para responderte sobre la disponibilidad del servicio y para contactarte respecto de tu solicitud. No los vendemos ni los compartimos con terceros con fines publicitarios.</p>
+      <p>Cuando dejas tus datos en el formulario de cobertura de este sitio (nombre, número de WhatsApp, la ubicación que marcas en el mapa y una referencia opcional), los usamos <b>únicamente</b> para responderte sobre la disponibilidad del servicio y para contactarte respecto de tu solicitud. No los vendemos ni los compartimos con terceros con fines publicitarios.</p>
+      <p>Este sitio no guarda tus datos en ningún servidor propio: el formulario arma un mensaje y tú decides enviarlo por WhatsApp. El historial de la prueba de velocidad queda solo en tu navegador, y puedes borrarlo limpiando los datos del sitio.</p>
+      <h3 class="h4" style="margin-top:26px">Servicios externos que usa esta página</h3>
+      <p>Para funcionar, algunas partes del sitio se comunican con servicios de terceros, que reciben tu dirección IP como parte de cualquier conexión a internet:</p>
+      <ul class="legal__list">
+        <li><b>OpenStreetMap y Nominatim</b>: dibujan el mapa y convierten la ubicación que marcas en una dirección escrita.</li>
+        <li><b>Cloudflare</b>: servidor contra el que se mide la prueba de velocidad.</li>
+        <li><b>ipwho.is</b>: muestra en la prueba de velocidad tu proveedor de internet y tu ciudad aproximada.</li>
+        <li><b>Google Fonts y unpkg</b>: entregan las tipografías y la librería del mapa.</li>
+        <li><b>WhatsApp (Meta)</b>: recibe el mensaje solo cuando tú lo envías.</li>
+      </ul>
       <p>Conforme a la Ley Orgánica de Protección de Datos Personales, puedes solicitar en cualquier momento el acceso, la rectificación, la eliminación o la oposición al tratamiento de tus datos.</p>
       <dl class="legal__data">
         <div><dt>Responsable del tratamiento</dt><dd><span class="pend">por definir (razón social)</span></dd></div>
@@ -271,6 +308,7 @@
   </div>
 </footer>
 
-<script src="js/legal.js?v=1"></script>
+<script src="js/menu.js?v=b3002bd9"></script>
+<script src="js/legal.js?v=49ec63d2"></script>
 </body>
 </html>
