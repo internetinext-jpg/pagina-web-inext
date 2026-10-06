@@ -200,6 +200,28 @@ test("la política de seguridad bloquea código ajeno y no rompe nada de lo que 
   assert.ok(csp["font-src"].includes("https://fonts.gstatic.com"), "las fuentes de Google quedarían bloqueadas");
 });
 
+test("los textos grises se leen: contraste mínimo 4,5 sobre negro y sobre las tarjetas", () => {
+  // Las etiquetas del formulario, las notas y el pie usaban blanco al 40 %:
+  // contraste 3,7, por debajo del mínimo WCAG AA para texto chico.
+  const luz = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+  const luminancia = ([r, g, b]) => 0.2126 * luz(r) + 0.7152 * luz(g) + 0.0722 * luz(b);
+  const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  for (const css of ["css/site.css", "css/speedtest.css"]) {
+    const t = leer(css);
+    const fondos = ["--bg", "--surface-2", "--panel-2"].map((v) => t.match(new RegExp(`${v}:(#[0-9a-f]{6})`, "i"))?.[1]).filter(Boolean);
+    for (const token of ["--ink-2", "--ink-3"]) {
+      const alfa = Number(t.match(new RegExp(`${token}:rgba\\(255,255,255,([.\\d]+)\\)`))?.[1]);
+      assert.ok(alfa > 0, `${css}: no encuentro ${token}`);
+      for (const f of fondos) {
+        const fondo = hex(f);
+        const texto = fondo.map((c) => 255 * alfa + c * (1 - alfa));
+        const ratio = (luminancia(texto) + 0.05) / (luminancia(fondo) + 0.05);
+        assert.ok(ratio >= 4.5, `${css}: ${token} sobre ${f} tiene contraste ${ratio.toFixed(2)} (mínimo 4,5)`);
+      }
+    }
+  }
+});
+
 test("cada css y js local lleva como versión la huella de su contenido", () => {
   // Tres veces en este proyecto el navegador sirvió un CSS o JS viejo porque
   // se editó el archivo y no se subió el ?v=. La versión ahora es el hash del
