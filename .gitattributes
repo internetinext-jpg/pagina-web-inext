@@ -1,0 +1,3 @@
+# Librerías de terceros: se publican byte por byte, porque el navegador comprueba su huella (integrity).
+vendor/** -text
+*.woff2 binary
