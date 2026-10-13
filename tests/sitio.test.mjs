@@ -218,7 +218,7 @@ test("tipografías y mapa se sirven desde el propio sitio", () => {
   // El mapa local tiene que ser exactamente la versión oficial: la misma huella que se declara.
   const mapa = leer("js/mapa.js");
   for (const [clave, sri] of [["js", "jsSri"], ["css", "cssSri"]]) {
-    const ruta = mapa.match(new RegExp(`\\b${clave}: "/([^"]+)"`))[1];
+    const ruta = mapa.match(new RegExp(`\\b${clave}: "/([^"?]+)`))[1];
     const declarada = mapa.match(new RegExp(`${sri}: "([^"]+)"`))[1];
     const real = "sha256-" + createHash("sha256").update(readFileSync(join(RAIZ, ruta))).digest("base64");
     assert.equal(real, declarada, `${ruta} no coincide con su huella`);

@@ -18,7 +18,7 @@ window.INEXT_MAPA = (() => {
   // Se sirve desde el propio sitio: si unpkg se cae, el formulario no se queda
   // sin mapa. La huella (integrity) es la misma de la versión oficial 1.9.4.
   const LEAFLET = {
-    css: "/vendor/leaflet-1.9.4/leaflet.css",
+    css: "/vendor/leaflet-1.9.4/leaflet.css?v=2",   // ?v=2: el 13-oct se sirvió unos minutos con otros finales de línea
     cssSri: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=",
     js: "/vendor/leaflet-1.9.4/leaflet.js",
     jsSri: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=",
