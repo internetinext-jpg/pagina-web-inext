@@ -1,0 +1,10 @@
+Tipografías incluidas en este sitio (subconjunto latino, formato woff2),
+descargadas de Google Fonts el 2026-10-13. Todas bajo SIL Open Font License 1.1
+(https://openfontlicense.org), que permite usarlas, incrustarlas y redistribuirlas.
+
+archivo.woff2           Archivo          (c) The Archivo Project Authors          https://github.com/Omnibus-Type/Archivo
+karla.woff2             Karla            (c) The Karla Project Authors            https://github.com/googlefonts/karla
+jetbrains-mono.woff2    JetBrains Mono   (c) The JetBrains Mono Project Authors   https://github.com/JetBrains/JetBrainsMono
+chakra-petch-700.woff2  Chakra Petch     (c) The Chakra Petch Project Authors     https://github.com/m4rc1e/Chakra-Petch
+
+El mapa (vendor/leaflet-1.9.4) es Leaflet 1.9.4, licencia BSD-2-Clause: ver vendor/leaflet-1.9.4/LICENSE.

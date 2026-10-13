@@ -187,8 +187,7 @@ test("la política de seguridad bloquea código ajeno y no rompe nada de lo que 
     }
   }
   for (const [js, usos] of Object.entries({
-    "js/mapa.js": [["script-src", /js: "(https:[^"]+)"/g], ["style-src", /css: "(https:[^"]+)"/g],
-      ["img-src", /tileLayer\("(https:\/\/[^/{"]+)/g], ["connect-src", /NOMINATIM = "(https:[^"]+)"/g]],
+    "js/mapa.js": [["img-src", /tileLayer\("(https:\/\/[^/{"]+)/g], ["connect-src", /NOMINATIM = "(https:[^"]+)"/g]],
     "js/speedtest.js": [["connect-src", /(?:DOWN|UP) = "(https:[^"]+)"/g], ["connect-src", /fetch\("(https:[^"]+)"/g]],
   })) {
     for (const [directiva, patron] of usos) {
@@ -197,7 +196,33 @@ test("la política de seguridad bloquea código ajeno y no rompe nada de lo que 
       for (const u of urls) assert.ok(permitido(directiva, u), `${js}: ${directiva} bloquearía ${u}`);
     }
   }
-  assert.ok(csp["font-src"].includes("https://fonts.gstatic.com"), "las fuentes de Google quedarían bloqueadas");
+  assert.deepEqual(csp["font-src"], ["'self'"], "las tipografías se sirven desde el propio sitio");
+  assert.deepEqual(csp["script-src"], ["'self'"], "ningún script viene de afuera");
+});
+
+test("tipografías y mapa se sirven desde el propio sitio", () => {
+  // Google Fonts frenaba la primera carga (otra conexión antes de mostrar texto)
+  // y le avisaba a Google de cada visita; unpkg era un punto de falla del mapa.
+  for (const f of [...PAGINAS, "js/mapa.js"]) {
+    for (const ajeno of ["fonts.googleapis.com", "fonts.gstatic.com", "unpkg.com"]) {
+      assert.ok(!leer(f).includes(ajeno), `${f} todavía usa ${ajeno}`);
+    }
+  }
+  for (const p of PAGINAS) assert.match(leer(p), /href="\/?css\/fuentes\.css\?v=/, `${p} no carga css/fuentes.css`);
+  const caras = [...leer("css/fuentes.css").matchAll(/url\(\.\.\/([^)]+)\)/g)].map((m) => m[1]);
+  assert.equal(caras.length, 4);
+  for (const archivo of caras) {
+    assert.ok(existe(archivo), `falta ${archivo}`);
+    assert.equal(readFileSync(join(RAIZ, archivo)).subarray(0, 4).toString(), "wOF2", `${archivo} no es woff2`);
+  }
+  // El mapa local tiene que ser exactamente la versión oficial: la misma huella que se declara.
+  const mapa = leer("js/mapa.js");
+  for (const [clave, sri] of [["js", "jsSri"], ["css", "cssSri"]]) {
+    const ruta = mapa.match(new RegExp(`\\b${clave}: "/([^"]+)"`))[1];
+    const declarada = mapa.match(new RegExp(`${sri}: "([^"]+)"`))[1];
+    const real = "sha256-" + createHash("sha256").update(readFileSync(join(RAIZ, ruta))).digest("base64");
+    assert.equal(real, declarada, `${ruta} no coincide con su huella`);
+  }
 });
 
 test("los textos grises se leen: contraste mínimo 4,5 sobre negro y sobre las tarjetas", () => {

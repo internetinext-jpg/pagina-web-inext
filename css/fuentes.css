@@ -1,0 +1,13 @@
+/* Las tipografías se sirven desde el propio sitio, no desde Google Fonts.
+   Así la página no espera a otro servidor antes de mostrar texto, y no le
+   avisa a Google de cada visita. Son versiones variables (un archivo cubre
+   todos los grosores) recortadas al alfabeto latino, que incluye á é í ó ú ñ ¿ ¡.
+   Licencia SIL Open Font License 1.1: ver assets/fuentes/LICENCIAS.txt. */
+@font-face{font-family:"Archivo";font-style:normal;font-weight:400 800;font-display:swap;
+  src:url(../assets/fuentes/archivo.woff2) format("woff2")}
+@font-face{font-family:"Karla";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../assets/fuentes/karla.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../assets/fuentes/jetbrains-mono.woff2) format("woff2")}
+@font-face{font-family:"Chakra Petch";font-style:normal;font-weight:700;font-display:swap;
+  src:url(../assets/fuentes/chakra-petch-700.woff2) format("woff2")}

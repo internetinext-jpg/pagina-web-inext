@@ -13,12 +13,14 @@ window.INEXT_MAPA = (() => {
   const ZOOM_INICIAL = 14;
   const ZOOM_ELEGIDO = 17;
   const NOMINATIM = "https://nominatim.openstreetmap.org";
-  // Leaflet (~190 KB) se descarga solo cuando el formulario está por verse:
+  // Leaflet (~160 KB) se descarga solo cuando el formulario está por verse:
   // la mayoría de visitas nunca llega hasta el mapa, y en conexiones rurales pesa.
+  // Se sirve desde el propio sitio: si unpkg se cae, el formulario no se queda
+  // sin mapa. La huella (integrity) es la misma de la versión oficial 1.9.4.
   const LEAFLET = {
-    css: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+    css: "/vendor/leaflet-1.9.4/leaflet.css",
     cssSri: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=",
-    js: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+    js: "/vendor/leaflet-1.9.4/leaflet.js",
     jsSri: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=",
   };
 
