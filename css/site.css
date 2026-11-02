@@ -300,6 +300,8 @@ select.input option{background:#0d0f11;color:#fff}
 .icon-btn:hover{border-color:#fff;background:rgba(255,255,255,.08)}
 .activity-count{min-width:24px;text-align:center;font-family:var(--mono);font-size:15px}
 .foot-note{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:16px;line-height:1.6}
+.foot-note a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px}
+.foot-note a:hover{color:var(--cy-lite)}
 
 /* ── cobertura ── */
 .zones{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}

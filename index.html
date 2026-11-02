@@ -44,7 +44,7 @@
 <link rel="preload" href="assets/fuentes/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fuentes/karla.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/fuentes.css?v=0d66eae7">
-<link rel="stylesheet" href="css/site.css?v=8e466ce8">
+<link rel="stylesheet" href="css/site.css?v=223ebe5d">
 <link rel="stylesheet" href="css/menu.css?v=bacf6779">
 </head>
 <body>
@@ -68,8 +68,8 @@
       <!-- El portal se entra con un enlace personal por contrato (/mi-cuenta/<token>),
            no con usuario y clave: no hay pantalla de login a la que apuntar. Hasta que
            exista, el botón pide ese enlace por WhatsApp. -->
-      <a class="btn btn--ghost btn--sm js-wa-portal" href="#" target="_blank" rel="noopener">Acceso clientes</a>
-      <a class="btn btn--white btn--sm js-wa-generic" href="#" target="_blank" rel="noopener">Hablemos</a>
+      <a class="btn btn--ghost btn--sm js-wa-portal" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20soy%20cliente%20y%20quiero%20el%20enlace%20para%20ver%20mi%20cuenta." target="_blank" rel="noopener">Acceso clientes</a>
+      <a class="btn btn--white btn--sm js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">Hablemos</a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
         <span class="nav__toggle-bar"></span><span class="nav__toggle-bar"></span>
       </button>
@@ -84,7 +84,7 @@
     <a href="informacion-regulatoria.html">Información regulatoria</a>
     <div class="menu-movil__cta">
       <a class="menu-movil__primario" href="#form">Revisa si llegamos a tu dirección</a>
-      <a class="menu-movil__secundario js-wa-portal" href="#" target="_blank" rel="noopener">Acceso clientes</a>
+      <a class="menu-movil__secundario js-wa-portal" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20soy%20cliente%20y%20quiero%20el%20enlace%20para%20ver%20mi%20cuenta." target="_blank" rel="noopener">Acceso clientes</a>
     </div>
   </nav>
 </header>
@@ -103,7 +103,7 @@
 
       <div class="hero__cta" style="animation:inx-up .8s cubic-bezier(.16,1,.3,1) .46s both">
         <a class="btn btn--white" href="#form">Revisa si llegamos a tu dirección</a>
-        <a class="btn btn--ghost js-wa-generic" href="#" target="_blank" rel="noopener">
+        <a class="btn btn--ghost js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">
           Prefiero WhatsApp
           <svg class="btn__wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
         </a>
@@ -217,7 +217,7 @@
               <button class="btn btn--ghost" id="cw-back3" type="button">Atrás</button>
               <button class="btn btn--cy" id="cw-next3" type="button" style="flex:1">Enviar</button>
             </div>
-            <p class="foot-note">Usamos tus datos solo para contactarte por este servicio.</p>
+            <p class="foot-note">Usamos tus datos solo para responderte sobre el servicio. Esta página no los guarda: el mensaje lo envías tú por WhatsApp. <a href="informacion-regulatoria.html#datos">Cómo tratamos tus datos</a>.</p>
           </div>
         </div>
 
@@ -229,7 +229,7 @@
             <div class="summary" id="cw-summary"></div>
           </div>
           <div class="stack-sm" style="margin-top:22px">
-            <a class="btn btn--cy btn--block" id="cw-wa-link" href="#" target="_blank" rel="noopener">Enviar mis datos por WhatsApp</a>
+            <a class="btn btn--cy btn--block" id="cw-wa-link" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">Enviar mis datos por WhatsApp</a>
             <button class="linkbtn" id="cw-reset" type="button" style="width:100%">Consultar otra dirección</button>
           </div>
         </div>
@@ -297,7 +297,7 @@
           <h3 class="h4">¿No sabes cuál te sirve?</h3>
           <p style="color:var(--ink-2);font-size:15.5px;margin-top:10px;max-width:64ch;line-height:1.6">Cuéntanos cuántas personas se conectan y qué hacen: videollamadas, streaming, juegos, punto de venta. Con eso te decimos qué plan te alcanza de verdad, sin venderte de más.</p>
         </div>
-        <a class="btn btn--white js-wa-generic" href="#" target="_blank" rel="noopener">Pregúntanos por WhatsApp</a>
+        <a class="btn btn--white js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">Pregúntanos por WhatsApp</a>
       </div>
     </div>
   </section>
@@ -487,7 +487,7 @@
           <h2 class="h2" style="margin-top:16px;max-width:18ch">Somos de aquí, y eso se nota cuando algo falla.</h2>
           <p class="lead" style="margin-top:18px;max-width:54ch">INEXT tiene oficina en Otavalo, en Abdón Calderón 7-10 y Av. 31 de Octubre. Cuando necesitas ayuda no hablas con un centro de llamadas en otro país: hablas con la misma gente que te instaló el servicio.</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:30px">
-            <a class="btn btn--white js-wa-generic" href="#" target="_blank" rel="noopener">096 909 3580</a>
+            <a class="btn btn--white js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">096 909 3580</a>
             <a class="btn btn--ghost" href="https://instagram.com/inext.internet" target="_blank" rel="noopener">@inext.internet</a>
           </div>
         </div>
@@ -517,7 +517,7 @@
         <p class="lead" style="margin:16px auto 0;max-width:46ch">Sin llamadas insistentes ni letra chica.</p>
         <div class="final__btns">
           <a class="btn btn--white" href="#form">Revisar cobertura</a>
-          <a class="btn btn--ghost js-wa-generic" href="#" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+          <a class="btn btn--ghost js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">Hablar por WhatsApp</a>
         </div>
       </div>
     </div>
@@ -539,7 +539,7 @@
       <div>
         <p class="foot__k">Contacto</p>
         <div class="foot__list">
-          <a class="js-wa-generic" href="#" target="_blank" rel="noopener">WhatsApp 096 909 3580</a>
+          <a class="js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">WhatsApp 096 909 3580</a>
           <a href="https://instagram.com/inext.internet" target="_blank" rel="noopener">@inext.internet</a>
           <span style="color:var(--ink-3)">Abdón Calderón 7-10 y Av. 31 de Octubre, Otavalo</span>
         </div>
@@ -557,9 +557,9 @@
       <div>
         <p class="foot__k">Clientes</p>
         <div class="foot__list">
-          <a class="js-wa-portal" href="#" target="_blank" rel="noopener">Acceso clientes</a>
+          <a class="js-wa-portal" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20soy%20cliente%20y%20quiero%20el%20enlace%20para%20ver%20mi%20cuenta." target="_blank" rel="noopener">Acceso clientes</a>
           <a href="prueba-de-velocidad.html">Medir mi velocidad</a>
-          <a class="js-wa-generic" href="#" target="_blank" rel="noopener">Reportar una avería</a>
+          <a class="js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener">Reportar una avería</a>
         </div>
       </div>
       <div>
@@ -578,7 +578,7 @@
   </div>
 </footer>
 
-<a class="wa-float js-wa-generic" href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+<a class="wa-float js-wa-generic" href="https://wa.me/593969093580?text=Hola%20INEXT%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20de%20internet." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.23 8.24c0 4.54-3.7 8.23-8.23 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
 </a>
 

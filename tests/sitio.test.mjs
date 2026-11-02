@@ -247,6 +247,36 @@ test("los textos grises se leen: contraste mínimo 4,5 sobre negro y sobre las t
   }
 });
 
+test("los botones de WhatsApp funcionan aunque el JavaScript no cargue", () => {
+  // Todos tenían href="#" y la dirección la ponía el JavaScript: con una
+  // conexión mala o un error de script, el canal principal de ventas no abría.
+  for (const p of PAGINAS) {
+    const h = leer(p);
+    assert.ok(!/href="#"/.test(h), `${p} tiene enlaces que no llevan a ningún lado sin JavaScript`);
+    for (const [, url] of h.matchAll(/href="(https:\/\/wa\.me\/[^"]*)"/g)) {
+      assert.match(url, /^https:\/\/wa\.me\/593969093580\?text=[^ ]+$/, `${p}: enlace de WhatsApp mal armado: ${url}`);
+    }
+  }
+});
+
+test("el formulario avisa cómo se usan los datos antes de enviarlos", () => {
+  // Ley Orgánica de Protección de Datos Personales: hay que informar al recoger los datos.
+  const paso3 = leer("index.html").match(/<div id="cw-step3"[\s\S]*?<\/div>\s*<\/div>/)[0];
+  assert.match(paso3, /href="informacion-regulatoria\.html#datos"/, "el paso 3 no enlaza a cómo tratamos los datos");
+  const datos = leer("informacion-regulatoria.html");
+  for (const [derecho, patron] of [["portabilidad", /portabilidad/], ["suspensión", /suspender/],
+    ["autoridad", /Superintendencia de Protección de Datos Personales/], ["base legal", /Con qué permiso/]]) {
+    assert.match(datos, patron, `la sección de datos no menciona ${derecho}`);
+  }
+});
+
+test("security.txt dice a quién avisar de una falla y no está vencido", () => {
+  const t = leer(".well-known/security.txt");
+  assert.match(t, /^Contact: https:\/\//m);
+  const vence = Date.parse(t.match(/^Expires: (.+)$/m)[1]);
+  assert.ok(vence > Date.now(), "security.txt está vencido: renueva la fecha Expires");
+});
+
 test("cada css y js local lleva como versión la huella de su contenido", () => {
   // Tres veces en este proyecto el navegador sirvió un CSS o JS viejo porque
   // se editó el archivo y no se subió el ?v=. La versión ahora es el hash del
