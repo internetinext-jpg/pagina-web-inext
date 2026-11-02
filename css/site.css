@@ -344,6 +344,28 @@ select.input option{background:#0d0f11;color:#fff}
 .map__key--on{color:var(--ink-2)}
 .map__key--on::before{background:rgba(33,181,234,.4);border-color:var(--cy)}
 
+/* ── ilustración de fibra (en lugar de la foto ancha, mientras no haya una real) ── */
+.fibra{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line);
+  background:radial-gradient(120% 90% at 70% 40%,rgba(33,181,234,.14),transparent 60%),var(--surface-2);
+  min-height:clamp(300px,34vw,420px);display:flex;align-items:flex-end}
+.fibra__hilos{position:absolute;inset:0;width:100%;height:100%}
+.fibra__texto{position:relative;padding:clamp(26px,4vw,48px);max-width:620px}
+.fibra__titulo{font-family:var(--head);font-weight:500;font-size:clamp(30px,4.2vw,52px);line-height:1.05;letter-spacing:-.02em;margin-top:14px;text-wrap:balance}
+.fibra__detalle{color:var(--ink-2);font-size:16px;line-height:1.6;margin-top:14px;max-width:52ch}
+@media (max-width:640px){.fibra{align-items:flex-start}.fibra__hilos{opacity:.55}}
+
+/* ── tarjeta de la oficina (en lugar de la foto del equipo) ── */
+.oficina{border-radius:24px;border:1px solid var(--line);padding:clamp(26px,3vw,36px);
+  background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/28px 28px,var(--surface-2);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;min-height:clamp(260px,30vw,340px)}
+.oficina__pin{color:var(--cy);margin-bottom:6px}
+.oficina__dir{font-family:var(--head);font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.2;margin-top:6px}
+.oficina__ciudad{color:var(--ink-2);font-size:15px;margin-bottom:10px}
+
+/* Precio pendiente: texto en vez de cifra */
+.plan__price--texto b{font-size:clamp(30px,3.4vw,40px)}
+
 /* ── marcador de foto ── */
 .photo{position:relative;border-radius:24px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line)}
 .photo__inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;

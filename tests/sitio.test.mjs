@@ -270,6 +270,15 @@ test("el formulario avisa cómo se usan los datos antes de enviarlos", () => {
   }
 });
 
+test("la portada no muestra textos de muestra ni precios en blanco", () => {
+  // "Foto ancha: …" y "$—" a la vista le decían al visitante que la página no estaba terminada.
+  const visible = leer("index.html").replace(/<!--[\s\S]*?-->/g, "");
+  for (const muestra of ["Foto ancha", "Foto:", "$—", "por confirmar", "photo__inner"]) {
+    assert.ok(!visible.includes(muestra), `la portada todavía muestra "${muestra}"`);
+  }
+  assert.ok(!/id="inx-tel"/.test(visible), "el formulario no debe volver a pedir el número de WhatsApp");
+});
+
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {
   const t = leer(".well-known/security.txt");
   assert.match(t, /^Contact: https:\/\//m);

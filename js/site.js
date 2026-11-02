@@ -42,7 +42,7 @@
   /* ---------------- Coverage wizard ---------------- */
   (() => {
     const state = {
-      step: 1, uso: "", tamano: "", nombre: "", telefono: "",
+      step: 1, uso: "", tamano: "", nombre: "",
       lat: null, lng: null, direccion: "", referencia: "",
     };
 
@@ -58,7 +58,6 @@
       err2: document.getElementById("cw-err2"),
       err3: document.getElementById("cw-err3"),
       nombre: document.getElementById("inx-nom"),
-      telefono: document.getElementById("inx-tel"),
       destino: document.getElementById("cw-destino"),
       summary: document.getElementById("cw-summary"),
       waLink: document.getElementById("cw-wa-link"),
@@ -85,7 +84,6 @@
       }
       if (state.step === 3) {
         if (state.nombre.trim().length < 3) return "Escribe tu nombre completo.";
-        if (state.telefono.replace(/\D/g, "").length < 9) return "Revisa tu número de WhatsApp.";
       }
       return "";
     }
@@ -102,8 +100,7 @@
       if (s.referencia.trim()) filas.push(["Referencia", s.referencia.trim()]);
       filas.push(
         ["Lo necesita", USOS[s.uso] || "—"],
-        ["Se conectan", s.tamano + " personas"],
-        ["WhatsApp", s.telefono]
+        ["Se conectan", s.tamano + " personas"]
       );
       return filas;
     }
@@ -159,7 +156,6 @@
       });
     }
     el.nombre.addEventListener("input", (e) => { state.nombre = e.target.value; });
-    el.telefono.addEventListener("input", (e) => { state.telefono = e.target.value; });
 
     document.querySelectorAll("#cw-usos [data-uso]").forEach((btn) => {
       btn.addEventListener("click", () => { state.uso = btn.dataset.uso; render(); });
@@ -181,9 +177,9 @@
     document.getElementById("cw-back2").addEventListener("click", () => { state.step = 1; setError(el.err1, ""); render(); });
     document.getElementById("cw-back3").addEventListener("click", () => { state.step = 2; setError(el.err2, ""); render(); });
     document.getElementById("cw-reset").addEventListener("click", () => {
-      state.step = 1; state.uso = ""; state.tamano = ""; state.nombre = ""; state.telefono = "";
+      state.step = 1; state.uso = ""; state.tamano = ""; state.nombre = "";
       state.lat = null; state.lng = null; state.direccion = ""; state.referencia = "";
-      el.nombre.value = ""; el.telefono.value = "";
+      el.nombre.value = "";
       if (window.INEXT_MAPA) window.INEXT_MAPA.limpiar();
       setError(el.err1, "");
       render();

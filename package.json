@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/sitio.test.mjs",
-    "versionar": "node scripts/versionar.mjs"
+    "versionar": "node scripts/versionar.mjs",
+    "servir": "node scripts/servir.mjs"
   },
   "engines": {
     "node": ">=20"
