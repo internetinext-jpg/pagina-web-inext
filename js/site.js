@@ -26,6 +26,12 @@
     { id: "video", label: "Videollamadas de trabajo", need: 2.5, color: "#dcecd3" },
   ];
 
+  const COBERTURA = {
+    si: "Ya llega a la zona",
+    cerca: "La red está cerca",
+    no: "Todavía no llega",
+  };
+
   function waLink(text) {
     return "https://wa.me/" + WA + "?text=" + encodeURIComponent(text);
   }
@@ -43,7 +49,7 @@
   (() => {
     const state = {
       step: 1, uso: "", tamano: "", nombre: "",
-      lat: null, lng: null, direccion: "", referencia: "",
+      lat: null, lng: null, direccion: "", referencia: "", cobertura: null,
     };
 
     const el = {
@@ -88,9 +94,8 @@
       return "";
     }
 
-    // No afirmamos cobertura ni recomendamos un plan concreto: con fibra la
-    // cobertura se confirma dirección por dirección, así que el formulario
-    // recoge los datos y la confirmación llega por WhatsApp.
+    // La cobertura que muestra el mapa es una primera respuesta del panel (por
+    // cajas y vecinos conectados): la instalación se confirma igual por WhatsApp.
     function summaryRows() {
       const s = state;
       const filas = [
@@ -98,6 +103,7 @@
         ["Coordenadas", s.lat === null ? "—" : s.lat.toFixed(6) + ", " + s.lng.toFixed(6)],
       ];
       if (s.referencia.trim()) filas.push(["Referencia", s.referencia.trim()]);
+      if (COBERTURA[s.cobertura]) filas.push(["Cobertura", COBERTURA[s.cobertura]]);
       filas.push(
         ["Lo necesita", USOS[s.uso] || "—"],
         ["Se conectan", s.tamano + " personas"]
@@ -135,7 +141,8 @@
           (mapa ? mapa + "\n" : "") +
           (s.referencia.trim() ? "Referencia: " + s.referencia.trim() + "\n" : "") +
           "Lo necesito " + (USOS[s.uso] || "") + " y nos conectamos " + s.tamano + " personas." +
-          "\n¿La red ya llega hasta ahí?";
+          (COBERTURA[s.cobertura] ? "\nLa página me dice: " + COBERTURA[s.cobertura].toLowerCase() + "." : "") +
+          (s.cobertura === "si" ? "\n¿Cuándo pueden venir a instalar?" : "\n¿La red ya llega hasta ahí?");
         el.destino.textContent = nombre;
         el.waLink.href = waLink(msg);
 
@@ -153,6 +160,7 @@
       window.INEXT_MAPA.alElegir((p) => {
         state.lat = p.lat; state.lng = p.lng;
         state.direccion = p.direccion; state.referencia = p.referencia;
+        state.cobertura = p.cobertura;
       });
     }
     el.nombre.addEventListener("input", (e) => { state.nombre = e.target.value; });

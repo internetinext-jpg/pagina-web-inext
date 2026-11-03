@@ -187,7 +187,7 @@ test("la política de seguridad bloquea código ajeno y no rompe nada de lo que 
     }
   }
   for (const [js, usos] of Object.entries({
-    "js/mapa.js": [["img-src", /tileLayer\("(https:\/\/[^/{"]+)/g], ["connect-src", /NOMINATIM = "(https:[^"]+)"/g]],
+    "js/mapa.js": [["img-src", /tileLayer\("(https:\/\/[^/{"]+)/g], ["connect-src", /(?:NOMINATIM|COBERTURA) = "(https:[^"]+)"/g]],
     "js/speedtest.js": [["connect-src", /(?:DOWN|UP) = "(https:[^"]+)"/g], ["connect-src", /fetch\("(https:[^"]+)"/g]],
   })) {
     for (const [directiva, patron] of usos) {
@@ -277,6 +277,21 @@ test("la portada no muestra textos de muestra ni precios en blanco", () => {
     assert.ok(!visible.includes(muestra), `la portada todavía muestra "${muestra}"`);
   }
   assert.ok(!/id="inx-tel"/.test(visible), "el formulario no debe volver a pedir el número de WhatsApp");
+});
+
+test("el mapa dice si llega la fibra sin mandar el nombre ni la ubicación exacta", () => {
+  // La respuesta viene del panel (cajas NAP y vecinos conectados). Lo que viaja
+  // es solo el punto redondeado a once metros: ni el nombre ni la cookie.
+  const mapa = leer("js/mapa.js").replace(/\r\n/g, "\n");
+  assert.match(mapa, /COBERTURA = "https:\/\/[^"]+\/api\/cobertura"/);
+  assert.match(mapa, /toFixed\(4\)/, "la ubicación tiene que salir redondeada");
+  assert.match(mapa, /credentials: "omit"/);
+  const consulta = mapa.match(/function consultarCobertura\(\)[\s\S]*?\n  }\n/)[0];
+  assert.ok(!/nombre|referencia/.test(consulta), "la consulta de cobertura no debe llevar datos de la persona");
+  // Una respuesta rara o un panel caído no se muestran como "no llegamos".
+  assert.match(consulta, /c === "si" \|\| c === "cerca" \|\| c === "no" \? c : null/);
+  assert.match(leer("index.html"), /id="inx-cobertura" role="status"/, "el resultado tiene que anunciarse a lectores de pantalla");
+  assert.match(leer("informacion-regulatoria.html"), /se consulta en el sistema de INEXT/, "la página de datos tiene que contar esta consulta");
 });
 
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {

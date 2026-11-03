@@ -13,6 +13,15 @@ window.INEXT_MAPA = (() => {
   const ZOOM_INICIAL = 14;
   const ZOOM_ELEGIDO = 17;
   const NOMINATIM = "https://nominatim.openstreetmap.org";
+  // El panel compara el punto con las cajas NAP y las casas que ya tienen fibra,
+  // y contesta solo "si", "cerca" o "no": nunca dice dónde está la red.
+  const COBERTURA = "https://isp-sigma-bay.vercel.app/api/cobertura";
+  const TEXTO_COBERTURA = {
+    revisando: "Revisando si llega la fibra…",
+    si: "Buenas noticias: nuestra fibra ya llega a tu zona. Te confirmamos la instalación por WhatsApp.",
+    cerca: "Nuestra red está cerca. Te confirmamos por WhatsApp si llega hasta tu casa.",
+    no: "Todavía no llegamos aquí. Escríbenos igual: así sabemos hacia dónde crecer.",
+  };
   // Leaflet (~160 KB) se descarga solo cuando el formulario está por verse:
   // la mayoría de visitas nunca llega hasta el mapa, y en conexiones rurales pesa.
   // Se sirve desde el propio sitio: si unpkg se cae, el formulario no se queda
@@ -31,7 +40,7 @@ window.INEXT_MAPA = (() => {
   // evento que cuando el cliente lo arrastra. Sin esta marca, limpiar el formulario
   // dejaba "elegido" el centro de Otavalo sin que nadie lo marcara.
   let movimientoPorCodigo = false;
-  const elegido = { lat: null, lng: null, direccion: "", referencia: "" };
+  const elegido = { lat: null, lng: null, direccion: "", referencia: "", cobertura: null };
 
   function emitir() {
     listeners.forEach((fn) => fn({ ...elegido }));
@@ -47,6 +56,44 @@ window.INEXT_MAPA = (() => {
     caja.hidden = false;
     $("inx-direccion").textContent = elegido.direccion || "Ubicación marcada en el mapa";
     $("inx-coords").textContent = fmtCoord(elegido.lat) + ", " + fmtCoord(elegido.lng);
+    const aviso = $("inx-cobertura");
+    if (aviso) {
+      const estado = elegido.cobertura || (coberturaPedida ? "revisando" : "");
+      aviso.hidden = !estado;
+      aviso.textContent = TEXTO_COBERTURA[estado] || "";
+      aviso.dataset.estado = estado;
+    }
+  }
+
+  /* Se pregunta medio segundo después de que el pin se queda quieto: arrastrar el
+     mapa por la ciudad no dispara una consulta por cada calle. Si el panel no
+     contesta, el aviso desaparece y el formulario sigue igual que antes: la
+     confirmación llega por WhatsApp. */
+  let coberturaPedida = null, coberturaTurno = 0;
+  function consultarCobertura() {
+    clearTimeout(coberturaPedida);
+    const turno = ++coberturaTurno;
+    elegido.cobertura = null;
+    if (elegido.lat === null) { coberturaPedida = null; return; }
+    // Cuatro decimales (once metros): lo mismo que redondea el panel, y así
+    // dos vecinos de la misma esquina reciben la respuesta ya guardada.
+    const url = COBERTURA + "?lat=" + elegido.lat.toFixed(4) + "&lng=" + elegido.lng.toFixed(4);
+    coberturaPedida = setTimeout(() => {
+      const corte = new AbortController();
+      const plazo = setTimeout(() => corte.abort(), 8000);
+      fetch(url, { credentials: "omit", signal: corte.signal })
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null)
+        .then((d) => {
+          clearTimeout(plazo);
+          if (turno !== coberturaTurno) return;   // ya movieron el pin
+          coberturaPedida = null;
+          const c = d && d.cobertura;
+          elegido.cobertura = c === "si" || c === "cerca" || c === "no" ? c : null;
+          pintarElegido();
+          emitir();
+        });
+    }, 500);
   }
 
   // El pin vive fijo en el centro: el usuario mueve el mapa, no el pin. En
@@ -57,6 +104,7 @@ window.INEXT_MAPA = (() => {
     elegido.lat = c.lat;
     elegido.lng = c.lng;
     elegido.direccion = "";
+    consultarCobertura();
     pintarElegido();
     emitir();
     reverso(c.lat, c.lng);
@@ -97,6 +145,7 @@ window.INEXT_MAPA = (() => {
     elegido.lng = lon;
     elegido.direccion = etiqueta || "";
     moverSinElegir([lat, lon], ZOOM_ELEGIDO);
+    consultarCobertura();
     pintarElegido();
     emitir();
     if (!etiqueta) reverso(lat, lon);
@@ -253,6 +302,7 @@ window.INEXT_MAPA = (() => {
     valor() { return { ...elegido }; },
     limpiar() {
       elegido.lat = null; elegido.lng = null; elegido.direccion = ""; elegido.referencia = "";
+      consultarCobertura();
       const ref = $("inx-ref"); if (ref) ref.value = "";
       const res = $("inx-resultados"); if (res) res.hidden = true;
       pintarElegido();

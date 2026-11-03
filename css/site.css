@@ -218,6 +218,9 @@ select.input option{background:#0d0f11;color:#fff}
 .picked__k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--cy)}
 .picked__v{font-size:15px;font-weight:600;line-height:1.4}
 .picked__c{font-size:11.5px;color:var(--ink-3)}
+.picked__cobertura{margin:6px 0 0;padding:10px 12px;border-radius:10px;font-size:14px;line-height:1.45;background:rgba(255,255,255,.06);color:var(--ink-2)}
+.picked__cobertura[data-estado="si"]{background:rgba(76,198,140,.14);color:#bff0d4}
+.picked__cobertura[data-estado="cerca"]{background:rgba(33,181,234,.14);color:#cdeefb}
 
 .check__result-box{margin-top:22px;padding:22px;border-radius:18px;background:rgba(33,181,234,.08);border:1px solid rgba(33,181,234,.28)}
 .summary__row{display:flex;justify-content:space-between;gap:16px;padding:9px 0;font-family:var(--mono);font-size:13px}
