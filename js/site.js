@@ -29,7 +29,6 @@
   const COBERTURA = {
     si: "Ya llega a la zona",
     cerca: "La red está cerca",
-    no: "Todavía no llega",
   };
 
   function waLink(text) {

@@ -288,8 +288,10 @@ test("el mapa dice si llega la fibra sin mandar el nombre ni la ubicación exact
   assert.match(mapa, /credentials: "omit"/);
   const consulta = mapa.match(/function consultarCobertura\(\)[\s\S]*?\n  }\n/)[0];
   assert.ok(!/nombre|referencia/.test(consulta), "la consulta de cobertura no debe llevar datos de la persona");
-  // Una respuesta rara o un panel caído no se muestran como "no llegamos".
-  assert.match(consulta, /c === "si" \|\| c === "cerca" \|\| c === "no" \? c : null/);
+  // Ni una respuesta rara, ni un panel caído, ni un "no" (puede ser falta de
+  // datos: en Otavalo centro llegó a decir "no") espantan a quien escribe.
+  assert.match(consulta, /c === "si" \|\| c === "cerca" \? c : null/);
+  assert.ok(!/Todavía no llegamos/.test(mapa), "el mapa no debe decirle a nadie que no llegamos");
   assert.match(leer("index.html"), /id="inx-cobertura" role="status"/, "el resultado tiene que anunciarse a lectores de pantalla");
   assert.match(leer("informacion-regulatoria.html"), /se consulta en el sistema de INEXT/, "la página de datos tiene que contar esta consulta");
 });

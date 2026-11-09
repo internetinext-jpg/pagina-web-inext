@@ -20,7 +20,6 @@ window.INEXT_MAPA = (() => {
     revisando: "Revisando si llega la fibra…",
     si: "Buenas noticias: nuestra fibra ya llega a tu zona. Te confirmamos la instalación por WhatsApp.",
     cerca: "Nuestra red está cerca. Te confirmamos por WhatsApp si llega hasta tu casa.",
-    no: "Todavía no llegamos aquí. Escríbenos igual: así sabemos hacia dónde crecer.",
   };
   // Leaflet (~160 KB) se descarga solo cuando el formulario está por verse:
   // la mayoría de visitas nunca llega hasta el mapa, y en conexiones rurales pesa.
@@ -89,7 +88,10 @@ window.INEXT_MAPA = (() => {
           if (turno !== coberturaTurno) return;   // ya movieron el pin
           coberturaPedida = null;
           const c = d && d.cobertura;
-          elegido.cobertura = c === "si" || c === "cerca" || c === "no" ? c : null;
+          // "no" no se muestra: mientras falten cajas por marcar en el panel, un
+          // "no" puede ser falta de datos, y espanta a quien sí podía tener fibra.
+          // Sin aviso, la persona sigue al WhatsApp y ahí se le confirma.
+          elegido.cobertura = c === "si" || c === "cerca" ? c : null;
           pintarElegido();
           emitir();
         });
