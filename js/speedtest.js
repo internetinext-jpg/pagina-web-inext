@@ -66,7 +66,7 @@
     dl: 0, ul: 0, dlPeak: 0, ulPeak: 0,
     dlBytes: 0, ulBytes: 0,
     ping: 0, jitter: 0, latDl: 0, latUl: 0,
-    loss: null, tcpRtt: 0, grade: "",
+    loss: null, retrans: null, tcpRtt: 0, grade: "",
     dlSamples: [], ulSamples: [],
     tcp: new Map(),
     started: 0, duracion: 0,
@@ -167,9 +167,12 @@
       if (s.minRtt && s.minRtt > 1000) rtts.push(s.minRtt);
     });
     if (!sent) return null;
-    const perdidos = Math.max(lost, retrans);
+    // Solo los perdidos, no los reenvíos: TCP reenvía de más a propósito cuando
+    // busca el techo de la línea, y contar eso como pérdida mostraba 12 % en un
+    // enlace de gigabit que no perdía nada.
     return {
-      loss: (perdidos / sent) * 100,
+      loss: (lost / sent) * 100,
+      retrans: (retrans / sent) * 100,
       rtt: rtts.length ? Math.round(median(rtts) / 1000) : 0,
       sent: sent,
     };
@@ -355,12 +358,22 @@
   }
 
   /* ── latencia ── */
+  /* Cloudflare contesta por HTTP/1.1 y el navegador abre como mucho seis
+     conexiones por servidor. Con la descarga ocupándolas todas, el ping esperaba
+     su turno dentro del propio navegador y eso se leía como latencia de la red
+     (585 ms, nota F, en una línea de gigabit). El registro de tiempos del
+     navegador dice cuándo salió de verdad la petición: se mide desde ahí hasta
+     que llega la respuesta, que es lo único que depende de la red. */
   async function pingOnce(signal) {
+    const url = DOWN + "?bytes=1&r=" + rand();
     const t0 = performance.now();
-    const res = await fetch(DOWN + "?bytes=1&r=" + rand(), { cache: "no-store", signal });
-    const rtt = performance.now() - t0;
+    const res = await fetch(url, { cache: "no-store", signal });
+    await res.arrayBuffer();   // el registro de tiempos aparece al terminar la respuesta
+    const total = performance.now() - t0;
     recordTcp(res);
-    return rtt;
+    const e = performance.getEntriesByName(url).pop();
+    if (e && e.requestStart > 0 && e.responseStart > e.requestStart) return e.responseStart - e.requestStart;
+    return total;
   }
 
   async function measureIdleLatency() {
@@ -517,6 +530,7 @@
     const tcp = tcpSummary();
     if (tcp) {
       state.loss = tcp.loss;
+      state.retrans = tcp.retrans;
       state.tcpRtt = tcp.rtt;
       el.loss.textContent = tcp.loss < 0.01 ? "0" : tcp.loss.toFixed(2);
       log("TCP · " + tcp.sent + " paquetes · pérdida " + tcp.loss.toFixed(2) +
@@ -717,6 +731,8 @@
       ["latencia con subida", state.latUl ? state.latUl + " ms" : "—"],
       ["estabilidad bajo carga", state.grade || "—"],
       ["pérdida bajo carga", state.loss === null ? "no disponible" : (state.loss < 0.01 ? "0" : state.loss.toFixed(2)) + " % de paquetes"],
+      // Normal al exprimir la línea: TCP reenvía para encontrar su techo. No es pérdida.
+      ["reenvíos TCP", state.retrans === null ? "no disponible" : state.retrans.toFixed(2) + " % (normal a velocidad máxima)"],
       ["RTT de red (TCP)", state.tcpRtt ? state.tcpRtt + " ms" : "—"],
       ["proveedor", (state.conn.isp || "—") + (state.conn.asn ? " · " + state.conn.asn : "")],
       ["ubicación", [state.conn.city, state.conn.country].filter(Boolean).join(", ") || "—"],
@@ -842,9 +858,12 @@
     state.dl = 0; state.ul = 0; state.dlPeak = 0; state.ulPeak = 0;
     state.dlBytes = 0; state.ulBytes = 0; state.latDl = 0; state.latUl = 0;
     state.dlSamples = []; state.ulSamples = [];
-    state.tcp = new Map(); state.loss = null; state.tcpRtt = 0; state.grade = "";
+    state.tcp = new Map(); state.loss = null; state.retrans = null; state.tcpRtt = 0; state.grade = "";
     state.started = Date.now();
     state.real = true;
+    // El navegador guarda 250 registros de tiempos y después deja de anotar: una
+    // prueba hace más de cien pings, y con dos seguidas los últimos no tenían registro.
+    try { performance.clearResourceTimings(); performance.setResourceTimingBufferSize(2000); } catch (e) { /* navegador viejo: queda el tiempo total */ }
     el.gradeCard.removeAttribute("data-grade");
     el.gradeNote.textContent = "bufferbloat";
     ["dlValue", "ulValue", "dlPeak", "ulPeak", "latDl", "latUl", "loss", "grade"].forEach((k) => { el[k].textContent = "—"; });

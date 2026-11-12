@@ -296,6 +296,20 @@ test("el mapa dice si llega la fibra sin mandar el nombre ni la ubicación exact
   assert.match(leer("informacion-regulatoria.html"), /se consulta en el sistema de INEXT/, "la página de datos tiene que contar esta consulta");
 });
 
+test("la prueba de velocidad no le echa a la red la culpa del propio navegador", () => {
+  // Con la descarga ocupando las seis conexiones, el ping hacía fila dentro del
+  // navegador: daba 585 ms y nota F en un gigabit. Y los reenvíos de TCP, normales
+  // a velocidad máxima, se mostraban como 12 % de pérdida.
+  const js = leer("js/speedtest.js").replace(/\r\n/g, "\n");
+  const ping = js.match(/async function pingOnce\(signal\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(ping, /getEntriesByName\(url\)/, "el ping tiene que medir desde que la petición sale a la red");
+  assert.match(ping, /responseStart - e\.requestStart/);
+  assert.match(js, /setResourceTimingBufferSize\(/, "sin agrandar el registro, los pings de una segunda prueba no tienen tiempos");
+  const resumen = js.match(/function tcpSummary\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(resumen, /loss: \(lost \/ sent\) \* 100/);
+  assert.ok(!/Math\.max\(lost, retrans\)/.test(resumen), "los reenvíos no son pérdida");
+});
+
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {
   const t = leer(".well-known/security.txt");
   assert.match(t, /^Contact: https:\/\//m);
