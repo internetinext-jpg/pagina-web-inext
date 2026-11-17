@@ -321,6 +321,8 @@ test("el sitio vive en internet.somosinext.com y la dirección vieja de Vercel r
   const r = (v.redirects || []).find((x) => x.has?.some((h) => h.type === "host" && h.value === "pagina-web-inext.vercel.app"));
   assert.ok(r, "falta redirigir la dirección vieja");
   assert.equal(r.destination, `${DOMINIO}/$1`, "tiene que conservar la ruta (prueba-de-velocidad.html, etc.)");
+  // El pie presenta los demás servicios de INEXT para empresas; esos sistemas no se construyen aquí.
+  assert.match(leer("index.html"), /Soluciones para empresas[\s\S]*?href="https:\/\/somosinext\.com"[^>]*rel="noopener"/);
 });
 
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {
