@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "pagina-web-inext.vercel.app" }],
+      "destination": "https://internet.somosinext.com/$1",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
