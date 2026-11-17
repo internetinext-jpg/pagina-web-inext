@@ -13,7 +13,7 @@ const existe = (f) => existsSync(join(RAIZ, f));
 
 const PAGINAS = ["index.html", "prueba-de-velocidad.html", "informacion-regulatoria.html", "404.html"];
 const INDEXABLES = PAGINAS.filter((p) => p !== "404.html");
-const DOMINIO = "https://pagina-web-inext.vercel.app";
+const DOMINIO = "https://internet.somosinext.com";
 
 function idsDe(html) {
   return new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
@@ -308,6 +308,21 @@ test("la prueba de velocidad no le echa a la red la culpa del propio navegador",
   const resumen = js.match(/function tcpSummary\(\) \{[\s\S]*?\n  \}\n/)[0];
   assert.match(resumen, /loss: \(lost \/ sent\) \* 100/);
   assert.ok(!/Math\.max\(lost, retrans\)/.test(resumen), "los reenvíos no son pérdida");
+});
+
+test("el sitio vive en internet.somosinext.com y la dirección vieja de Vercel redirige", () => {
+  // Ninguna dirección absoluta (canonical, vista previa, sitemap, security.txt) debe seguir
+  // apuntando al sitio viejo: Google indexaría el sitio equivocado.
+  for (const f of [...PAGINAS, "robots.txt", "sitemap.xml", ".well-known/security.txt"]) {
+    assert.ok(!leer(f).includes("pagina-web-inext.vercel.app"), `${f} todavía apunta al sitio viejo`);
+  }
+  assert.equal(DOMINIO, "https://internet.somosinext.com");
+  const v = JSON.parse(leer("vercel.json"));
+  const r = (v.redirects || []).find((x) => x.has?.some((h) => h.type === "host" && h.value === "pagina-web-inext.vercel.app"));
+  assert.ok(r, "falta redirigir la dirección vieja");
+  assert.equal(r.destination, `${DOMINIO}/$1`, "tiene que conservar la ruta (prueba-de-velocidad.html, etc.)");
+  // El pie presenta los demás servicios de INEXT para empresas; esos sistemas no se construyen aquí.
+  assert.match(leer("index.html"), /Soluciones para empresas[\s\S]*?href="https:\/\/somosinext\.com"[^>]*rel="noopener"/);
 });
 
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {
