@@ -64,6 +64,7 @@
 }
 @media (max-width:560px){
   .portada{min-height:0}
+  .portada__inner{padding-top:44px;padding-bottom:56px}
   .busca{flex-direction:column;border-radius:20px}
   .busca .btn{width:100%}
   .caso__texto{padding:24px}
