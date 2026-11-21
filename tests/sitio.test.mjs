@@ -338,7 +338,11 @@ test("la portada pide la dirección arriba y el menú habla por tipo de cliente"
   const menu = h.match(/<nav class="nav__links"[\s\S]*?<\/nav>/)[0];
   for (const t of ["Hogar", "Negocios", "Cobertura", "Velocidad"]) assert.match(menu, new RegExp(`>${t}<`), `el menú no tiene ${t}`);
   assert.match(h, /id="negocio"/, "el menú y el panel Negocios llevan al plan Negocio");
-  assert.match(leer("js/site.js"), /getElementById\("inx-buscar-btn"\)\.click\(\)/, "la portada tiene que lanzar la búsqueda del mapa");
+  const js = leer("js/site.js").replace(/\r\n/g, "\n");
+  const manejo = js.match(/portadaBusca\.addEventListener\("submit"[\s\S]*?\n      \}\);/)[0];
+  assert.match(manejo, /boton\.click\(\)/, "la portada tiene que lanzar la búsqueda del mapa");
+  // El buscador del mapa vive en el paso 1: desde otro paso la búsqueda quedaba escondida.
+  assert.match(manejo, /state\.step = 1;[^\n]*render\(\)/, "tiene que volver al paso del mapa antes de buscar");
 });
 
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {

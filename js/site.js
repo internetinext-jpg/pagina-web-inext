@@ -44,22 +44,6 @@
   const portalWa = waLink("Hola INEXT, soy cliente y quiero el enlace para ver mi cuenta.");
   document.querySelectorAll(".js-wa-portal").forEach((el) => { el.href = portalWa; });
 
-  // El buscador de la portada lleva lo escrito al buscador del mapa y lo lanza:
-  // el visitante escribe su dirección una sola vez, arriba de todo.
-  const portadaBusca = document.getElementById("portada-busca");
-  if (portadaBusca) {
-    portadaBusca.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const texto = document.getElementById("portada-direccion").value.trim();
-      const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      document.getElementById("form").scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
-      const campo = document.getElementById("inx-buscar");
-      if (!campo) return;
-      campo.value = texto;
-      campo.focus({ preventScroll: true });
-      if (texto.length >= 3) document.getElementById("inx-buscar-btn").click();
-    });
-  }
 
   /* ---------------- Coverage wizard ---------------- */
   (() => {
@@ -198,6 +182,28 @@
     document.getElementById("cw-next1").addEventListener("click", () => goNext(el.err1));
     document.getElementById("cw-next2").addEventListener("click", () => goNext(el.err2));
     document.getElementById("cw-next3").addEventListener("click", () => goNext(el.err3));
+    // El buscador de la portada lleva lo escrito al buscador del mapa y lo lanza:
+    // el visitante escribe su dirección una sola vez, arriba de todo. Si ya había
+    // avanzado en el formulario, vuelve al paso del mapa: el buscador vive en el
+    // paso 1, y desde el 2 o el 3 la búsqueda salía en una caja escondida.
+    const portadaBusca = document.getElementById("portada-busca");
+    if (portadaBusca) {
+      portadaBusca.addEventListener("submit", (e) => {
+        const seccion = document.getElementById("form");
+        const campo = document.getElementById("inx-buscar");
+        const boton = document.getElementById("inx-buscar-btn");
+        if (!seccion || !campo || !boton) return;   // sin el formulario, action="#form" baja solo
+        e.preventDefault();
+        if (state.step !== 1) { state.step = 1; setError(el.err1, ""); render(); }
+        const texto = document.getElementById("portada-direccion").value.trim();
+        const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        seccion.scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+        campo.value = texto;
+        campo.focus({ preventScroll: true });
+        if (texto.length >= 3) boton.click();
+      });
+    }
+
     document.getElementById("cw-back2").addEventListener("click", () => { state.step = 1; setError(el.err1, ""); render(); });
     document.getElementById("cw-back3").addEventListener("click", () => { state.step = 2; setError(el.err2, ""); render(); });
     document.getElementById("cw-reset").addEventListener("click", () => {
