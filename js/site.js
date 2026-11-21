@@ -44,6 +44,23 @@
   const portalWa = waLink("Hola INEXT, soy cliente y quiero el enlace para ver mi cuenta.");
   document.querySelectorAll(".js-wa-portal").forEach((el) => { el.href = portalWa; });
 
+  // El buscador de la portada lleva lo escrito al buscador del mapa y lo lanza:
+  // el visitante escribe su dirección una sola vez, arriba de todo.
+  const portadaBusca = document.getElementById("portada-busca");
+  if (portadaBusca) {
+    portadaBusca.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const texto = document.getElementById("portada-direccion").value.trim();
+      const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.getElementById("form").scrollIntoView({ behavior: quieto ? "auto" : "smooth", block: "start" });
+      const campo = document.getElementById("inx-buscar");
+      if (!campo) return;
+      campo.value = texto;
+      campo.focus({ preventScroll: true });
+      if (texto.length >= 3) document.getElementById("inx-buscar-btn").click();
+    });
+  }
+
   /* ---------------- Coverage wizard ---------------- */
   (() => {
     const state = {

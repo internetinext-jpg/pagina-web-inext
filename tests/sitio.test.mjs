@@ -327,6 +327,20 @@ test("el sitio vive en internet.somosinext.com y la dirección vieja de Vercel r
   assert.match(leer("index.html"), /Soluciones para empresas[\s\S]*?href="https:\/\/somosinext\.com"[^>]*rel="noopener"/);
 });
 
+test("la portada pide la dirección arriba y el menú habla por tipo de cliente", () => {
+  // Como las páginas de servicio grandes: lo primero que se ve es "escribe tu dirección".
+  const h = leer("index.html");
+  const busca = h.match(/<form class="busca" id="portada-busca"[\s\S]*?<\/form>/);
+  assert.ok(busca, "falta el buscador de la portada");
+  assert.match(busca[0], /action="#form"/, "sin JavaScript tiene que bajar al mapa");
+  assert.ok(!/\sname="/.test(busca[0]), "el campo no lleva name: la dirección nunca viaja en la URL");
+  assert.match(busca[0], /<label for="portada-direccion">/, "el campo necesita su etiqueta para lectores de pantalla");
+  const menu = h.match(/<nav class="nav__links"[\s\S]*?<\/nav>/)[0];
+  for (const t of ["Hogar", "Negocios", "Cobertura", "Velocidad"]) assert.match(menu, new RegExp(`>${t}<`), `el menú no tiene ${t}`);
+  assert.match(h, /id="negocio"/, "el menú y el panel Negocios llevan al plan Negocio");
+  assert.match(leer("js/site.js"), /getElementById\("inx-buscar-btn"\)\.click\(\)/, "la portada tiene que lanzar la búsqueda del mapa");
+});
+
 test("security.txt dice a quién avisar de una falla y no está vencido", () => {
   const t = leer(".well-known/security.txt");
   assert.match(t, /^Contact: https:\/\//m);
