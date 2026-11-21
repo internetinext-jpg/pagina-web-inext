@@ -1,0 +1,75 @@
+/* Portada al estilo de las páginas de servicio grandes: una imagen a pantalla
+   completa, un título, una frase y una sola acción (escribir la dirección).
+   Mientras no haya fotos propias, el fondo es un paisaje dibujado con los
+   colores del logo (cian → violeta). Para poner una foto real: agregar dentro
+   de .escena un <img class="escena__foto" src="assets/fotos/…" alt="" width=… height=…>
+   comprimida (AVIF o WebP, menos de 250 KB): queda encima del dibujo y debajo
+   del velo que asegura que el texto se lea. */
+
+.portada{
+  position:relative;min-height:min(92vh,860px);display:flex;align-items:center;
+  overflow:hidden;isolation:isolate;
+}
+.escena{position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(60% 45% at 72% 78%,rgba(162,75,255,.45),rgba(162,75,255,0) 70%),
+  radial-gradient(45% 35% at 88% 88%,rgba(33,181,234,.40),rgba(33,181,234,0) 70%),
+  linear-gradient(180deg,#05060f 0%,#141238 38%,#3a1f6b 62%,#0f6c93 82%,#07202b 100%)}
+.escena svg{position:absolute;left:0;bottom:0;width:100%;height:100%;display:block}
+.escena__foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* El velo: oscuro a la izquierda y abajo, donde va el texto. */
+.escena::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.35) 48%,rgba(0,0,0,0) 75%),
+             linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 38%);
+}
+.portada__inner{width:100%;max-width:var(--wrap);margin:0 auto;padding:clamp(96px,14vh,150px) 24px clamp(64px,9vh,100px)}
+.portada__k{font-family:var(--head);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--cy-lite);margin:0}
+.portada h1{margin-top:18px;font-size:clamp(40px,5.4vw,76px)}
+.portada h1 .linea{display:block}
+.portada__sub{margin:22px 0 0;max-width:46ch;font-size:clamp(17px,1.7vw,20px);line-height:1.5;color:rgba(255,255,255,.86)}
+
+/* El buscador: lo único que se le pide al visitante en la portada. */
+.busca{margin-top:34px;display:flex;gap:10px;max-width:560px;padding:8px;border-radius:999px;
+  background:rgba(8,10,14,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px)}
+.busca label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.busca input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font-family:var(--body);font-size:16px;padding:12px 16px;outline:none}
+.busca input::placeholder{color:rgba(255,255,255,.62)}
+/* El anillo va en la cápsula entera: el campo no tiene borde propio. */
+.busca:focus-within{border-color:var(--cy);box-shadow:0 0 0 2px var(--cy)}
+.busca .btn{flex:none}
+.portada__alt{margin:16px 0 0;font-size:15px;color:rgba(255,255,255,.8)}
+.portada__alt a{text-decoration:underline;text-underline-offset:3px}
+.portada__alt a:hover{color:#fff}
+
+.portada__datos{list-style:none;margin:clamp(40px,7vh,72px) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:12px 36px;font-size:15px;color:rgba(255,255,255,.78)}
+.portada__datos b{display:block;font-family:var(--head);font-weight:600;font-size:18px;color:#fff}
+
+/* Paneles por tipo de cliente, como los "casos de uso": imagen grande, poco texto. */
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:calc(var(--wrap) + 48px);margin:0 auto;padding:16px 24px 0}
+.caso{position:relative;display:flex;align-items:flex-end;min-height:440px;border-radius:24px;overflow:hidden;isolation:isolate;color:#fff}
+.caso__fondo{position:absolute;inset:0;z-index:-1}
+.caso__fondo svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.caso__fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,0) 100%)}
+.caso--hogar .caso__fondo{background:linear-gradient(160deg,#1b1748 0%,#2d1c5c 45%,#0d5a7d 100%)}
+.caso--negocio .caso__fondo{background:linear-gradient(160deg,#071d29 0%,#0b3d52 50%,#203a2a 100%)}
+.caso__texto{padding:32px}
+.caso__k{font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--cy-lite);margin:0}
+.caso h2{font-size:clamp(28px,3vw,38px);margin-top:10px}
+.caso p.caso__d{margin:12px 0 0;max-width:36ch;color:rgba(255,255,255,.84);font-size:16px;line-height:1.5}
+.caso__ir{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;background:#fff;color:#000;transition:transform .2s}
+.caso:hover .caso__ir,.caso:focus-visible .caso__ir{transform:translateX(4px)}
+
+@media (max-width:820px){
+  .casos{grid-template-columns:1fr}
+  .caso{min-height:420px}
+}
+@media (max-width:560px){
+  .portada{min-height:0}
+  .portada__inner{padding-top:44px;padding-bottom:56px}
+  .busca{flex-direction:column;border-radius:20px}
+  .busca .btn{width:100%}
+  .caso__texto{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  .caso__ir{transition:none}
+}
